@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Funcionario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use function Laravel\Prompts\error;
 
@@ -15,6 +16,8 @@ class FuncionarioController extends Controller
     public function index()
     {
         //
+        return csrf_token() ;
+
     }
 
     /**
@@ -32,21 +35,23 @@ class FuncionarioController extends Controller
     {
         //
 
-         $dadosValidados = $request->validate(
-            [
-                'nome'=>'required|string|min_digits:3|max_digits:255',
-                'email'=>'required|string|min_digits:6|max_digits:255|unique:users,email',
-                'password'=>'required|string|min_digits:8|password',
-                'confir_pasword'=>'required|string|min_digits:8|same:password',
-                'departamento_id'=>'required|string|exists:departamentos,id',
-                'cargo'
-            ]
-        );
+        $dadosValidados = $request->validate([
+                'nome' => 'required|string|min:3|max:255',
+                'email' => 'required|string|email|min:6|max:255|unique:users,email',
+                'password' => 'required|string|min:8|confirmed',
+                'departamento_id' => 'required|exists:departamentos,id',
+                'cargo' => 'required|string'
+            ]);
 
+            // return 'OOla';
+
+            DB::beginTransaction();
         try {
             //code...
-            $user = (new UserController)->store($dadosValidados);
+
+            $user = (new UserController())->store($dadosValidados);
             $dadosValidados['id']=$user->id;
+            DB::commit();
             return Funcionario::create($dadosValidados);
         } catch (\Throwable $th) {
             //throw $th;

@@ -38,8 +38,8 @@ class UserController extends Controller
         try {
             //code...
             $newUser = User::create($dadosValidados);
-            return $newUser;
             DB::commit();
+            return $newUser;
         } catch (\Throwable $th) {
             //throw $th;
             DB::rollBack();
