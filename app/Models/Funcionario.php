@@ -8,6 +8,7 @@ class Funcionario extends Model
 {
     //
     protected $fillable=[
+        'id',
         'departamento_id',
         'cargo',
     ];

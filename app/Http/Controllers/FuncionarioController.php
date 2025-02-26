@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Funcionario;
 use Illuminate\Http\Request;
 
+use function Laravel\Prompts\error;
+
 class FuncionarioController extends Controller
 {
     /**
@@ -29,6 +31,27 @@ class FuncionarioController extends Controller
     public function store(Request $request)
     {
         //
+
+         $dadosValidados = $request->validate(
+            [
+                'nome'=>'required|string|min_digits:3|max_digits:255',
+                'email'=>'required|string|min_digits:6|max_digits:255|unique:users,email',
+                'password'=>'required|string|min_digits:8|password',
+                'confir_pasword'=>'required|string|min_digits:8|same:password',
+                'departamento_id'=>'required|string|exists:departamentos,id',
+                'cargo'
+            ]
+        );
+
+        try {
+            //code...
+            $user = (new UserController)->store($dadosValidados);
+            $dadosValidados['id']=$user->id;
+            return Funcionario::create($dadosValidados);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 
     /**

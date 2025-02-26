@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use function Laravel\Prompts\error;
 
 class UserController extends Controller
 {
@@ -25,9 +29,23 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store($dadosValidados)
     {
         //
+
+
+        DB::beginTransaction();
+        try {
+            //code...
+            $newUser = User::create($dadosValidados);
+            return $newUser;
+            DB::commit();
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            return error($th->getMessage());
+        }
+
     }
 
     /**
