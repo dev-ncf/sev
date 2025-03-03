@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Encaminhamento;
+use App\Models\Solicitacao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use function Laravel\Prompts\error;
 
 class EncaminhamentoController extends Controller
 {
@@ -13,6 +17,7 @@ class EncaminhamentoController extends Controller
     public function index()
     {
         //
+        return Encaminhamento::all();
     }
 
     /**
@@ -29,6 +34,26 @@ class EncaminhamentoController extends Controller
     public function store(Request $request)
     {
         //
+         $dadosValidados = $request->validate([
+
+                'solicitacao_id' => 'required|exists:solicitacoes,id',
+                'funcionario_id' => 'required|exists:funcionarios,id',
+                'departamento_id' => 'required|exists:departamentos,id',
+            ]);
+
+
+
+            DB::beginTransaction();
+        try {
+            //code...
+            $dado = Encaminhamento::create($dadosValidados);
+             DB::commit();
+             return $dado;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
+
     }
 
     /**
@@ -37,6 +62,7 @@ class EncaminhamentoController extends Controller
     public function show(Encaminhamento $encaminhamento)
     {
         //
+        return $encaminhamento;
     }
 
     /**
@@ -53,6 +79,25 @@ class EncaminhamentoController extends Controller
     public function update(Request $request, Encaminhamento $encaminhamento)
     {
         //
+         $dadosValidados = $request->validate([
+
+                'solicitacao_id' => 'required|exists:solicitacoes,id',
+                'funcionario_id' => 'required|exists:funcionarios,id',
+                'departamento_id' => 'required|exists:departamentos,id',
+            ]);
+
+
+
+            DB::beginTransaction();
+        try {
+            //code...
+            $dado = $encaminhamento->update($dadosValidados);
+             DB::commit();
+             return $dado;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 
     /**
@@ -61,5 +106,16 @@ class EncaminhamentoController extends Controller
     public function destroy(Encaminhamento $encaminhamento)
     {
         //
+
+            DB::beginTransaction();
+        try {
+            //code...
+            $dado = $encaminhamento->delete();
+             DB::commit();
+             return $dado;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 }

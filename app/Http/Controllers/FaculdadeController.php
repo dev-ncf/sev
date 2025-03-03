@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Faculdade;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use function Laravel\Prompts\error;
 
 class FaculdadeController extends Controller
 {
@@ -13,6 +16,7 @@ class FaculdadeController extends Controller
     public function index()
     {
         //
+        return Faculdade::all();
     }
 
     /**
@@ -29,6 +33,24 @@ class FaculdadeController extends Controller
     public function store(Request $request)
     {
         //
+
+        $dadosValidados = $request->validate([
+
+                'nome' => 'required|string|min:3|max:255',
+            ]);
+
+
+
+            DB::beginTransaction();
+        try {
+            //code...
+            $dado = Faculdade::create($dadosValidados);
+             DB::commit();
+             return $dado;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 
     /**
@@ -37,6 +59,7 @@ class FaculdadeController extends Controller
     public function show(Faculdade $faculdade)
     {
         //
+        return $faculdade;
     }
 
     /**
@@ -53,6 +76,23 @@ class FaculdadeController extends Controller
     public function update(Request $request, Faculdade $faculdade)
     {
         //
+         $dadosValidados = $request->validate([
+
+                'nome' => 'required|string|min:3|max:255',
+            ]);
+
+
+
+            DB::beginTransaction();
+        try {
+            //code...
+            $dado = $faculdade->update($dadosValidados);
+             DB::commit();
+             return $dado;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 
     /**
@@ -61,5 +101,16 @@ class FaculdadeController extends Controller
     public function destroy(Faculdade $faculdade)
     {
         //
+
+            DB::beginTransaction();
+        try {
+            //code...
+            $dado = $faculdade->delete();
+             DB::commit();
+             return $dado;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 }

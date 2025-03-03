@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Funcionario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 use function Laravel\Prompts\error;
 
@@ -16,7 +17,7 @@ class FuncionarioController extends Controller
     public function index()
     {
         //
-        return csrf_token() ;
+        return Funcionario::all();
 
     }
 
@@ -43,7 +44,7 @@ class FuncionarioController extends Controller
                 'cargo' => 'required|string'
             ]);
 
-            // return 'OOla';
+
 
             DB::beginTransaction();
         try {
@@ -51,8 +52,10 @@ class FuncionarioController extends Controller
 
             $user = (new UserController())->store($dadosValidados);
             $dadosValidados['id']=$user->id;
-            DB::commit();
-            return Funcionario::create($dadosValidados);
+
+            $newFuncionario = Funcionario::create($dadosValidados);
+             DB::commit();
+             return $newFuncionario;
         } catch (\Throwable $th) {
             //throw $th;
             return error($th->getMessage());
@@ -65,6 +68,7 @@ class FuncionarioController extends Controller
     public function show(Funcionario $funcionario)
     {
         //
+        return $funcionario;
     }
 
     /**
@@ -81,6 +85,26 @@ class FuncionarioController extends Controller
     public function update(Request $request, Funcionario $funcionario)
     {
         //
+
+         $dadosValidados = $request->validate([
+                'nome' => 'required|string|min:3|max:255',
+                'departamento_id' => 'required|exists:departamentos,id',
+                'cargo' => 'required|string'
+            ]);
+
+       
+            DB::beginTransaction();
+        try {
+            //code...
+
+
+            $func = $funcionario->update($dadosValidados);
+             DB::commit();
+             return $func;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 
     /**
@@ -89,5 +113,13 @@ class FuncionarioController extends Controller
     public function destroy(Funcionario $funcionario)
     {
         //
+        DB::beginTransaction();
+        try{
+            $funcionario->delete();
+            DB::commit();
+            return true;
+        }catch(Throwable $th){
+            return false;
+        }
     }
 }

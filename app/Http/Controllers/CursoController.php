@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use function Laravel\Prompts\error;
 
 class CursoController extends Controller
 {
@@ -13,6 +16,7 @@ class CursoController extends Controller
     public function index()
     {
         //
+        return Curso::all();
     }
 
     /**
@@ -29,6 +33,22 @@ class CursoController extends Controller
     public function store(Request $request)
     {
         //
+        $dadosValidados = $request->validate([
+
+                'departamento_id' => 'required|exists:departamentos,id',
+                'nome' => 'required|string'
+            ]);
+           DB::beginTransaction();
+        try {
+            //code...
+
+            $curso = Curso::create($dadosValidados);
+             DB::commit();
+             return $curso;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 
     /**
@@ -37,6 +57,7 @@ class CursoController extends Controller
     public function show(Curso $curso)
     {
         //
+        return $curso;
     }
 
     /**
@@ -53,6 +74,22 @@ class CursoController extends Controller
     public function update(Request $request, Curso $curso)
     {
         //
+         $dadosValidados = $request->validate([
+
+                'departamento_id' => 'required|exists:departamentos,id',
+                'nome' => 'required|string'
+            ]);
+           DB::beginTransaction();
+        try {
+            //code...
+
+            $curso = $curso->update($dadosValidados);
+             DB::commit();
+             return $curso;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 
     /**
@@ -61,5 +98,16 @@ class CursoController extends Controller
     public function destroy(Curso $curso)
     {
         //
+           DB::beginTransaction();
+        try {
+            //code...
+
+            $curso = $curso->delete();
+             DB::commit();
+             return $curso;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 }

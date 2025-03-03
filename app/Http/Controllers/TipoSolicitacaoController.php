@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\TipoSolicitacao;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use function Laravel\Prompts\error;
 
 class TipoSolicitacaoController extends Controller
 {
@@ -13,6 +16,7 @@ class TipoSolicitacaoController extends Controller
     public function index()
     {
         //
+        return TipoSolicitacao::all();
     }
 
     /**
@@ -29,6 +33,26 @@ class TipoSolicitacaoController extends Controller
     public function store(Request $request)
     {
         //
+         $dadosValidados = $request->validate([
+            'nome' => 'requiredstring', // Exemplo de prioridade válida
+            'descricao' => 'nullable|string|max:1000', // Texto opcional com limite de caracteres
+        ]);
+
+
+
+
+            DB::beginTransaction();
+        try {
+            //code...
+
+
+            $dado = TipoSolicitacao::create($dadosValidados);
+            DB::commit();
+            return $dado;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 
     /**
@@ -37,6 +61,7 @@ class TipoSolicitacaoController extends Controller
     public function show(TipoSolicitacao $tipoSolicitacao)
     {
         //
+        return $tipoSolicitacao;
     }
 
     /**
@@ -53,6 +78,26 @@ class TipoSolicitacaoController extends Controller
     public function update(Request $request, TipoSolicitacao $tipoSolicitacao)
     {
         //
+         $dadosValidados = $request->validate([
+            'nome' => 'requiredstring', // Exemplo de prioridade válida
+            'descricao' => 'nullable|string|max:1000', // Texto opcional com limite de caracteres
+        ]);
+
+
+
+
+            DB::beginTransaction();
+        try {
+            //code...
+
+
+            $dado = $tipoSolicitacao->update($dadosValidados);
+            DB::commit();
+            return $dado;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 
     /**
@@ -61,5 +106,18 @@ class TipoSolicitacaoController extends Controller
     public function destroy(TipoSolicitacao $tipoSolicitacao)
     {
         //
+
+         DB::beginTransaction();
+        try {
+            //code...
+
+
+            $dado = $tipoSolicitacao->delete();
+            DB::commit();
+            return $dado;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 }

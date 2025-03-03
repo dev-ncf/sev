@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Estudante;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use function Laravel\Prompts\error;
 
 class EstudanteController extends Controller
 {
@@ -13,6 +16,7 @@ class EstudanteController extends Controller
     public function index()
     {
         //
+        return Estudante::all();
     }
 
     /**
@@ -29,6 +33,30 @@ class EstudanteController extends Controller
     public function store(Request $request)
     {
         //
+
+         $dadosValidados = $request->validate([
+
+                'nome' => 'required|string|min:3|max:255',
+                'matricula' => 'required|string|min:3|max:16',
+                'email' => 'required|string|email|min:6|max:255|unique:users,email',
+                'password' => 'required|string|min:8|confirmed',
+                'curso_id' => 'required|exists:cursos,id',
+            ]);
+
+
+
+            DB::beginTransaction();
+        try {
+            //code...
+            $user = (new UserController())->store($dadosValidados);
+            $dadosValidados['id']=$user->id;
+            $dado = Estudante::create($dadosValidados);
+             DB::commit();
+             return $dado;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 
     /**
@@ -37,6 +65,7 @@ class EstudanteController extends Controller
     public function show(Estudante $estudante)
     {
         //
+        return $estudante;
     }
 
     /**
@@ -53,6 +82,29 @@ class EstudanteController extends Controller
     public function update(Request $request, Estudante $estudante)
     {
         //
+        $dadosValidados = $request->validate([
+
+                'nome' => 'required|string|min:3|max:255',
+                'matricula' => 'required|string|min:3|max:16',
+                'email' => 'required|string|email|min:6|max:255|unique:users,email',
+                'password' => 'required|string|min:8|confirmed',
+                'curso_id' => 'required|exists:cursos,id',
+            ]);
+
+
+
+            DB::beginTransaction();
+        try {
+            //code...
+
+            $dado = $estudante->update($dadosValidados);
+             DB::commit();
+             return $dado;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
+
     }
 
     /**
@@ -61,5 +113,18 @@ class EstudanteController extends Controller
     public function destroy(Estudante $estudante)
     {
         //
+
+
+
+            DB::beginTransaction();
+        try {
+            //code...
+           $dado = $estudante->delete();
+             DB::commit();
+             return $dado;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return error($th->getMessage());
+        }
     }
 }
