@@ -1,17 +1,17 @@
 <?php
 
-use App\Http\Controllers\FuncionarioController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return  view('Auth.login');
 });
 
-Route::prefix('funcionarios')->group(function () {
-    Route::get('/', [FuncionarioController::class, 'index'])->name('funcionarios.index');
-    Route::get('/{id}', [FuncionarioController::class, 'show'])->name('funcionarios.show');
-    Route::post('/', [FuncionarioController::class, 'store'])->name('funcionarios.store');
-    Route::put('/{id}', [FuncionarioController::class, 'update'])->name('funcionarios.update');
-    Route::delete('/{id}', [FuncionarioController::class, 'destroy'])->name('funcionarios.destroy');
-});
-
+Route::get('/register',)->name('register');
+Route::get('/dashboard',[UserController::class,'index'])->name('user.dashboard')->middleware('auth');
+require_once __DIR__ . '/solicitacao.php';
+require_once __DIR__ . '/faculdade.php';
+require_once __DIR__ . '/departamento.php';
+require_once __DIR__ . '/register.php';
+require_once __DIR__ . '/login.php';
+require_once __DIR__ . '/email.php';

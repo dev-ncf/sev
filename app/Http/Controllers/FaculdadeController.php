@@ -13,10 +13,23 @@ class FaculdadeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return Faculdade::all();
+        $search =$request->search;
+        $query = Faculdade::query();
+
+        if($request->has('search')){
+            $query->where('nome','like','%'.$request->search.'%')->orWhere('slug','like','%'.$request->search.'%');
+        }
+        if(session('search')){
+            $search = session('search');
+             $query->where('nome','like','%'.$search.'%')->orWhere('slug','like','%'.$search.'%');
+        }
+        $faculdades = $query->get();
+
+
+        return view('Admin.Faculdades.index',compact(['faculdades','search']));
     }
 
     /**
@@ -25,6 +38,7 @@ class FaculdadeController extends Controller
     public function create()
     {
         //
+        return view('Admin.Faculdades.add');
     }
 
     /**
@@ -32,11 +46,14 @@ class FaculdadeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+       $filesName = ((new FileUploadController)->store($request));
+
 
         $dadosValidados = $request->validate([
 
                 'nome' => 'required|string|min:3|max:255',
+                'slug' => 'required|string|min:3|max:255',
             ]);
 
 
@@ -46,7 +63,7 @@ class FaculdadeController extends Controller
             //code...
             $dado = Faculdade::create($dadosValidados);
              DB::commit();
-             return $dado;
+            return redirect()->route('faculdades')->with('search', $dado->nome);
         } catch (\Throwable $th) {
             //throw $th;
             return error($th->getMessage());
@@ -68,6 +85,7 @@ class FaculdadeController extends Controller
     public function edit(Faculdade $faculdade)
     {
         //
+        return view('Admin.Faculdades.edit',compact(['faculdade']));
     }
 
     /**
@@ -79,6 +97,7 @@ class FaculdadeController extends Controller
          $dadosValidados = $request->validate([
 
                 'nome' => 'required|string|min:3|max:255',
+                'slug' => 'required|string|min:3|max:255',
             ]);
 
 
@@ -88,7 +107,7 @@ class FaculdadeController extends Controller
             //code...
             $dado = $faculdade->update($dadosValidados);
              DB::commit();
-             return $dado;
+             return back()->with(['success'=>'Actualização feita com sucesso!']);
         } catch (\Throwable $th) {
             //throw $th;
             return error($th->getMessage());
@@ -107,10 +126,10 @@ class FaculdadeController extends Controller
             //code...
             $dado = $faculdade->delete();
              DB::commit();
-             return $dado;
+             return back()->with(['success'=>'Exclusão feita com sucesso!']);
         } catch (\Throwable $th) {
             //throw $th;
-            return error($th->getMessage());
+            return back()->withErrors(['error'=>$th->getMessage()]);
         }
     }
 }

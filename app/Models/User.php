@@ -51,6 +51,7 @@ class User extends Authenticatable
         'email',
         'password',
         'tipo',
+        'email_verified_at'
 
     ];
 

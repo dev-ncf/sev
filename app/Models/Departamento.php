@@ -9,7 +9,8 @@ class Departamento extends Model
     //
     protected $fillable =[
         'faculdade_id',
-        'nome'
+        'nome',
+        'descricao'
     ];
     public function faculdade(){
         return $this->belongsTo(Faculdade::class);
@@ -17,5 +18,5 @@ class Departamento extends Model
     public function cursos(){
         return $this->hasMany(Curso::class);
     }
-    
+
 }

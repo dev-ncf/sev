@@ -3,20 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Models\Departamento;
+use App\Models\Faculdade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use function Laravel\Prompts\error;
+use function Ramsey\Uuid\v1;
 
 class DepartamentoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return Departamento::all();
+        $search = $request->search;
+        $query = Departamento::query();
+        if($request->has('search')){
+            $query->where('nome','like','%'.$request->search.'%');
+        }
+        if(session('search')){
+            $search = session('search');
+            $query->where('nome','=',$search);
+        }
+        $departamentos = $query->get();
+        return view('Admin.Departamentos.index',compact(['departamentos','search']));
     }
 
     /**
@@ -25,6 +37,8 @@ class DepartamentoController extends Controller
     public function create()
     {
         //
+        $faculdades = Faculdade::all();
+        return view('Admin.Departamentos.add',compact(['faculdades']));
     }
 
     /**
@@ -37,6 +51,7 @@ class DepartamentoController extends Controller
 
                 'faculdade_id' => 'required|exists:faculdades,id',
                 'nome' => 'required|string',
+                'descricao'=>'nullable|string'
             ]);
 
 
@@ -46,10 +61,10 @@ class DepartamentoController extends Controller
             //code...
             $dado = Departamento::create($dadosValidados);
              DB::commit();
-             return $dado;
+             return redirect()->route('departamentos')->with(['search'=>$dado->nome]);
         } catch (\Throwable $th) {
             //throw $th;
-            return error($th->getMessage());
+            return back()->withErrors(['errors'=>$th->getMessage()]);
         }
     }
 
@@ -68,6 +83,8 @@ class DepartamentoController extends Controller
     public function edit(Departamento $departamento)
     {
         //
+        $faculdades = Faculdade::all();
+        return view('Admin.Departamentos.edit',compact(['departamento','faculdades']));
     }
 
     /**
@@ -80,6 +97,7 @@ class DepartamentoController extends Controller
 
                 'faculdade_id' => 'required|exists:faculdades,id',
                 'nome' => 'required|string',
+                'descricao'=>'nullable|string'
             ]);
 
 
@@ -89,10 +107,10 @@ class DepartamentoController extends Controller
             //code...
             $dado = $departamento->update($dadosValidados);
              DB::commit();
-             return $dado;
+             return back()->with(['success'=>'Actualização feita com sucesso!']);
         } catch (\Throwable $th) {
             //throw $th;
-            return error($th->getMessage());
+            return back()->withErrors(['error'=>$th->getMessage()]);
         }
 
     }

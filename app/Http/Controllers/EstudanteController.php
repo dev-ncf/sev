@@ -25,6 +25,7 @@ class EstudanteController extends Controller
     public function create()
     {
         //
+        return view('Auth.registration');
     }
 
     /**
@@ -35,24 +36,49 @@ class EstudanteController extends Controller
         //
 
          $dadosValidados = $request->validate([
+                    'nome' => 'required|string|min:3|max:255',
+                    'apelido' => 'nullable|string|max:255',
+                    'matricula' => [
+                        'required',
+                        'string',
+                        'regex:/^\d{2}\.\d{4}\.\d{4}$/',
+                        'unique:estudantes,matricula'
+                    ],
+                    'email' => 'required|string|email|min:6|max:255|unique:users,email',
+                    'password' => 'required|string|min:8|confirmed',
+                    'curso_id' => 'required|exists:cursos,id',
+                ], [
+                    'nome.required' => 'O campo nome é obrigatório.',
+                    'nome.min' => 'O nome deve ter pelo menos 3 caracteres.',
+                    'nome.max' => 'O nome não pode exceder 255 caracteres.',
+                    'apelido.max' => 'O apelido não pode exceder 255 caracteres.',
+                    'matricula.required' => 'O campo código é obrigatório.',
+                    'matricula.unique' => 'O código já existe no nosso banco de dados.',
+                    'matricula.regex' => 'A código deve estar no formato 00.0000.0000.',
+                    'email.required' => 'Informe o email principal.',
+                    'email.email' => 'Informe um email válido.',
+                    'email.min' => 'O email deve ter pelo menos 6 caracteres.',
+                    'email.max' => 'O email não pode exceder 255 caracteres.',
+                    'email.unique' => 'Este email já está em uso.',
+                    'password.required' => 'A senha é obrigatória.',
+                    'password.min' => 'A senha deve ter no mínimo 8 caracteres.',
+                    'password.confirmed' => 'A confirmação da senha não corresponde.',
+                    'curso_id.required' => 'Selecione um curso.',
+                    'curso_id.exists' => 'O curso selecionado é inválido.',
 
-                'nome' => 'required|string|min:3|max:255',
-                'matricula' => 'required|string|min:3|max:16',
-                'email' => 'required|string|email|min:6|max:255|unique:users,email',
-                'password' => 'required|string|min:8|confirmed',
-                'curso_id' => 'required|exists:cursos,id',
-            ]);
-
+                ]);
 
 
             DB::beginTransaction();
         try {
             //code...
+            $dadosValidados['tipo']='estudante';
             $user = (new UserController())->store($dadosValidados);
+            // dd($user);
             $dadosValidados['id']=$user->id;
             $dado = Estudante::create($dadosValidados);
              DB::commit();
-             return $dado;
+             return redirect()->route('user.dashboard');
         } catch (\Throwable $th) {
             //throw $th;
             return error($th->getMessage());
@@ -83,15 +109,34 @@ class EstudanteController extends Controller
     {
         //
         $dadosValidados = $request->validate([
-
-                'nome' => 'required|string|min:3|max:255',
-                'matricula' => 'required|string|min:3|max:16',
-                'email' => 'required|string|email|min:6|max:255|unique:users,email',
-                'password' => 'required|string|min:8|confirmed',
-                'curso_id' => 'required|exists:cursos,id',
-            ]);
-
-
+                    'nome' => 'required|string|min:3|max:255',
+                    'apelido' => 'nullable|string|max:255',
+                    'matricula' => [
+                        'required',
+                        'string',
+                        'regex:/^\d{2}\.\d{4}\.\d{4}$/'
+                    ],
+                    'email' => 'required|string|email|min:6|max:255|unique:users,email',
+                    'password' => 'required|string|min:8|confirmed',
+                    'curso_id' => 'required|exists:cursos,id',
+                ], [
+                    'nome.required' => 'O campo nome é obrigatório.',
+                    'nome.min' => 'O nome deve ter pelo menos 3 caracteres.',
+                    'nome.max' => 'O nome não pode exceder 255 caracteres.',
+                    'apelido.max' => 'O apelido não pode exceder 255 caracteres.',
+                    'matricula.required' => 'O campo matrícula é obrigatório.',
+                    'matricula.regex' => 'A matrícula deve estar no formato 06.0416.2025.',
+                    'email.required' => 'Informe o email principal.',
+                    'email.email' => 'Informe um email válido.',
+                    'email.min' => 'O email deve ter pelo menos 6 caracteres.',
+                    'email.max' => 'O email não pode exceder 255 caracteres.',
+                    'email.unique' => 'Este email já está em uso.',
+                    'password.required' => 'A senha é obrigatória.',
+                    'password.min' => 'A senha deve ter no mínimo 8 caracteres.',
+                    'password.confirmed' => 'A confirmação da senha não corresponde.',
+                    'curso_id.required' => 'Selecione um curso.',
+                    'curso_id.exists' => 'O curso selecionado é inválido.',
+                ]);
 
             DB::beginTransaction();
         try {
