@@ -11,6 +11,8 @@ class Funcionario extends Model
         'id',
         'departamento_id',
         'cargo',
+        'nome',
+        'user_id',
     ];
     public function departamento(){
         return $this->belongsTo(Departamento::class);

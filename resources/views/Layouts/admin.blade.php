@@ -103,7 +103,7 @@
                                     </ul>
                                 </li>
 
-                                @if (Auth::user()->tipo == 'Admin')
+                                @if (Auth::user()->tipo == 'admin')
                                     <li
                                         class="menu-item has-children {{ in_array(Route::currentRouteName(), ['departamentos', 'departamento.add', 'departamento.show', 'departamento.edit']) ? 'active' : '' }}">
                                         <a href="javascript:void(0);" class="menu-item-button">
@@ -124,6 +124,30 @@
                                                 <a href="{{ route('departamento.create') }}"
                                                     class="{{ Route::currentRouteName() == 'departamento.create' ? 'active' : '' }}">
                                                     <div class="text">Novo Departamento</div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li
+                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['tipoSolicitacoes.index', 'tipoSolicitacao.add', 'tipoSolicitacao.show', 'tipoSolicitacao.index.edit']) ? 'active' : '' }}">
+                                        <a href="javascript:void(0);" class="menu-item-button">
+                                            <div class="icon"><span class="material-symbols-outlined">
+                                                    apartment
+                                                </span></div>
+                                            <div class="text">Tipo de Solicitações</div>
+                                        </a>
+                                        <ul class="sub-menu">
+
+                                            <li class="sub-menu-item">
+                                                <a href="{{ route('tipoSolicitacoes.index') }}"
+                                                    class="{{ Route::currentRouteName() == 'tipoSolicitacoes.index' ? 'active' : '' }}">
+                                                    <div class="text">Lista</div>
+                                                </a>
+                                            </li>
+                                            <li class="sub-menu-item">
+                                                <a href="{{ route('tipoSolicitacao.add') }}"
+                                                    class="{{ Route::currentRouteName() == 'tipoSolicitacao.add' ? 'active' : '' }}">
+                                                    <div class="text">Novo Tipo</div>
                                                 </a>
                                             </li>
                                         </ul>
@@ -154,7 +178,8 @@
 
                                         </ul>
                                     </li>
-                                    <li class="menu-item has-children ">
+                                    <li
+                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['cursos.index', 'curso.add', 'curso.edit']) ? 'active' : '' }}">
                                         <a href="javascript:void(0);" class="menu-item-button">
                                             <div class="icon"><span class="material-symbols-outlined">
                                                     gavel
@@ -163,19 +188,22 @@
                                         </a>
                                         <ul class="sub-menu">
                                             <li class="sub-menu-item">
-                                                <a href="order-tracking.html" class="">
+                                                <a href="{{ route('curso.add') }}"
+                                                    class="{{ in_array(Route::currentRouteName(), ['curso.add']) ? 'active' : '' }}">
                                                     <div class="text">Novo Curso</div>
                                                 </a>
                                             </li>
                                             <li class="sub-menu-item">
-                                                <a href="orders.html" class="">
+                                                <a href="{{ route('cursos.index') }}"
+                                                    class="{{ in_array(Route::currentRouteName(), ['cursos.index']) ? 'active' : '' }}">
                                                     <div class="text">Cursos</div>
                                                 </a>
                                             </li>
 
                                         </ul>
                                     </li>
-                                    <li class="menu-item has-children">
+                                    <li
+                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['funcionarios.index', 'funcionario.add', 'funcionario.edit']) ? 'active' : '' }}">
                                         <a href="javascript:void(0);" class="menu-item-button">
                                             <div class="icon"><span class="material-symbols-outlined">
                                                     badge
@@ -184,12 +212,14 @@
                                         </a>
                                         <ul class="sub-menu">
                                             <li class="sub-menu-item">
-                                                <a href="order-tracking.html" class="">
+                                                <a href="{{route('funcionario.add')}}"
+                                                    class="{{ in_array(Route::currentRouteName(), ['funcionario.add']) ? 'active' : '' }}">
                                                     <div class="text">Novo Funcionário</div>
                                                 </a>
                                             </li>
                                             <li class="sub-menu-item">
-                                                <a href="orders.html" class="">
+                                                <a href="{{route('funcionarios.index')}}"
+                                                    class="{{ in_array(Route::currentRouteName(), ['funcionarios.index']) ? 'active' : '' }}">
                                                     <div class="text">Funcionarios</div>
                                                 </a>
                                             </li>
@@ -505,13 +535,20 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="login.html" class="user-item">
+                                                <a href="#" class="user-item"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                                     <div class="icon">
                                                         <i class="icon-log-out"></i>
                                                     </div>
                                                     <div class="body-title-2">Log out</div>
                                                 </a>
+
+                                                <form id="logout-form" action="{{ route('log.out') }}"
+                                                    method="POST" style="display: none;">
+                                                    @csrf
+                                                </form>
                                             </li>
+
                                         </ul>
                                     </div>
                                 </div>

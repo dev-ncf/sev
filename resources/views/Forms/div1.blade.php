@@ -23,6 +23,7 @@
         <div class="body-title">Genero <span class="tf-color-1">*</span></div>
         <select class="flex-grow" type="" placeholder="" name="genero" tabindex="0" value=""
             aria-required="true" required>
+            <option value="" disabled selected>Selecione uma opção</option>
             <option value="M">Masculino</option>
             <option value="M">Feminino</option>
         </select>

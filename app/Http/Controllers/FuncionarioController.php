@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Departamento;
 use App\Models\Funcionario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,10 +15,17 @@ class FuncionarioController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return Funcionario::all();
+        $search = session('search')?session('search'):$request->search;
+        // return Funcionario::all();
+        $query = Funcionario::query();
+        if($search){
+            $query->where('nome','like','%'.$search.'%');
+        }
+        $funcionarios= $query->get();
+        return view('Admin.Funcionarios.index',compact(['funcionarios','search']));
 
     }
 
@@ -27,6 +35,9 @@ class FuncionarioController extends Controller
     public function create()
     {
         //
+        // dd('pp');
+        $faculdades = Departamento::all();
+        return view('Admin.Funcionarios.add',compact(['faculdades']));
     }
 
     /**
@@ -52,10 +63,13 @@ class FuncionarioController extends Controller
 
             $user = (new UserController())->store($dadosValidados);
             $dadosValidados['id']=$user->id;
+            $dadosValidados['user_id']=$user->id;
 
             $newFuncionario = Funcionario::create($dadosValidados);
+
+            // dd($user);
              DB::commit();
-             return $newFuncionario;
+             return redirect()->route('funcionarios.index')->with(['success'=>'Funcionario cadastrado com sucesso!','search'=>$newFuncionario->nome]);
         } catch (\Throwable $th) {
             //throw $th;
             return error($th->getMessage());
@@ -68,7 +82,7 @@ class FuncionarioController extends Controller
     public function show(Funcionario $funcionario)
     {
         //
-        return $funcionario;
+        return 'funcionario';
     }
 
     /**
@@ -92,7 +106,7 @@ class FuncionarioController extends Controller
                 'cargo' => 'required|string'
             ]);
 
-       
+
             DB::beginTransaction();
         try {
             //code...

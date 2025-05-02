@@ -2,7 +2,7 @@
 @section('admin-content')
     <div class="main-content-wrap">
         <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-            <h3>Cursos</h3>
+            <h3>Funcionarios</h3>
             <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                 <li>
                     <a href="index.html">
@@ -13,7 +13,7 @@
                     <i class="icon-chevron-right"></i>
                 </li>
                 <li>
-                    <div class="text-tiny">Cursos</div>
+                    <div class="text-tiny">Funcionarios</div>
                 </li>
             </ul>
         </div>
@@ -21,7 +21,7 @@
         <div class="wg-box">
             <div class="flex items-center justify-between gap10 flex-wrap">
                 <div class="wg-filter flex-grow">
-                    <form class="form-search" action="{{ route('cursos.index') }}" method="GET">
+                    <form class="form-search" action="{{ route('funcionarios.index') }}" method="GET">
                         <fieldset class="name">
                             <input type="text" placeholder="Search here..." class="" name="search" tabindex="2"
                                 value="{{ $search }}" aria-required="true">
@@ -31,7 +31,8 @@
                         </div>
                     </form>
                 </div>
-                <a class="tf-button style-1 w208" href="{{ route('curso.add') }}"><i class="icon-plus"></i>Add Novo</a>
+                <a class="tf-button style-1 w208" href="{{ route('funcionario.add') }}"><i class="icon-plus"></i>Add
+                    Novo</a>
             </div>
             <div class="wg-table table-all-user">
                 <div class="table-responsive">
@@ -40,35 +41,35 @@
                             <tr>
                                 <th>#</th>
                                 <th>Nome</th>
-                                <th>Descrição</th>
+                                <th>Cargo</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($cursos as $curso)
+                            @foreach ($funcionarios as $funcionario)
                                 <tr>
-                                    <td>{{ $curso->id }}</td>
+                                    <td>{{ $funcionario->id }}</td>
                                     <td class="pname">
 
                                         <div class="name">
-                                            <a href="#" class="body-title-2">{{ $curso->nome }}</a>
+                                            <a href="#" class="body-title-2">{{ $funcionario->nome }}</a>
                                         </div>
                                     </td>
-                                    <td>{{ $curso->slug }}</td>
-                                    <td><a href="#" target="_blank">1</a></td>
+                                    <td>{{ $funcionario->cargo }}</td>
                                     <td>
                                         <div class="list-icon-function">
-                                            <a href="{{ route('curso.edit', $curso->id) }}">
+                                            <a href="{{ route('funcionarios.edit', $funcionario->id) }}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>
                                                 </div>
                                             </a>
-                                            <form action="{{ route('curso.destroy', $curso->id) }}" method="POST">
+                                            <form action="{{ route('funcionarios.destroy', $funcionario->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('TELETE')
-                                                <div class="item text-danger delete" id="delete-{{ $curso->id }}"
-                                                    rota="cursos" onclick="return confirmDeletion(event)"
-                                                    dado='{{ $curso->id }}'>
+                                                <div class="item text-danger delete" id="delete-{{ $funcionario->id }}"
+                                                    rota="funcionarios" onclick="return confirmDeletion(event)"
+                                                    dado='{{ $funcionario->id }}'>
                                                     <i class="icon-trash-2"></i>
                                                 </div>
                                             </form>

@@ -2,7 +2,7 @@
 @section('admin-content')
     <div class="main-content-wrap">
         <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-            <h3> Infomações da curso</h3>
+            <h3> Infomações da Funcionario</h3>
             <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                 <li>
                     <a href="#">
@@ -14,20 +14,20 @@
                 </li>
                 <li>
                     <a href="#">
-                        <div class="text-tiny">Cursos</div>
+                        <div class="text-tiny">Funcionarios</div>
                     </a>
                 </li>
                 <li>
                     <i class="icon-chevron-right"></i>
                 </li>
                 <li>
-                    <div class="text-tiny">Novo Curso</div>
+                    <div class="text-tiny">Novo Funcionario</div>
                 </li>
             </ul>
         </div>
         <!-- new-category -->
         <div class="wg-box">
-            <form class="form-new-product form-style-1" action="{{ route('curso.store') }}" method="POST"
+            <form class="form-new-product form-style-1" action="{{ route('funcionario.store') }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 <fieldset class="name">
@@ -42,12 +42,27 @@
                 </fieldset>
                 <fieldset class="name">
                     <div class="body-title">Nome <span class="tf-color-1">*</span></div>
-                    <input class="flex-grow" type="text" placeholder="Nome da Curso" name="nome" tabindex="0"
+                    <input class="flex-grow" type="text" placeholder="Nome do funcionario" name="nome" tabindex="0"
                         value="" aria-required="true" required="">
                 </fieldset>
                 <fieldset class="name">
-                    <div class="body-title"> Descrição <span class="tf-color-1"></span></div>
-                    <input class="flex-grow" type="text" placeholder="Descrição" name="descricao" tabindex="0"
+                    <div class="body-title">Cargo <span class="tf-color-1">*</span></div>
+                    <input class="flex-grow" type="text" placeholder="Cargo do funcionario" name="cargo" tabindex="0"
+                        value="" aria-required="true" required="">
+                </fieldset>
+                <fieldset class="name">
+                    <div class="body-title">Email <span class="tf-color-1">*</span></div>
+                    <input class="flex-grow" type="text" placeholder="Email do funcionario" name="email" tabindex="0"
+                        value="" aria-required="true" required="">
+                </fieldset>
+                <fieldset class="name">
+                    <div class="body-title"> Senha <span class="tf-color-1"></span></div>
+                    <input class="flex-grow" type="password" placeholder="Senha" name="password" tabindex="0"
+                        aria-required="true">
+                </fieldset>
+                <fieldset class="name">
+                    <div class="body-title"> Confirmar Senha <span class="tf-color-1"></span></div>
+                    <input class="flex-grow" type="password" placeholder="Senha" name="password_confirmation" tabindex="0"
                         aria-required="true">
                 </fieldset>
 

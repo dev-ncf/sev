@@ -2,7 +2,7 @@
 @section('admin-content')
     <div class="main-content-wrap">
         <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-            <h3> Infomações da curso</h3>
+            <h3> Infomações do Tipos de Solicitação</h3>
             <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                 <li>
                     <a href="#">
@@ -14,52 +14,44 @@
                 </li>
                 <li>
                     <a href="#">
-                        <div class="text-tiny">Cursos</div>
+                        <div class="text-tiny">Tipos de Solicitação</div>
                     </a>
                 </li>
                 <li>
                     <i class="icon-chevron-right"></i>
                 </li>
                 <li>
-                    <div class="text-tiny">Novo Curso</div>
+                    <div class="text-tiny">Editar Tipo</div>
                 </li>
             </ul>
         </div>
         <!-- new-category -->
         <div class="wg-box">
-            <form class="form-new-product form-style-1" action="{{ route('curso.store') }}" method="POST"
-                enctype="multipart/form-data">
+            <form class="form-new-product form-style-1" action="{{ route('tipoSolicittacao.update', $tipo->id) }}"
+                method="POST" enctype="multipart/form-data">
+                @method('PUT')
                 @csrf
                 <fieldset class="name">
-                    <div class="body-title"> Faculdade <span class="tf-color-1"></span></div>
-                    <select class="flex-grow" type="text" placeholder="Descrição" name="departamento_id" tabindex="0"
-                        aria-required="true">
-                        <option value="" selected disabled>Selecione uma opção</option>
-                        @foreach ($faculdades as $faculdade)
-                            <option value="{{ $faculdade->id }}">{{ $faculdade->nome }}</option>
-                        @endforeach
-                    </select>
-                </fieldset>
-                <fieldset class="name">
                     <div class="body-title">Nome <span class="tf-color-1">*</span></div>
-                    <input class="flex-grow" type="text" placeholder="Nome da Curso" name="nome" tabindex="0"
-                        value="" aria-required="true" required="">
+                    <input class="flex-grow" type="text" placeholder="Nome do Departamento" name="nome" tabindex="0"
+                        value="{{ $tipo->nome }}" aria-required="true" required="">
                 </fieldset>
-                <fieldset class="name">
+                 <fieldset class="name">
                     <div class="body-title"> Descrição <span class="tf-color-1"></span></div>
-                    <input class="flex-grow" type="text" placeholder="Descrição" name="descricao" tabindex="0"
-                        aria-required="true">
+                    <input class="flex-grow" type="text" placeholder="Descrição do tipo" value="{{$tipo->descricao}}" name="descricao"
+                        tabindex="0" aria-required="true">
                 </fieldset>
+
+
 
                 <div class="bot">
                     <div></div>
-                    <button class="tf-button w208" type="submit">Guardar</button>
+                    <button class="tf-button w208" type="submit">Save</button>
                 </div>
             </form>
         </div>
     </div>
     </div>
-
 
     <script>
         // Criamos um objeto DataTransfer para armazenar os arquivos selecionados

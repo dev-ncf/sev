@@ -31,7 +31,8 @@
                         </div>
                     </form>
                 </div>
-                <a class="tf-button style-1 w208" href="add-product.html"><i class="icon-plus"></i>Nova Solicitação</a>
+                <a class="tf-button style-1 w208" href="{{ route('solicitacao.add') }}"><i class="icon-plus"></i>Nova
+                    Solicitação</a>
             </div>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered">

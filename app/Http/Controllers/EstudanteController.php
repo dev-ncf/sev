@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Curso;
+use App\Models\Departamento;
 use App\Models\Estudante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +27,9 @@ class EstudanteController extends Controller
     public function create()
     {
         //
-        return view('Auth.registration');
+        $faculdades = Departamento::all();
+        $cursos = Curso::all();
+        return view('Auth.registration',compact(['faculdades','cursos']));
     }
 
     /**

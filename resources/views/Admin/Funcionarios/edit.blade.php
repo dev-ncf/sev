@@ -2,46 +2,47 @@
 @section('admin-content')
     <div class="main-content-wrap">
         <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-            <h3>Nova Solicitação</h3>
+            <h3> Infomações da faculdade</h3>
             <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
-                <li><a href="index-2.html">
-                        <div class="text-tiny">Dashboard</div>
-                    </a></li>
-                <li><i class="icon-chevron-right"></i></li>
-                <li><a href="all-product.html">
-                        <div class="text-tiny">Solicitações</div>
-                    </a></li>
-                <li><i class="icon-chevron-right"></i></li>
                 <li>
-                    <div class="text-tiny">Nova Solicitação</div>
+                    <a href="#">
+                        <div class="text-tiny">Dashboard</div>
+                    </a>
+                </li>
+                <li>
+                    <i class="icon-chevron-right"></i>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="text-tiny">Faculdades</div>
+                    </a>
+                </li>
+                <li>
+                    <i class="icon-chevron-right"></i>
+                </li>
+                <li>
+                    <div class="text-tiny">Edital Faculdade</div>
                 </li>
             </ul>
         </div>
-
-        <form class="tf-section-2 form-add-product" method="POST" enctype="multipart/form-data"
-            action="{{ route('solicitacao.store') }}">
-            @csrf
-            <div class="wg-box">
+        <!-- new-category -->
+        <div class="wg-box">
+            <form class="form-new-product form-style-1" action="{{ route('faculdade.update', $faculdade->id) }}"
+                method="POST" enctype="multipart/form-data">
+                @method('PUT')
+                @csrf
                 <fieldset class="name">
-                    <div class="body-title mb-10">Tipo de Solicitação <span class="tf-color-1">*</span></div>
-                    <select name="tipo_id" required class="mb-10">
-                        <option value="" selected disabled>Selecione uma opção</option>
-                        @foreach ($tipos as $tipo)
-                            <option value="{{ $tipo->id }}">{{ $tipo->nome }}</option>
-                        @endforeach
-                    </select>
-                    <div class="text-tiny">Do not exceed 100 characters when entering the product name.</div>
+                    <div class="body-title">Nome <span class="tf-color-1">*</span></div>
+                    <input class="flex-grow" type="text" placeholder="Nome da Faculdade" name="nome" tabindex="0"
+                        value="{{ $faculdade->nome }}" aria-required="true" required="">
                 </fieldset>
-
-                <fieldset class="description">
-                    <div class="body-title mb-10">Descrição</div>
-                    <textarea name="descricao" placeholder="Description" class="mb-10"></textarea>
+                <fieldset class="name">
+                    <div class="body-title"> Sigla <span class="tf-color-1">*</span></div>
+                    <input class="flex-grow" type="text" placeholder="Sigla da Faculdade" value="{{ $faculdade->slug }}"
+                        name="slug" tabindex="0" aria-required="true" required>
                 </fieldset>
-            </div>
-
-            <div class="wg-box">
                 <fieldset>
-                    <div class="body-title">Anexar documentos <span class="tf-color-1">*</span>
+                    <div class="body-title">Imagens <span class="tf-color-1"></span>
                     </div>
 
                     <div class="upload-image flex-grow">
@@ -54,15 +55,11 @@
                                     <span class="icon">
                                         <i class="icon-upload-cloud"></i>
                                     </span>
-                                    <p class="upload-text">Selecione todo documentos necessários para
-                                        candidatura<strong class="tf-color">clique
-                                            para
+                                    <p class="upload-text">Arraste suas imagens ou <strong class="tf-color">clique para
                                             navegar</strong></p>
                                 </div>
-                                <input type="file" id="myFile" name="files[]" multiple required>
-                                <span class="error"></span>
+                                <input type="file" id="myFile" name="files[]" multiple>
                             </label>
-
                         </div>
 
                         <!-- Área para exibir as imagens carregadas -->
@@ -80,14 +77,14 @@
 
                 </fieldset>
 
-                <div class="cols gap10">
-                    <button class="tf-button w-full" type="submit">Solicitar</button>
+                <div class="bot">
+                    <div></div>
+                    <button class="tf-button w208" type="submit">Save</button>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-
-
+    </div>
 
     <script>
         // Criamos um objeto DataTransfer para armazenar os arquivos selecionados
@@ -171,80 +168,80 @@
         document.getElementById('add-more-btn').addEventListener('click', function() {
             document.getElementById('myFile').click();
         });
-
-        function aoClicar(btn, hide, show, form) {
-            var toHide = document.getElementById(hide)
-            var toShow = document.getElementById(show)
-            var button = document.getElementById(btn)
-            var form = document.getElementById(form)
-
-
-
-            var campos = toHide.querySelectorAll('[required]');
-            var todosPreenchidos = true;
-            campos.forEach(function(campo) {
-                console.log(campo.name);
-
-                var erroSpan = campo.parentElement.querySelector('.error');
-                erroSpan.style.color = 'red';
-                erroSpan.style.fontSize = '12px';
-                erroSpan.style.padding = '8px 0';
-                campo.addEventListener('input', () => {
-                    if (campo.value.trim()) {
-
-                        campo.style.setProperty('border', '1px solid #008800', 'important');
-                        erroSpan.textContent = '';
-
-                    } else {
-                        campo.style.setProperty('border', '1px solid red', 'important');
-                        erroSpan.textContent = 'Campo obrigatório';
-
-                    }
-                })
-                if (!campo.value.trim()) {
-                    todosPreenchidos = false;
-                    // console.log(campo.name);
-
-                    campo.style.setProperty('border', '1px solid red', 'important');
-                    erroSpan.textContent = 'Campo obrigatório';
-                } else {
-                    campo.style.setProperty('border', '1px solid #008800', 'important');
-                    erroSpan.textContent = '';
-                }
-            });
-
-            if (!todosPreenchidos) {
-                event.preventDefault(); // impede envio do formulário
-            } else {
-                toHide.style.display = 'none'
-                toShow.style.display = 'flex'
-
-
-            }
-            button.addEventListener('click', (event) => {
-                event.preventDefault()
-            })
-
-
-
-        }
-
-        function voltar(hide, show) {
-            var toHide = document.getElementById(hide)
-            var toShow = document.getElementById(show)
-
-
-
-            toHide.style.display = 'none'
-            toShow.style.display = 'flex'
-
-
-        }
-
-        function submeter(form) {
-            var fm = document.getElementById(form)
-            fm.submit()
-
-        }
     </script>
+
+    <style>
+        /* Estilos para o preview das imagens */
+        .preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .preview-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .preview-img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Botão de adicionar mais */
+        #add-more-btn {
+            height: 32px;
+            width: 32px;
+            margin-top: 80px;
+
+            border: none;
+            background-color: #808080;
+            color: white;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #add-more-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Modal para ampliar imagens */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
 @endsection

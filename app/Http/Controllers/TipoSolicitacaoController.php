@@ -13,10 +13,17 @@ class TipoSolicitacaoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return TipoSolicitacao::all();
+        $search = session('search')? session('search'): $request->search;
+        $query = TipoSolicitacao::query();
+        if($search){
+            $query->where('nome','like','%'.$search.'%');
+        }
+
+        $tipos = $query->get();
+        return view('Admin.Tipos.index',compact(['tipos','search']));
     }
 
     /**
@@ -25,6 +32,7 @@ class TipoSolicitacaoController extends Controller
     public function create()
     {
         //
+        return view('Admin.Tipos.add');
     }
 
     /**
@@ -34,7 +42,7 @@ class TipoSolicitacaoController extends Controller
     {
         //
          $dadosValidados = $request->validate([
-            'nome' => 'requiredstring', // Exemplo de prioridade válida
+            'nome' => 'required|string', // Exemplo de prioridade válida
             'descricao' => 'nullable|string|max:1000', // Texto opcional com limite de caracteres
         ]);
 
@@ -48,10 +56,10 @@ class TipoSolicitacaoController extends Controller
 
             $dado = TipoSolicitacao::create($dadosValidados);
             DB::commit();
-            return $dado;
+         return redirect()->route('tipoSolicitacoes.index')->with(['success'=>'Tipo registado com sucesso!','search'=>$dado->nome]);
         } catch (\Throwable $th) {
             //throw $th;
-            return error($th->getMessage());
+            return back()->withErrors(['error'=>$th->getMessage()]);
         }
     }
 

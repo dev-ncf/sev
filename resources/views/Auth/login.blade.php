@@ -20,7 +20,18 @@
 
         <img class="logo" src="{{ asset('images/logo/logour.png') }}" width="100" height="100"
             style="margin-top:50px;align-self: center">
-        <h3 style="align-self: center">Seja bem vindo!</h3>
+        <div style="display: flex; flex-direction: column; align-items: center">
+            <h3 style="align-self: center">Seja bem vindo!</h3>
+
+            @if ($errors->all())
+                @foreach ($errors->all() as $error)
+                    <p
+                        style="color:red; background-color: rgba(255, 0, 0, 0.172); border-radius: 10px;margin: 0 !important; padding:0 10px; {{ $error ? 'display:flex;' : 'display:none' }}">
+                        {{ $error }}</p>
+                @endforeach
+
+            @endif
+        </div>
         <div class="email">
             <label for="email">Email </label>
             <div class="sec-2">

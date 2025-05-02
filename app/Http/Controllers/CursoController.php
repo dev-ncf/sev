@@ -3,20 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curso;
+use App\Models\Departamento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use function Laravel\Prompts\error;
+use function Laravel\Prompts\search;
 
 class CursoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return Curso::all();
+        $search = session('search')?session('search'): $request->search;
+        $query = Curso::query();
+        if($search){
+            $query->where('nome','like','%'.$search.'%');
+        }
+
+        $cursos = $query->get();
+        return view('Admin.Cursos.index',compact(['cursos','search']));
     }
 
     /**
@@ -25,6 +34,8 @@ class CursoController extends Controller
     public function create()
     {
         //
+        $faculdades = Departamento::all();
+        return view('Admin.Cursos.add',compact(['faculdades']));
     }
 
     /**
@@ -36,7 +47,8 @@ class CursoController extends Controller
         $dadosValidados = $request->validate([
 
                 'departamento_id' => 'required|exists:departamentos,id',
-                'nome' => 'required|string'
+                'nome' => 'required|string|unique:cursos,nome',
+                'descricao' => 'nullable|string',
             ]);
            DB::beginTransaction();
         try {
@@ -44,10 +56,10 @@ class CursoController extends Controller
 
             $curso = Curso::create($dadosValidados);
              DB::commit();
-             return $curso;
+             return redirect()->route('cursos.index')->with(['success'=>'Curso registado com sucesso!','search'=>$curso->nome]);
         } catch (\Throwable $th) {
             //throw $th;
-            return error($th->getMessage());
+            return back()->withErrors(['error'=>$th->getMessage()]);
         }
     }
 
@@ -77,7 +89,8 @@ class CursoController extends Controller
          $dadosValidados = $request->validate([
 
                 'departamento_id' => 'required|exists:departamentos,id',
-                'nome' => 'required|string'
+                'nome' => 'required|string|unique:cursos,nome',
+                'descricao' => 'nullable|string',
             ]);
            DB::beginTransaction();
         try {

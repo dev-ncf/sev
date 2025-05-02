@@ -14,20 +14,35 @@ class LoginController extends Controller
     public function index(Request $request)
     {
         //
-        // dd('Ola');
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-        // Autenticado com sucesso
-            if(!Auth::user()->email_verified_at){
-                return redirect()->route('reenviar-email',Auth::user()->id);
+            // Autenticado com sucesso
+
+            if (is_null(Auth::user()->email_verified_at)) {
+                // return redirect()->route('reenviar-email',Auth::user()->id);
 
             }
-            // return redirect()->route('user.dashboard');
+            // dd("OLA");
+            return redirect()->route('user.dashboard');
         } else {
             // Falha na autenticação
             return back()->withErrors(['error'=>'Credencias invalidas!']);
         }
 
     }
+    public function logOut(Request $request)
+{
+    // Faz o logout
+    Auth::logout();
+
+    // Invalida a sessão
+    $request->session()->invalidate();
+
+    // Regenera o token CSRF
+    $request->session()->regenerateToken();
+
+    // Redireciona para a página de login ou onde quiser
+    return redirect()->route('login')->with('status', 'Você saiu da sua conta.');
+}
 
     /**
      * Show the form for creating a new resource.
