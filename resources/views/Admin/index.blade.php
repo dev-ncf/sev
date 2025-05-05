@@ -13,29 +13,11 @@
                                 </div>
                                 <div>
                                     <div class="body-text mb-2">Solicitações</div>
-                                    <h4>3</h4>
+                                    <h4>{{ $solicitacoes->count() }}</h4>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="wg-chart-default mb-20">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap14">
-                                <div class="image ic-bg">
-                                    <span style="color: #0000ff99" class="material-symbols-outlined">
-                                        gavel
-                                    </span>
-                                </div>
-                                <div>
-                                    <div class="body-text mb-2">Cursos</div>
-                                    <h4>481</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
 
                     <div class="wg-chart-default mb-20">
                         <div class="flex items-center justify-between">
@@ -45,7 +27,16 @@
                                 </div>
                                 <div>
                                     <div class="body-text mb-2">Solicitações Pendentes</div>
-                                    <h4>3</h4>
+                                    @php
+                                        $countS = 0;
+                                        foreach ($solicitacoes as $solicitacao) {
+                                            # code...
+                                            if ($solicitacao->status == 'pendente') {
+                                                $countS += 1;
+                                            }
+                                        }
+                                    @endphp
+                                    <h4>{{ $countS }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +51,8 @@
                                 </div>
                                 <div>
                                     <div class="body-text mb-2">Solicitações Encaminhadas</div>
-                                    <h4>481</h4>
+
+                                    <h4>{{ $encaminhadas->count() }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +72,7 @@
                                 </div>
                                 <div>
                                     <div class="body-text mb-2">Despachos</div>
-                                    <h4>0</h4>
+                                    <h4>{{ $despachos->count() }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -97,7 +89,7 @@
                                 </div>
                                 <div>
                                     <div class="body-text mb-2">Estudantes</div>
-                                    <h4>0.00</h4>
+                                    <h4>{{ $estudantes->count() }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +104,16 @@
                                 </div>
                                 <div>
                                     <div class="body-text mb-2">Solicitações Canceladas</div>
-                                    <h4>0</h4>
+                                    @php
+                                        $countS = 0;
+                                        foreach ($solicitacoes as $solicitacao) {
+                                            # code...
+                                            if ($solicitacao->status == 'rejeitada') {
+                                                $countS += 1;
+                                            }
+                                        }
+                                    @endphp
+                                    <h4>{{ $countS }}</h4>
                                 </div>
                             </div>
                         </div>
@@ -139,21 +140,8 @@
 
             <div class="wg-box">
                 <div class="flex items-center justify-between">
-                    <h5>Estatistica </h5>
-                    <div class="dropdown default">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <span class="icon-more"><i class="icon-more-horizontal"></i></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <a href="javascript:void(0);">Esta semana </a>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0);">Semena passada</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <h5>Estatística </h5>
+
                 </div>
                 <div class="flex flex-wrap gap40">
                     <div>
@@ -164,10 +152,9 @@
                             </div>
                         </div>
                         <div class="flex items-center gap10">
-                            <h4>$37,802</h4>
+                            <h4>{{ $solicitacoes->count() }}</h4>
                             <div class="box-icon-trending up">
-                                <i class="icon-trending-up"></i>
-                                <div class="body-title number">0.56%</div>
+                                <div class="body-title number"></div>
                             </div>
                         </div>
                     </div>
@@ -179,10 +166,9 @@
                             </div>
                         </div>
                         <div class="flex items-center gap10">
-                            <h4>$28,305</h4>
+                            <h4>{{ $despachos->count() }}</h4>
                             <div class="box-icon-trending up">
-                                <i class="icon-trending-up"></i>
-                                <div class="body-title number">0.56%</div>
+                                <div class="body-title number"></div>
                             </div>
                         </div>
                     </div>
@@ -203,45 +189,156 @@
                     </div>
                 </div>
                 <div class="wg-table table-all-user">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered">
-                            <thead>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nome</th>
+                                <th>Solicitação</th>
+                                <th>Inicio</th>
+                                <th>Fim</th>
+                                <th>Status</th>
+                                <th>Acção</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($solicitacoesRecentes as $solicitacao)
                                 <tr>
-                                    <th style="width: 80px">#</th>
-                                    <th>Nome</th>
-                                    <th class="text-center">Contacto</th>
-                                    <th class="text-center">Solicitação</th>
-                                    <th class="text-center">Data</th>
+                                    <td>{{ $solicitacao->id }}</td>
+                                    <td class="pname">
 
-                                    <th class="text-center">Status</th>
-                                    <th>Acção</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-center">1</td>
-                                    <td class="text-center">Divyansh Kumar</td>
-                                    <td class="text-center">1234567891</td>
-                                    <td class="text-center">Declaração de Notas</td>
-                                    <td class="text-center">2024-07-11 00:54:14</td>
-                                    <td class="text-center">Em Andamento</td>
-
-                                    <td class="text-center">
-                                        <a href="#">
-                                            <div class="list-icon-function view-icon">
+                                        <div class="name">
+                                            <a href="#"
+                                                class="body-title-2">{{ $solicitacao->user->estudante->nome . ' ' . $solicitacao->user->estudante->apelido }}</a>
+                                        </div>
+                                    </td>
+                                    <td>{{ $solicitacao->tipo->nome }}</td>
+                                    <td>{{ $solicitacao->data_criacao }}</td>
+                                    <td>
+                                        {{ $solicitacao->data_conclusao ? $solicitacao->data_conclusao : '------' }}</td>
+                                    <td
+                                        style="background-color: {{ $solicitacao->status == 'pendente' ? '#ffa50021' : ($solicitacao->status == 'em andamento' ? '#0000ff21' : ($solicitacao->status == 'concluida' ? '#00ff0021' : '#ff000021')) }}">
+                                        {{ $solicitacao->status }}</td>
+                                    <td>
+                                        <div class="list-icon-function">
+                                            <a href="{{ route('solicitacao.show', $solicitacao->id) }}">
                                                 <div class="item ">
-                                                    <i class="icon-eye"></i>
+                                                    <i class="icon-eye" style="color: #0000ff87"></i>
                                                 </div>
-                                            </div>
-                                        </a>
+                                            </a>
+                                            <a href="#">
+                                                <div class="item edit">
+                                                    <i class="icon-edit-3"></i>
+                                                </div>
+                                            </a>
+                                            <form action="#" method="POST">
+                                                <div class="item text-danger delete">
+                                                    <i class="icon-trash-2"></i>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
         </div>
+
     </div>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script>
+        (function($) {
+
+            var tfLineChart = (function() {
+
+                var chartBar = function() {
+
+                    var options = {
+                        series: [{
+                            name: 'Solicitações',
+                            data: @json($solicitacoesPorMes)
+                        }, {
+                            name: 'Despachos',
+                            data: @json($despachosPorMes)
+                        }],
+                        chart: {
+                            type: 'bar',
+                            height: 325,
+                            toolbar: {
+                                show: false,
+                            },
+                        },
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                columnWidth: '10px',
+                                endingShape: 'rounded'
+                            },
+                        },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        legend: {
+                            show: false,
+                        },
+                        colors: ['#2377FC', '#FFA500', '#078407', '#FF0000'],
+                        stroke: {
+                            show: false,
+                        },
+                        xaxis: {
+                            labels: {
+                                style: {
+                                    colors: '#212529',
+                                },
+                            },
+                            categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Agu', 'Set',
+                                'Out', 'Nov', 'Dez'
+                            ],
+                        },
+                        yaxis: {
+                            show: false,
+                        },
+                        fill: {
+                            opacity: 1
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function(val) {
+                                    return " " + val + ""
+                                }
+                            }
+                        }
+                    };
+
+                    chart = new ApexCharts(
+                        document.querySelector("#line-chart-8"),
+                        options
+                    );
+                    if ($("#line-chart-8").length > 0) {
+                        chart.render();
+                    }
+                };
+
+                /* Function ============ */
+                return {
+                    init: function() {},
+
+                    load: function() {
+                        chartBar();
+                    },
+                    resize: function() {},
+                };
+            })();
+
+            jQuery(document).ready(function() {});
+
+            jQuery(window).on("load", function() {
+                tfLineChart.load();
+            });
+
+            jQuery(window).on("resize", function() {});
+        })(jQuery);
+    </script>
 @endsection

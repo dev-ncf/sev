@@ -1,34 +1,90 @@
-@extends('Layouts.auth')
+@extends('Layouts.admin')
 @section('admin-content')
     <div class="main-content-wrap">
-
-        <!-- new-category -->
-        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center">
-
-            <img class="logo" src="{{ asset('images/logo/logour.png') }}" width="100" height="100"
-                style="align-self: center">
-            <h3 style="color: #000088">Universidade Rovuma</h3>
-            <h4 style="text-decoration: underline;text-transform: uppercase;color: #000088; text-shadow: -1px 2px;margin-bottom: 20px">Registo de estudante</h4>
+        <div class="flex items-center flex-wrap justify-between gap20 mb-27">
+            <h3> Infomações da faculdade</h3>
+            <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
+                <li>
+                    <a href="#">
+                        <div class="text-tiny">Dashboard</div>
+                    </a>
+                </li>
+                <li>
+                    <i class="icon-chevron-right"></i>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="text-tiny">Faculdades</div>
+                    </a>
+                </li>
+                <li>
+                    <i class="icon-chevron-right"></i>
+                </li>
+                <li>
+                    <div class="text-tiny">Edital Faculdade</div>
+                </li>
+            </ul>
         </div>
-
+        <!-- new-category -->
         <div class="wg-box">
-            <form class="form-new-product form-style-1" action="" method="POST" enctype="multipart/form-data"
-                id="form-principal">
+            <form class="form-new-product form-style-1" action="{{ route('faculdade.update', $faculdade->id) }}"
+                method="POST" enctype="multipart/form-data">
+                @method('PUT')
                 @csrf
+                <fieldset class="name">
+                    <div class="body-title">Nome <span class="tf-color-1">*</span></div>
+                    <input class="flex-grow" type="text" placeholder="Nome da Faculdade" name="nome" tabindex="0"
+                        value="{{ $faculdade->nome }}" aria-required="true" required="">
+                </fieldset>
+                <fieldset class="name">
+                    <div class="body-title"> Sigla <span class="tf-color-1">*</span></div>
+                    <input class="flex-grow" type="text" placeholder="Sigla da Faculdade" value="{{ $faculdade->slug }}"
+                        name="slug" tabindex="0" aria-required="true" required>
+                </fieldset>
+                <fieldset>
+                    <div class="body-title">Imagens <span class="tf-color-1"></span>
+                    </div>
 
-                @include('Forms.div1')
-                @include('Forms.div2')
-                @include('Forms.div3')
-                @include('Forms.div4')
+                    <div class="upload-image flex-grow">
+                        <div class="item" id="imgpreview" style="display:none">
+                            <img src="upload-1.html" class="effect8" alt="">
+                        </div>
+                        <div id="upload-area" class="item up-load">
+                            <label class="uploadfile" for="myFile" id="upload-label">
+                                <div class="upload-container">
+                                    <span class="icon">
+                                        <i class="icon-upload-cloud"></i>
+                                    </span>
+                                    <p class="upload-text">Arraste suas imagens ou <strong class="tf-color">clique para
+                                            navegar</strong></p>
+                                </div>
+                                <input type="file" id="myFile" name="files[]" multiple>
+                            </label>
+                        </div>
 
+                        <!-- Área para exibir as imagens carregadas -->
+                        <div id="preview" class="preview-container" style="display: none;"></div>
+
+                        <!-- Botão para adicionar mais imagens -->
+                        <button id="add-more-btn" type="button" style="display: none;">+</button>
+
+                        <!-- Modal para visualizar imagem em tamanho maior -->
+                        <div id="image-modal" class="modal" style="display: none;">
+                            <span class="close">&times;</span>
+                            <img class="modal-content" id="modal-img">
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <div class="bot">
+                    <div></div>
+                    <button class="tf-button w208" type="submit">Save</button>
+                </div>
             </form>
         </div>
     </div>
-
-
-
-
-
+    </div>
 
     <script>
         // Criamos um objeto DataTransfer para armazenar os arquivos selecionados
@@ -112,116 +168,6 @@
         document.getElementById('add-more-btn').addEventListener('click', function() {
             document.getElementById('myFile').click();
         });
-
-        function aoClicar(btn, hide, show, form) {
-            var toHide = document.getElementById(hide)
-            var toShow = document.getElementById(show)
-            var button = document.getElementById(btn)
-            var form = document.getElementById(form)
-
-
-
-            var campos = toHide.querySelectorAll('[required]');
-            var todosPreenchidos = true;
-            campos.forEach(function(campo) {
-                console.log(campo.name);
-
-                var erroSpan = campo.parentElement.querySelector('.error');
-                erroSpan.style.color = 'red';
-                erroSpan.style.fontSize = '12px';
-                erroSpan.style.padding = '8px 0';
-                campo.addEventListener('input', () => {
-                    if (campo.value.trim()) {
-
-                        campo.style.setProperty('border', '1px solid #008800', 'important');
-                        erroSpan.textContent = '';
-
-                    } else {
-                        campo.style.setProperty('border', '1px solid red', 'important');
-                        erroSpan.textContent = 'Campo obrigatório';
-
-                    }
-                })
-                if (!campo.value.trim()) {
-                    todosPreenchidos = false;
-                    // console.log(campo.name);
-
-                    campo.style.setProperty('border', '1px solid red', 'important');
-                    erroSpan.textContent = 'Campo obrigatório';
-                } else {
-                    campo.style.setProperty('border', '1px solid #008800', 'important');
-                    erroSpan.textContent = '';
-                }
-            });
-
-            if (!todosPreenchidos) {
-                event.preventDefault(); // impede envio do formulário
-            } else {
-                toHide.style.display = 'none'
-                toShow.style.display = 'flex'
-
-
-            }
-            button.addEventListener('click', (event) => {
-                event.preventDefault()
-            })
-
-
-
-        }
-
-        function voltar(hide, show) {
-            var toHide = document.getElementById(hide)
-            var toShow = document.getElementById(show)
-
-
-
-            toHide.style.display = 'none'
-            toShow.style.display = 'flex'
-
-
-        }
-
-        function submeter(form) {
-            var fm = document.getElementById(form)
-            fm.submit()
-
-        }
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const provinciaSelect = document.querySelector('select[name="provincia_nascimento"]');
-            const distritoSelect = document.querySelector('select[name="distrito_nascimento"]');
-
-
-
-
-            // Função que filtra os distritos com base na província
-            function filtrarDistritos(provinciaId) {
-                // Limpa opções antigas
-                distritoSelect.innerHTML = '<option value="" disabled selected>Selecione uma opção</option>';
-
-                // Filtra os distritos da província selecionada
-                const distritosFiltrados = distritos.filter(d => d.province_id == provinciaId);
-
-                // Adiciona as opções
-
-                // console.log(distritosFiltrados);
-
-                distritosFiltrados.forEach(distrito => {
-                    const option = document.createElement('option');
-                    option.value = distrito.label;
-                    option.textContent = distrito.label;
-                    distritoSelect.appendChild(option);
-                });
-            }
-
-            provinciaSelect.addEventListener('change', function() {
-                const selectedProvinciaId = this.value;
-
-                filtrarDistritos(selectedProvinciaId);
-            });
-        });
     </script>
 
     <style>
@@ -231,10 +177,6 @@
             flex-wrap: wrap;
             gap: 10px;
             margin-top: 10px;
-        }
-
-        .error {
-            display: block !important
         }
 
         .preview-img {
@@ -265,7 +207,6 @@
             display: none;
             align-items: center;
             justify-content: center;
-
         }
 
         #add-more-btn:hover {

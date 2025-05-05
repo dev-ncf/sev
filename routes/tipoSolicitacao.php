@@ -3,7 +3,7 @@
 use App\Http\Controllers\TipoSolicitacaoController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('tipoSolicitacoes')->group(function () {
+Route::prefix('dashboard/tipoSolicitacoes')->group(function () {
     Route::get('/', [TipoSolicitacaoController::class, 'index'])->name('tipoSolicitacoes.index');
     Route::get('/add', [TipoSolicitacaoController::class, 'create'])->name('tipoSolicitacao.add');
     Route::get('/{id}', [TipoSolicitacaoController::class, 'show'])->name('tipoSolicitacao.show');

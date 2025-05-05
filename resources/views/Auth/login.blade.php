@@ -36,7 +36,7 @@
             <label for="email">Email </label>
             <div class="sec-2">
                 <ion-icon name="mail-outline"></ion-icon>
-                <input type="email" name="email" placeholder="Username@gmail.com" required />
+                <input type="email" name="email" placeholder="Username@gmail.com" required autofocus/>
             </div>
         </div>
         <div class="password">
@@ -49,7 +49,13 @@
         </div>
         <button class="login" type="submit">Login </button>
 
-        <div class="footer"><a href="{{ route('registrar-se') }}">Signup</a><a>Forgot Password?</a></div>
+        <div class="footer">
+            <div>
+                Não tens conta?<a href="{{ route('registrar-se') }}" style="text-decoration: none;font-weight: bolder">
+                    Criar conta</a>
+            </div><a>Forgot
+                Password?</a>
+        </div>
     </form>
     <!-- partial -->
 

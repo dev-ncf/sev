@@ -18,6 +18,7 @@ class Solicitacao extends Model
         'data_conclusao',
         'prioridade',
         'descricao',
+        'lida',
     ];
 
     public function user(){
@@ -36,8 +37,8 @@ class Solicitacao extends Model
         return $this->hasOne(Departamento::class);
     }
 
-    public function despacho(){
-        return $this->hasOne(Despacho::class);
+    public function despachos(){
+        return $this->hasMany(Despacho::class);
     }
 
     public function anexos(){

@@ -3229,7 +3229,8 @@ select.h40 {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-   padding: 20px 200px;
+   padding: 0 350px;
+   margin: 0;
   background: #F2F7FB;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;

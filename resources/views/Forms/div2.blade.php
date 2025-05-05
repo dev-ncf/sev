@@ -1,8 +1,8 @@
 <div class="flex items-center flex-wrap justify-between gap20 mb-27" id="div-2" style="display: none">
-    <h3> Frequencia Academica</h3>
+    <h3> Frequência Académica</h3>
     <fieldset class="name">
         <div class="body-title">Faculdade <span class="tf-color-1">*</span></div>
-        <select class="flex-grow" type="text" placeholder="Genero" name="faculdade" tabindex="0" value=""
+        <select class="flex-grow" type="text" placeholder="Genero" name="departamento_id" tabindex="0" value=""
             aria-required="true" required>
             <option value="" disabled selected>Selecione uma opção</option>
             @foreach ($faculdades as $faculdade)
@@ -25,16 +25,14 @@
     </fieldset>
     <fieldset class="name">
         <div class="body-title">Ano <span class="tf-color-1">*</span></div>
-        <select class="flex-grow" type="text" name="provincia_nascimento" tabindex="0" value=""
-            aria-required="true" required>
+        <select class="flex-grow" type="text" name="nivel" tabindex="0" value="" aria-required="true"
+            required>
             <option value="" disabled selected>Selecione uma opção</option>
             <option value="1" selected>1º</option>
             <option value="2" selected>2º</option>
             <option value="3" selected>3º</option>
             <option value="4" selected>4º</option>
-            {{-- @foreach ($provincias as $provincia)
-                <option value="{{ $provincia->id }}">{{ $provincia->label }}</option>
-            @endforeach --}}
+
         </select>
         <span class="error"></span>
     </fieldset>

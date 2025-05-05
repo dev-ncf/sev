@@ -3,6 +3,16 @@
     <div class="main-content-wrap">
 
         <!-- new-category -->
+
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center">
+
+            <img class="logo" src="{{ asset('images/logo/logour.png') }}" width="100" height="100"
+                style="align-self: center">
+            <h3 style="color: #000088">Universidade Rovuma</h3>
+            <h4
+                style="text-decoration: underline;text-transform: uppercase;color: #000088; text-shadow: -1px 2px;margin-bottom: 20px">
+                Registo de estudante</h4>
+        </div>
         <div class="wg-box">
             <form class="form-new-product form-style-1" action="{{ route('email-verify', $user->id) }}" method="POST"
                 enctype="multipart/form-data" id="form-principal">
@@ -30,7 +40,7 @@
                     </div>
                     <div class="bot">
                         <div></div>
-                        <a class="tf-button w208" href="{{route('reenviar-email',$user->id)}}" >Reenviar o código</a>
+                        <a class="tf-button w208" href="{{ route('reenviar-email', $user->id) }}">Reenviar o código</a>
                     </div>
 
                 </div>

@@ -61,6 +61,7 @@ class FuncionarioController extends Controller
         try {
             //code...
 
+            $dadosValidados['tipo']='funcionario';
             $user = (new UserController())->store($dadosValidados);
             $dadosValidados['id']=$user->id;
             $dadosValidados['user_id']=$user->id;

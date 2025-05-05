@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
+        //
         Schema::table('despachos', function (Blueprint $table) {
-            //
-            $table->string('descricao')->nullable()->after('anexo_id');
-            $table->enum('status',['Aprovada','Rejeitada','Devolvida'])->default('Devolvida')->after('descricao');
+            $table->enum('lida',['0','1'])->default('0');
         });
     }
 
@@ -23,10 +22,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        //
         Schema::table('despachos', function (Blueprint $table) {
-            //
-            $table->dropColumn('descricao');
-            $table->dropColumn('status');
+
+            $table->dropColumn('lida');
+
         });
     }
 };

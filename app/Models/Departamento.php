@@ -18,5 +18,9 @@ class Departamento extends Model
     public function cursos(){
         return $this->hasMany(Curso::class);
     }
+    public function encaminhamentos(){
+        return $this->hasMany(Encaminhamento::class);
+    }
+
 
 }

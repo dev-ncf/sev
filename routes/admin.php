@@ -3,7 +3,7 @@
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('admins')->group(function () {
+Route::prefix('dashboard/admins')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admins.index');
     Route::get('/{id}', [AdminController::class, 'show'])->name('admin.show');
     Route::post('/', [AdminController::class, 'store'])->name('admin.store');

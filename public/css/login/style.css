@@ -35,26 +35,26 @@ body {
   flex-direction: column;
   gap: 0.5em;
   border-radius: 20px;
-  color: #4d4d4d;
+  color: black;
 }
 .screen-1 .email input {
   outline: none;
   border: none;
 }
 .screen-1 .email input::-moz-placeholder {
-  color: black;
+  color: 4d4d4d;
   font-size: 0.9em;
 }
 .screen-1 .email input:-ms-input-placeholder {
-  color: black;
+  color: 4d4d4d;
   font-size: 0.9em;
 }
 .screen-1 .email input::placeholder {
-  color: black;
+  color: #4d4d4d;
   font-size: 0.9em;
 }
 .screen-1 .email ion-icon {
-  color: #4d4d4d;
+  color: black;
   margin-bottom: -0.2em;
 }
 .screen-1 .password {
@@ -65,7 +65,7 @@ body {
   flex-direction: column;
   gap: 0.5em;
   border-radius: 20px;
-  color: #4d4d4d;
+  color: black;
 }
 .screen-1 .password input {
   outline: none;
@@ -84,11 +84,12 @@ body {
   font-size: 0.9em;
 }
 .screen-1 .password ion-icon {
-  color: #4d4d4d;
+  color: black;
   margin-bottom: -0.2em;
 }
 .screen-1 .password .show-hide {
-  margin-right: -5em;
+ float: right;
+
 }
 .screen-1 .login {
   padding: 1em;

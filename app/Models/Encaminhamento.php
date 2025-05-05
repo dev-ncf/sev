@@ -12,14 +12,16 @@ class Encaminhamento extends Model
         'departamento_id',
         'funcionario_id',
         'status',
+        'lida',
 
     ];
     public function solicitacao(){
         return $this->belongsTo(Solicitacao::class);
     }
-    public function departamento(){
-        return $this->hasOne(Departamento::class);
-    }
+    public function departamento()
+        {
+            return $this->belongsTo(Departamento::class, 'departamento_id');
+        }
     public function funcionario(){
         return $this->hasOne(Funcionario::class);
     }

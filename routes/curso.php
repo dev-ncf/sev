@@ -3,7 +3,7 @@
 use App\Http\Controllers\CursoController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('cursos')->group(function () {
+Route::prefix('dashboard/cursos')->group(function () {
     Route::get('/', [CursoController::class, 'index'])->name('cursos.index');
     Route::get('/add', [CursoController::class, 'create'])->name('curso.add');
     Route::get('/{id}', [CursoController::class, 'show'])->name('curso.show');

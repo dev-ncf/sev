@@ -10,12 +10,18 @@ class Estudante extends Model
     protected $fillable = [
         'id',
         'curso_id',
-        'matricula'
+        'matricula',
+        'user_id',
+        'nome', 'apelido', 'genero', 'data_nascimento', 'departamento_id', 'nivel'
+
     ];
     public function curso(){
         return $this->belongsTo(Curso::class);
     }
     public function user(){
-        return $this->hasMany(User::class,'id');
+        return $this->hasMany(User::class);
+    }
+    public function departamento(){
+        return $this->belongsTo(Departamento::class);
     }
 }

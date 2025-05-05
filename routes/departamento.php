@@ -2,7 +2,7 @@
 use App\Http\Controllers\DepartamentoController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('departamentos')->group(function () {
+Route::prefix('dashboard/departamentos')->group(function () {
     Route::get('/', [DepartamentoController::class, 'index'])->name('departamentos');
     Route::get('/create', [DepartamentoController::class, 'create'])->name('departamento.create');
     Route::get('/edit/{departamento}', [DepartamentoController::class, 'edit'])->name('departamento.edit');

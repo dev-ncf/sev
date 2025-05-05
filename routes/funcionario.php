@@ -3,7 +3,7 @@
 use App\Http\Controllers\FuncionarioController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('funcionarios')->group(function () {
+Route::prefix('dashboard/funcionarios')->group(function () {
     Route::get('/', [FuncionarioController::class, 'index'])->name('funcionarios.index');
     Route::get('/edit/{id}', [FuncionarioController::class, 'edit'])->name('funcionarios.edit');
     Route::post('/', [FuncionarioController::class, 'store'])->name('funcionario.store');

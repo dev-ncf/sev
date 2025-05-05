@@ -35,7 +35,7 @@
 
                 <div class="section-menu-left">
                     <div class="box-logo">
-                        <a href="index.html" id="site-logo-inner">
+                        <a href="{{ route('user.dashboard') }}" id="site-logo-inner">
                             <img class="" id="logo_header" alt=""
                                 src="{{ asset('images/logo/logo.png') }}"
                                 data-light="{{ asset('images/logo/logo.png') }}"
@@ -48,6 +48,7 @@
                     <div class="center">
                         <div class="center-item">
                             <div class="center-heading">Menu Principal</div>
+
                             <ul class="menu-list">
                                 <li
                                     class="menu-item {{ in_array(Route::currentRouteName(), ['user.dashboard']) ? 'active' : '' }}">
@@ -82,7 +83,8 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="menu-item has-children">
+                                <li
+                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['despachos.index', 'despacho.add', 'despacho.show', 'despacho.edit']) ? 'active' : '' }}">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><span class="material-symbols-outlined">
                                                 balance
@@ -90,13 +92,10 @@
                                         <div class="text">Despachos </div>
                                     </a>
                                     <ul class="sub-menu">
+
                                         <li class="sub-menu-item">
-                                            <a href="add-brand.html" class="">
-                                                <div class="text">Novo Despacho</div>
-                                            </a>
-                                        </li>
-                                        <li class="sub-menu-item">
-                                            <a href="brands.html" class="">
+                                            <a href="{{ route('despachos.index') }}"
+                                                class="{{ in_array(Route::currentRouteName(), ['despachos.index']) ? 'active' : '' }}">
                                                 <div class="text">Despachos</div>
                                             </a>
                                         </li>
@@ -203,7 +202,7 @@
                                         </ul>
                                     </li>
                                     <li
-                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['funcionarios.index', 'funcionario.add', 'funcionario.edit']) ? 'active' : '' }}">
+                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['funcionarios.index', 'funcionario.add', 'funcionarios.edit']) ? 'active' : '' }}">
                                         <a href="javascript:void(0);" class="menu-item-button">
                                             <div class="icon"><span class="material-symbols-outlined">
                                                     badge
@@ -212,13 +211,13 @@
                                         </a>
                                         <ul class="sub-menu">
                                             <li class="sub-menu-item">
-                                                <a href="{{route('funcionario.add')}}"
+                                                <a href="{{ route('funcionario.add') }}"
                                                     class="{{ in_array(Route::currentRouteName(), ['funcionario.add']) ? 'active' : '' }}">
                                                     <div class="text">Novo Funcionário</div>
                                                 </a>
                                             </li>
                                             <li class="sub-menu-item">
-                                                <a href="{{route('funcionarios.index')}}"
+                                                <a href="{{ route('funcionarios.index') }}"
                                                     class="{{ in_array(Route::currentRouteName(), ['funcionarios.index']) ? 'active' : '' }}">
                                                     <div class="text">Funcionarios</div>
                                                 </a>
@@ -226,7 +225,19 @@
 
                                         </ul>
                                     </li>
-                                    <li class="menu-item has-children">
+
+
+                                    <li
+                                        class="menu-item {{ in_array(Route::currentRouteName(), ['usuarios.index', 'usuario.add', 'usuario.edit', 'usuario.show']) ? 'active' : '' }}">
+                                        <a href="{{ route('usuarios.index') }}" class="">
+                                            <div class="icon"><i class="icon-users"></i></div>
+                                            <div class="text">Usuários</div>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (Auth::user()->tipo == 'admin' || Auth::user()->tipo == 'funcionario')
+                                    <li
+                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['estudantes.index', 'estudante.add', 'estudante.edit']) ? 'active' : '' }}">
                                         <a href="javascript:void(0);" class="menu-item-button">
                                             <div class="icon"><span class="material-symbols-outlined">
                                                     school
@@ -235,33 +246,47 @@
                                         </a>
                                         <ul class="sub-menu">
                                             <li class="sub-menu-item">
-                                                <a href="order-tracking.html" class="">
+                                                <a href="{{ route('estudante.add') }}"
+                                                    class="{{ in_array(Route::currentRouteName(), ['estudante.add']) ? 'active' : '' }}">
                                                     <div class="text">Novo Estudante</div>
                                                 </a>
                                             </li>
                                             <li class="sub-menu-item">
-                                                <a href="orders.html" class="">
+                                                <a href="{{ route('estudantes.index') }}"
+                                                    class="{{ in_array(Route::currentRouteName(), ['estudante.index']) ? 'active' : '' }}">
                                                     <div class="text">Estudantes</div>
                                                 </a>
                                             </li>
 
                                         </ul>
                                     </li>
-
-                                    <li class="menu-item">
-                                        <a href="users.html" class="">
-                                            <div class="icon"><i class="icon-users"></i></div>
-                                            <div class="text">Usuários</div>
-                                        </a>
-                                    </li>
                                 @endif
 
-                                <li class="menu-item">
-                                    <a href="settings.html" class="">
-                                        <div class="icon"><i class="icon-settings"></i></div>
-                                        <div class="text">Settings</div>
+
+                                <li class="menu-item" id="logout">
+                                    <a href="#" class="">
+                                        <div class="icon"><span class="material-symbols-outlined">
+                                                logout
+                                            </span></div>
+                                        <div class="text">Sair</div>
                                     </a>
                                 </li>
+                                <style>
+                                    #logout {
+                                        display: none;
+                                    }
+
+                                    @media (max-width: 990px) {
+                                        #logout {
+                                            display: none;
+
+                                        }
+
+                                        .user-l {
+                                            display: none;
+                                        }
+                                    }
+                                </style>
                             </ul>
                         </div>
                     </div>
@@ -271,147 +296,25 @@
                     <div class="header-dashboard">
                         <div class="wrap">
                             <div class="header-left">
-                                <a href="index-2.html">
-                                    <img class="" id="logo_header_mobile" alt=""
-                                        src="images/logo/logo.png" data-light="images/logo/logo.png"
-                                        data-dark="images/logo/logo.png" data-width="154px" data-height="52px"
-                                        data-retina="images/logo/logo.png">
-                                </a>
+
                                 <div class="button-show-hide">
                                     <i class="icon-menu-left"></i>
                                 </div>
 
 
-                                <form class="form-search flex-grow">
+                                <form class="">
                                     <fieldset class="name">
-                                        <input type="text" placeholder="Search here..." class="show-search"
-                                            name="name" tabindex="2" value="" aria-required="true"
-                                            required="">
+                                        <h6>{{ Auth::user()->tipo == 'estudante' ? Auth::user()->estudante->departamento->nome : (Auth::user()->tipo == 'funcionario' ? Auth::user()->funcionario->departamento->nome : 'Universidade Rovuma') }}
+                                        </h6>
                                     </fieldset>
-                                    <div class="button-submit">
-                                        <button class="" type="submit"><i class="icon-search"></i></button>
-                                    </div>
-                                    <div class="box-content-search" id="box-content-search">
-                                        <ul class="mb-24">
-                                            <li class="mb-14">
-                                                <div class="body-title">Top selling product</div>
-                                            </li>
-                                            <li class="mb-14">
-                                                <div class="divider"></div>
-                                            </li>
-                                            <li>
-                                                <ul>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/17.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Dog Food
-                                                                    Rachael Ray Nutrish®</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/18.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Natural
-                                                                    Dog Food Healthy Dog Food</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/19.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Freshpet
-                                                                    Healthy Dog Food and Cat</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                        <ul class="">
-                                            <li class="mb-14">
-                                                <div class="body-title">Order product</div>
-                                            </li>
-                                            <li class="mb-14">
-                                                <div class="divider"></div>
-                                            </li>
-                                            <li>
-                                                <ul>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/20.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Sojos
-                                                                    Crunchy Natural Grain Free...</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/21.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Kristin
-                                                                    Watson</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14 mb-10">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/22.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Mega
-                                                                    Pumpkin Bone</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="mb-10">
-                                                        <div class="divider"></div>
-                                                    </li>
-                                                    <li class="product-item gap14">
-                                                        <div class="image no-bg">
-                                                            <img src="images/products/23.png" alt="">
-                                                        </div>
-                                                        <div class="flex items-center justify-between gap20 flex-grow">
-                                                            <div class="name">
-                                                                <a href="product-list.html" class="body-text">Mega
-                                                                    Pumpkin Bone</a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
+
+
                                 </form>
 
                             </div>
+                            <style>
+
+                            </style>
                             <div class="header-grid">
 
                                 <div class="popup-wrap message type-header">
@@ -419,119 +322,223 @@
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
                                             id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span class="header-item">
-                                                <span class="text-tiny">1</span>
+                                                @php
+                                                    $noti = 0;
+                                                @endphp
+                                                <span id="noti-label"
+                                                    class="text-tiny">{{ $noti > 0 ? $noti : '' }}</span>
                                                 <i class="icon-bell"></i>
                                             </span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end has-content"
-                                            aria-labelledby="dropdownMenuButton2">
+                                            aria-labelledby="dropdownMenuButton2"
+                                            style="max-height: 400px;overflow-y: auto">
                                             <li>
                                                 <h6>Notificações</h6>
                                             </li>
-                                            <li>
-                                                <div class="message-item item-1">
-                                                    <div class="image">
-                                                        <i class="icon-noti-1"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="body-title-2">Solicitação</div>
-                                                        <div class="text-tiny">Morbi sapien massa, ultricies at rhoncus
-                                                            at, ullamcorper nec diam</div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="message-item item-2">
-                                                    <div class="image">
-                                                        <i class="icon-noti-2"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="body-title-2">Despacho</div>
-                                                        <div class="text-tiny">Mauris libero ex, iaculis vitae rhoncus
-                                                            et</div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="message-item item-3">
-                                                    <div class="image">
-                                                        <i class="icon-noti-3"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="body-title-2">Despacho</div>
-                                                        <div class="text-tiny">Integer aliquam eros nec sollicitudin
-                                                            sollicitudin</div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="message-item item-4">
-                                                    <div class="image">
-                                                        <i class="icon-noti-4"></i>
-                                                    </div>
-                                                    <div>
-                                                        <div class="body-title-2">Solicitação
-                                                        </div>
-                                                        <div class="text-tiny">Ultricies at rhoncus at ullamcorper
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li><a href="#" class="tf-button w-full">Ver tudas</a></li>
+
+                                            @foreach ($novaSolicitacoes as $notificacao)
+                                                @if (Auth::user()->tipo == 'funcionario')
+                                                    @if ($notificacao->departamento_id == Auth::user()->funcionario->departamento_id)
+                                                        <li>
+                                                            <div class="message-item item-1">
+                                                                <div class="image">
+                                                                    <i class="icon-git-pull-request"></i>
+                                                                </div>
+                                                                <a
+                                                                    href="{{ route('solicitacao.show', $notificacao->id) }}">
+
+                                                                    <div>
+                                                                        <div class="body-title-2">Solicitação</div>
+                                                                        <div class="text-tiny">
+                                                                            {{ $notificacao->user->estudante->nome . ' ' . $notificacao->user->estudante->apelido }}
+                                                                            <div class="text-tiny">
+                                                                                {{ $notificacao->tipo->nome }}
+                                                                            </div>
+                                                                        </div>
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                        @php
+                                                            $noti += 1;
+                                                        @endphp
+                                                    @endif
+                                                    @if (Auth::user()->tipo == 'estudante')
+                                                        @if ($notificacao->departamento_id == Auth::user()->estudante > departamento_id)
+                                                            <li>
+                                                                <div class="message-item item-1">
+                                                                    <div class="image">
+                                                                        <i class="icon-git-pull-request"></i>
+                                                                    </div>
+                                                                    <a
+                                                                        href="{{ route('solicitacao.show', $notificacao->id) }}">
+
+                                                                        <div>
+                                                                            <div class="body-title-2">Solicitação</div>
+                                                                            <div class="text-tiny">
+                                                                                {{ $notificacao->user->estudante->nome . ' ' . $notificacao->user->estudante->apelido }}
+                                                                                <div class="text-tiny">
+                                                                                    {{ $notificacao->tipo->nome }}
+                                                                                </div>
+                                                                            </div>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            @php
+                                                                $noti += 1;
+                                                            @endphp
+                                                        @endif
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                            @if ($novoDespachos->count() > 0)
+                                                @foreach ($novoDespachos as $notificacao)
+                                                    @if (Auth::user()->tipo == 'estudante')
+                                                        @if ($notificacao->solicitacao->user_id == Auth::id())
+                                                            <li>
+                                                                <div class="message-item item-1">
+                                                                    <div class="image">
+                                                                        <span class="material-symbols-outlined">
+                                                                            balance
+                                                                        </span>
+                                                                    </div>
+                                                                    <a
+                                                                        href="{{ route('solicitacao.show', $notificacao->solicitacao->id) }}">
+
+                                                                        <div>
+                                                                            <div class="body-title-2">Despacho</div>
+                                                                            <div class="text-tiny">
+                                                                                {{ $notificacao->solicitacao->user->estudante->nome . ' ' . $notificacao->solicitacao->user->estudante->apelido }}
+                                                                                <div class="text-tiny">
+                                                                                    {{ $notificacao->solicitacao->tipo->nome }}
+                                                                                </div>
+                                                                            </div>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                        @endif
+                                                    @else
+                                                        @if (Auth::user()->tipo == 'admin')
+                                                            <li>
+                                                                <div class="message-item item-1">
+                                                                    <div class="image">
+                                                                        <span class="material-symbols-outlined">
+                                                                            balance
+                                                                        </span>
+                                                                    </div>
+                                                                    <a
+                                                                        href="{{ route('solicitacao.show', $notificacao->solicitacao->id) }}">
+
+                                                                        <div>
+                                                                            <div class="body-title-2">Despacho</div>
+                                                                            <div class="text-tiny">
+                                                                                {{ $notificacao->solicitacao->user->estudante->nome . ' ' . $notificacao->solicitacao->user->estudante->apelido }}
+                                                                                <div class="text-tiny">
+                                                                                    {{ $notificacao->solicitacao->tipo->nome }}
+                                                                                </div>
+                                                                            </div>
+                                                                    </a>
+                                                                </div>
+                                                            </li>
+                                                            @php
+                                                                $noti += 1;
+                                                            @endphp
+                                                        @else
+                                                            @if ($notificacao->solicitacao->departamento_id == Auth::user()->funcionario->departamento_id)
+                                                                <li>
+                                                                    <div class="message-item item-1">
+                                                                        <div class="image">
+                                                                            <span class="material-symbols-outlined">
+                                                                                balance
+                                                                            </span>
+                                                                        </div>
+                                                                        <a
+                                                                            href="{{ route('solicitacao.show', $notificacao->solicitacao->id) }}">
+
+                                                                            <div>
+                                                                                <div class="body-title-2">Despacho
+                                                                                </div>
+                                                                                <div class="text-tiny">
+                                                                                    {{ $notificacao->solicitacao->user->estudante->nome . ' ' . $notificacao->solicitacao->user->estudante->apelido }}
+                                                                                    <div class="text-tiny">
+                                                                                        {{ $notificacao->solicitacao->tipo->nome }}
+                                                                                    </div>
+                                                                                </div>
+                                                                        </a>
+                                                                    </div>
+                                                                </li>
+                                                                @php
+                                                                    $noti += 1;
+                                                                @endphp
+                                                            @endif
+                                                        @endif
+                                                    @endif
+                                                @endforeach
+                                            @endif
+                                            @if (Auth::user()->tipo == 'funcionario')
+                                                @if ($novoEncaminhamento->count() > 0)
+
+                                                    @foreach ($novoEncaminhamento as $notificacao)
+                                                        <li>
+                                                            <div class="message-item item-1">
+                                                                <div class="image">
+                                                                    <i class="icon-git-pull-request"></i>
+                                                                </div>
+                                                                <a
+                                                                    href="{{ route('solicitacao.show', $notificacao->solicitacao->id) }}">
+
+                                                                    <div>
+                                                                        <div class="body-title-2">Encaminhado</div>
+                                                                        <div class="text-tiny">
+                                                                            {{ $notificacao->solicitacao->user->estudante->nome . ' ' . $notificacao->solicitacao->user->estudante->apelido }}
+                                                                            <div class="text-tiny">
+                                                                                {{ $notificacao->solicitacao->tipo->nome }}
+                                                                            </div>
+                                                                        </div>
+                                                                </a>
+                                                            </div>
+                                                        </li>
+                                                        @php
+                                                            $noti += 1;
+                                                        @endphp
+                                                    @endforeach
+                                                @endif
+                                            @endif
+
+                                            <li><a href="#" class="tf-button w-full">Ver todas</a></li>
                                         </ul>
                                     </div>
                                 </div>
 
-
-
-
-                                <div class="popup-wrap user type-header">
+                                <div class="popup-wrap  type-header">
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
+                                            id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false"
+                                            style="display: flex; justify-items: center">
                                             <span class="header-user wg-user">
                                                 <span class="image">
-                                                    <img src="images/avatar/user-1.png" alt="">
+                                                    <img src="{{ asset('images/logo/logour.png') }}" alt="">
                                                 </span>
                                                 <span class="flex flex-column">
-                                                    <span class="body-title mb-2">Ntwali C. Filme</span>
-                                                    <span class="text-tiny">Admin</span>
+                                                    @php
+                                                        $partes = explode(' ', Auth::user()->nome);
+                                                        $primeiro_nome = $partes[0];
+                                                        $ultimo_nome = end($partes);
+                                                    @endphp
+                                                    <span
+                                                        class="body-title mb-2 user-l">{{ $primeiro_nome . ' ' . $ultimo_nome }}</span>
+                                                    <span class="text-tiny user-l">{{ Auth::user()->tipo }}</span>
                                                 </span>
                                             </span>
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end has-content"
                                             aria-labelledby="dropdownMenuButton3">
                                             <li>
-                                                <a href="#" class="user-item">
+                                                <a href="{{ route('definicoes', Auth::id()) }}" class="user-item">
                                                     <div class="icon">
                                                         <i class="icon-user"></i>
                                                     </div>
                                                     <div class="body-title-2">Conta</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-mail"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Mensagens</div>
-                                                    <div class="number">27</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-file-text"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Taskboard</div>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" class="user-item">
-                                                    <div class="icon">
-                                                        <i class="icon-headphones"></i>
-                                                    </div>
-                                                    <div class="body-title-2">Ajuda?</div>
                                                 </a>
                                             </li>
                                             <li>
@@ -540,7 +547,7 @@
                                                     <div class="icon">
                                                         <i class="icon-log-out"></i>
                                                     </div>
-                                                    <div class="body-title-2">Log out</div>
+                                                    <div class="body-title-2">Logout</div>
                                                 </a>
 
                                                 <form id="logout-form" action="{{ route('log.out') }}"
@@ -579,6 +586,7 @@
     @if (session('success'))
         @include('Admin.success')
     @endif
+    @include('Admin.delete')
 
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
@@ -588,114 +596,9 @@
     <script src="{{ asset('js/main.js') }}"></script>
     <script src="{{ asset('js/error-success.js') }}"></script>
     <script>
-        (function($) {
-
-            var tfLineChart = (function() {
-
-                var chartBar = function() {
-
-                    var options = {
-                        series: [{
-                                name: 'Total',
-                                data: [0.00, 0.00, 0.00, 0.00, 0.00, 273.22, 208.12, 0.00, 0.00,
-                                    0.00, 0.00, 0.00
-                                ]
-                            }, {
-                                name: 'Pending',
-                                data: [0.00, 0.00, 0.00, 0.00, 0.00, 273.22, 208.12, 0.00, 0.00,
-                                    0.00, 0.00, 0.00
-                                ]
-                            },
-                            {
-                                name: 'Delivered',
-                                data: [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,
-                                    0.00, 0.00
-                                ]
-                            }, {
-                                name: 'Canceled',
-                                data: [0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00,
-                                    0.00, 0.00
-                                ]
-                            }
-                        ],
-                        chart: {
-                            type: 'bar',
-                            height: 325,
-                            toolbar: {
-                                show: false,
-                            },
-                        },
-                        plotOptions: {
-                            bar: {
-                                horizontal: false,
-                                columnWidth: '10px',
-                                endingShape: 'rounded'
-                            },
-                        },
-                        dataLabels: {
-                            enabled: false
-                        },
-                        legend: {
-                            show: false,
-                        },
-                        colors: ['#2377FC', '#FFA500', '#078407', '#FF0000'],
-                        stroke: {
-                            show: false,
-                        },
-                        xaxis: {
-                            labels: {
-                                style: {
-                                    colors: '#212529',
-                                },
-                            },
-                            categories: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Agu', 'Set',
-                                'Out', 'Nov', 'Dez'
-                            ],
-                        },
-                        yaxis: {
-                            show: false,
-                        },
-                        fill: {
-                            opacity: 1
-                        },
-                        tooltip: {
-                            y: {
-                                formatter: function(val) {
-                                    return "$ " + val + ""
-                                }
-                            }
-                        }
-                    };
-
-                    chart = new ApexCharts(
-                        document.querySelector("#line-chart-8"),
-                        options
-                    );
-                    if ($("#line-chart-8").length > 0) {
-                        chart.render();
-                    }
-                };
-
-                /* Function ============ */
-                return {
-                    init: function() {},
-
-                    load: function() {
-                        chartBar();
-                    },
-                    resize: function() {},
-                };
-            })();
-
-            jQuery(document).ready(function() {});
-
-            jQuery(window).on("load", function() {
-                tfLineChart.load();
-            });
-
-            jQuery(window).on("resize", function() {});
-        })(jQuery);
+        document.getElementById('noti-label').innerHTML = @json($noti > 0 ? $noti : '');
     </script>
+
 </body>
 
 </html>

@@ -21,18 +21,20 @@
         <div class="wg-box">
             <div class="flex items-center justify-between gap10 flex-wrap">
                 <div class="wg-filter flex-grow">
-                    <form class="form-search">
+                    <form class="form-search" action="{{ route('solicitacoes') }}">
                         <fieldset class="name">
-                            <input type="text" placeholder="Search here..." class="" name="name" tabindex="2"
-                                value="" aria-required="true" required="">
+                            <input type="text" placeholder="Search here..." class="" name="search" tabindex="2"
+                                value="{{ $search }}" aria-required="true" required="">
                         </fieldset>
                         <div class="button-submit">
                             <button class="" type="submit"><i class="icon-search"></i></button>
                         </div>
                     </form>
                 </div>
-                <a class="tf-button style-1 w208" href="{{ route('solicitacao.add') }}"><i class="icon-plus"></i>Nova
-                    Solicitação</a>
+                @if (Auth::user()->tipo == 'estudante' || Auth::user()->tipo == 'admin')
+                    <a class="tf-button style-1 w208" href="{{ route('solicitacao.add') }}"><i class="icon-plus"></i>Add
+                        nova</a>
+                @endif
             </div>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered">
@@ -41,46 +43,108 @@
                             <th>#</th>
                             <th>Nome</th>
                             <th>Solicitação</th>
-                            <th>Data</th>
+                            <th>Inicio</th>
+                            <th>Fim</th>
+                            <th>Status</th>
                             <th>Acção</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($solicitacoes as $solicitacao)
+                        @if ($solicitacoes->count() > 0)
+                            @foreach ($solicitacoes as $solicitacao)
+                                <tr>
+                                    <td>{{ $solicitacao->id }}</td>
+                                    <td class="pname">
+
+                                        <div class="name">
+                                            <a href="#"
+                                                class="body-title-2">{{ $solicitacao->user->estudante->nome . ' ' . $solicitacao->user->estudante->apelido }}</a>
+                                        </div>
+                                    </td>
+                                    <td>{{ $solicitacao->tipo->nome }}</td>
+                                    <td>{{ $solicitacao->data_criacao }}</td>
+                                    <td>
+                                        {{ $solicitacao->data_conclusao ? $solicitacao->data_conclusao : '------' }}</td>
+                                    <td
+                                        style="background-color: {{ $solicitacao->status == 'pendente' ? '#ffa50021' : ($solicitacao->status == 'em andamento' ? '#0000ff21' : ($solicitacao->status == 'concluida' ? '#00ff0021' : '#ff000021')) }}">
+                                        {{ $solicitacao->status }}</td>
+                                    <td>
+                                        <div class="list-icon-function">
+                                            <a href="{{ route('solicitacao.show', $solicitacao->id) }}">
+                                                <div class="item ">
+                                                    <i class="icon-eye" style="color: #0000ff87"></i>
+                                                </div>
+                                            </a>
+                                            <a href="#">
+                                                <div class="item edit">
+                                                    <i class="icon-edit-3"></i>
+                                                </div>
+                                            </a>
+                                            <form action="{{ route('solicitacao.destroy', $solicitacao->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('TELETE')
+                                                <div class="item text-danger delete" id="delete-{{ $solicitacao->id }}"
+                                                    rota="solicitacao" onclick="return confirmDeletion(event)"
+                                                    dado='{{ $solicitacao->id }}'>
+                                                    <i class="icon-trash-2"></i>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
                             <tr>
-                                <td>6</td>
-                                <td class="pname">
-                                    <div class="image">
-                                        <img src="1718623519.html" alt="" class="image">
-                                    </div>
-                                    <div class="name">
-                                        <a href="#" class="body-title-2">{{ $solicitacao->user->nome }}</a>
-                                        <div class="text-tiny mt-3">Ntwali Chance Filme</div>
-                                    </div>
-                                </td>
-                                <td>Pedido de reingresso</td>
-                                <td>02/04/2025</td>
-                                <td>
-                                    <div class="list-icon-function">
-                                        <a href="" target="_blank">
-                                            <div class="item ">
-                                                <i class="icon-eye"></i>
-                                            </div>
-                                        </a>
-                                        <a href="#">
-                                            <div class="item edit">
-                                                <i class="icon-edit-3"></i>
-                                            </div>
-                                        </a>
-                                        <form action="#" method="POST">
-                                            <div class="item text-danger delete">
-                                                <i class="icon-trash-2"></i>
-                                            </div>
-                                        </form>
+                                <td colspan="7" class="text-center">
+                                    <div>
+                                        <img src="{{ asset('images/assets/communication.png') }}" alt="">
+                                        <p>Nenhum dado foi encontrado!</p>
                                     </div>
                                 </td>
                             </tr>
-                        @endforeach
+                        @endif
+                        @if (Auth::user()->tipo != 'estudante')
+                            @foreach ($encaminhamentos as $encaminhamento)
+                                <tr>
+                                    <td>{{ $encaminhamento->solicitacao_id }}</td>
+                                    <td class="pname">
+
+                                        <div class="name">
+                                            <a href="#"
+                                                class="body-title-2">{{ $encaminhamento->solicitacao->user->estudante->nome . ' ' . $encaminhamento->solicitacao->user->estudante->apelido }}</a>
+                                        </div>
+                                    </td>
+                                    <td>{{ $encaminhamento->solicitacao->tipo->nome }}</td>
+                                    <td>{{ $encaminhamento->solicitacao->data_criacao }}</td>
+                                    <td>
+                                        {{ $encaminhamento->solicitacao->data_conclusao ? $encaminhamento->solicitacao->data_conclusao : '------' }}
+                                    </td>
+                                    <td
+                                        style="background-color: {{ $encaminhamento->solicitacao->status == 'pendente' ? '#ffa50021' : ($encaminhamento->solicitacao->status == 'em andamento' ? '#0000ff21' : ($encaminhamento->solicitacao->status == 'concluida' ? '#00ff0021' : '#ff000021')) }}">
+                                        {{ $encaminhamento->solicitacao->status }}</td>
+                                    <td>
+                                        <div class="list-icon-function">
+                                            <a href="{{ route('solicitacao.show', $encaminhamento->solicitacao_id) }}">
+                                                <div class="item ">
+                                                    <i class="icon-eye" style="color: #0000ff87"></i>
+                                                </div>
+                                            </a>
+                                            <a href="#">
+                                                <div class="item edit">
+                                                    <i class="icon-edit-3"></i>
+                                                </div>
+                                            </a>
+                                            <form action="#" method="POST">
+                                                <div class="item text-danger delete">
+                                                    <i class="icon-trash-2"></i>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>

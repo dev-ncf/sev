@@ -1,19 +1,34 @@
-@extends('Layouts.auth')
+@extends('Layouts.admin')
 @section('admin-content')
     <div class="main-content-wrap">
-
-        <!-- new-category -->
-        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center">
-
-            <img class="logo" src="{{ asset('images/logo/logour.png') }}" width="100" height="100"
-                style="align-self: center">
-            <h3 style="color: #000088">Universidade Rovuma</h3>
-            <h4 style="text-decoration: underline;text-transform: uppercase;color: #000088; text-shadow: -1px 2px;margin-bottom: 20px">Registo de estudante</h4>
+        <div class="flex items-center flex-wrap justify-between gap20 mb-27">
+            <h3> Infomações da Estudante</h3>
+            <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
+                <li>
+                    <a href="#">
+                        <div class="text-tiny">Dashboard</div>
+                    </a>
+                </li>
+                <li>
+                    <i class="icon-chevron-right"></i>
+                </li>
+                <li>
+                    <a href="#">
+                        <div class="text-tiny">Estudantes</div>
+                    </a>
+                </li>
+                <li>
+                    <i class="icon-chevron-right"></i>
+                </li>
+                <li>
+                    <div class="text-tiny">Novo Estudante</div>
+                </li>
+            </ul>
         </div>
-
+        <!-- new-category -->
         <div class="wg-box">
-            <form class="form-new-product form-style-1" action="" method="POST" enctype="multipart/form-data"
-                id="form-principal">
+            <form class="form-new-product form-style-1" action="{{ route('estudantes.index') }}" method="POST"
+                enctype="multipart/form-data" id="form-principal">
                 @csrf
 
                 @include('Forms.div1')
@@ -24,10 +39,7 @@
             </form>
         </div>
     </div>
-
-
-
-
+    </div>
 
 
     <script>

@@ -6,6 +6,7 @@ use App\Models\Curso;
 use App\Models\Departamento;
 use App\Models\Estudante;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use function Laravel\Prompts\error;
@@ -15,10 +16,19 @@ class EstudanteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        return Estudante::all();
+
+        $search = session('search')?session('search'):$request->search;
+        $query = Estudante::query();
+        if($search){
+            $query->where('nome','like','%'.$search.'%')->orWhere('apelido','like','%'.$search.'%');
+        }
+
+        $estudantes = $query->paginate(5);
+
+        return view('Admin.Estudantes.index',compact(['search','estudantes']));
     }
 
     /**
@@ -31,6 +41,13 @@ class EstudanteController extends Controller
         $cursos = Curso::all();
         return view('Auth.registration',compact(['faculdades','cursos']));
     }
+    public function add()
+    {
+        //
+        $faculdades = Departamento::all();
+        $cursos = Curso::all();
+        return view('Admin.Estudantes.add',compact(['faculdades','cursos']));
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -39,38 +56,56 @@ class EstudanteController extends Controller
     {
         //
 
-         $dadosValidados = $request->validate([
-                    'nome' => 'required|string|min:3|max:255',
-                    'apelido' => 'nullable|string|max:255',
-                    'matricula' => [
-                        'required',
-                        'string',
-                        'regex:/^\d{2}\.\d{4}\.\d{4}$/',
-                        'unique:estudantes,matricula'
-                    ],
-                    'email' => 'required|string|email|min:6|max:255|unique:users,email',
-                    'password' => 'required|string|min:8|confirmed',
-                    'curso_id' => 'required|exists:cursos,id',
-                ], [
-                    'nome.required' => 'O campo nome é obrigatório.',
-                    'nome.min' => 'O nome deve ter pelo menos 3 caracteres.',
-                    'nome.max' => 'O nome não pode exceder 255 caracteres.',
-                    'apelido.max' => 'O apelido não pode exceder 255 caracteres.',
-                    'matricula.required' => 'O campo código é obrigatório.',
-                    'matricula.unique' => 'O código já existe no nosso banco de dados.',
-                    'matricula.regex' => 'A código deve estar no formato 00.0000.0000.',
-                    'email.required' => 'Informe o email principal.',
-                    'email.email' => 'Informe um email válido.',
-                    'email.min' => 'O email deve ter pelo menos 6 caracteres.',
-                    'email.max' => 'O email não pode exceder 255 caracteres.',
-                    'email.unique' => 'Este email já está em uso.',
-                    'password.required' => 'A senha é obrigatória.',
-                    'password.min' => 'A senha deve ter no mínimo 8 caracteres.',
-                    'password.confirmed' => 'A confirmação da senha não corresponde.',
-                    'curso_id.required' => 'Selecione um curso.',
-                    'curso_id.exists' => 'O curso selecionado é inválido.',
+         $dadosValidados = $request->validate(
+            [
+        'curso_id' => 'required|exists:cursos,id',
+        'departamento_id' => 'required|exists:departamentos,id',
+        'matricula' => 'required|string|max:20|unique:estudantes,matricula',
+        'nome' => 'required|string|max:60',
+        'apelido' => 'required|string|max:60',
+        'genero' => 'required|in:M,F',
+        'data_nascimento' => 'required|date|before:today',
+        'nivel' => 'required|integer|min:1|max:5',
+        'email' => 'required|string|email|max:255|unique:users,email',
+        'password' => 'required|string|min:8|confirmed',
+    ], [
+        'curso_id.required' => 'O curso é obrigatório.',
+        'curso_id.exists' => 'O curso selecionado não existe.',
 
-                ]);
+        'departamento_id.required' => 'O departamento é obrigatório.',
+        'departamento_id.exists' => 'O departamento selecionado não existe.',
+
+        'matricula.required' => 'A matrícula é obrigatória.',
+        'matricula.unique' => 'Esta matrícula já foi cadastrada.',
+        'matricula.max' => 'A matrícula não pode ter mais de 20 caracteres.',
+
+        'nome.required' => 'O nome é obrigatório.',
+        'nome.max' => 'O nome não pode ter mais de 60 caracteres.',
+
+        'apelido.required' => 'O apelido é obrigatório.',
+        'apelido.max' => 'O apelido não pode ter mais de 60 caracteres.',
+
+        'genero.required' => 'O gênero é obrigatório.',
+        'genero.in' => 'O gênero deve ser M ou F.',
+
+        'data_nascimento.required' => 'A data de nascimento é obrigatória.',
+        'data_nascimento.date' => 'A data de nascimento deve ser uma data válida.',
+        'data_nascimento.before' => 'A data de nascimento deve ser anterior a hoje.',
+
+        'nivel.required' => 'O nível é obrigatório.',
+        'nivel.integer' => 'O nível deve ser um número inteiro.',
+        'nivel.min' => 'O nível mínimo é 1.',
+        'nivel.max' => 'O nível máximo é 5.',
+
+         'email.required' => 'O email é obrigatório.',
+        'email.email' => 'O email deve ser um endereço válido.',
+        'email.max' => 'O email não pode ter mais de 255 caracteres.',
+        'email.unique' => 'Este email já está cadastrado.',
+
+        'password.required' => 'A senha é obrigatória.',
+        'password.min' => 'A senha deve ter no mínimo 8 caracteres.',
+        'password.confirmed' => 'A confirmação da senha não coincide.',
+    ]);
 
 
             DB::beginTransaction();
@@ -80,12 +115,19 @@ class EstudanteController extends Controller
             $user = (new UserController())->store($dadosValidados);
             // dd($user);
             $dadosValidados['id']=$user->id;
+            $dadosValidados['user_id']=$user->id;
             $dado = Estudante::create($dadosValidados);
+
              DB::commit();
-             return redirect()->route('user.dashboard');
+             if(Auth::user()){
+                return redirect()->route('estudantes.index')->with(['success'=>'Estudante cadastrado com sucesso!','search'=>$dado->nome]);
+
+             }
+            //  dd('Ola');
+              return redirect()->route('reenviar-email',$user->id);
         } catch (\Throwable $th) {
             //throw $th;
-            return error($th->getMessage());
+            return back()->withErrors(['error'=>$th->getMessage()]);
         }
     }
 

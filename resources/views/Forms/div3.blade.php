@@ -1,5 +1,5 @@
 <div class="flex items-center flex-wrap justify-between gap20 mb-27" id="div-3" style="display: none">
-    <h3> Autenticacao</h3>
+    <h3> Autenticação</h3>
     <fieldset class="name">
         <div class="body-title">email <span class="tf-color-1">*</span></div>
         <input class="flex-grow" type="email" placeholder="example@email.com" name="email" tabindex="0" value=""

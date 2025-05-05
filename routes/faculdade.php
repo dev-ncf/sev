@@ -4,7 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FaculdadeController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('faculdades')->group(function () {
+Route::prefix('dashboard/faculdades')->group(function () {
     Route::get('/', [FaculdadeController::class, 'index'])->name('faculdades');
     Route::get('/add', [FaculdadeController::class, 'create'])->name('faculdade.add');
     Route::get('/edit/{faculdade}', [FaculdadeController::class, 'edit'])->name('faculdade.edit');
