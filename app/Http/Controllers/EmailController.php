@@ -35,7 +35,7 @@ class EmailController extends Controller
                 );
                 // dd($newCode);
                 // Enviar e-mail com o código
-                Mail::to($user->email)->send(new EnviarEmail($code));
+                Mail::to($user->email)->send(new EnviarEmail($code,''));
                  return redirect()->route('email-verify',$user->id)->with(['success'=>"Foi reenviado um email de verificação para o endereço fornecido durante o cadastro!"]);
     }
     public function verifyEmail(User $user,Request $request)

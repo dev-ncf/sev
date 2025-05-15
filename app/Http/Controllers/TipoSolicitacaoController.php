@@ -43,7 +43,8 @@ class TipoSolicitacaoController extends Controller
         //
          $dadosValidados = $request->validate([
             'nome' => 'required|string', // Exemplo de prioridade válida
-            'descricao' => 'nullable|string|max:1000', // Texto opcional com limite de caracteres
+            'descricao' => 'nullable|string|max:1000',
+            'file' => 'nullable|mimes:jpeg,png,pdf|max:2048', // Texto opcional com limite de caracteres
         ]);
 
 
@@ -53,6 +54,12 @@ class TipoSolicitacaoController extends Controller
         try {
             //code...
 
+            if ($request->hasFile('file')) {
+                $arquivo = $request->File('file');
+                $nomeArquivo = $arquivo->getClientOriginalName(); // pega o nome original
+                $caminho = $arquivo->storeAs('documentos', $nomeArquivo);
+                $dadosValidados['arquivo']=$caminho;
+            }
 
             $dado = TipoSolicitacao::create($dadosValidados);
             DB::commit();

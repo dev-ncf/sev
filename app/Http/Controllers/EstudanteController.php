@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Curso;
 use App\Models\Departamento;
 use App\Models\Estudante;
+use App\Models\IdentificacaoEstudante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,17 +37,18 @@ class EstudanteController extends Controller
      */
     public function create()
     {
-        //
+        $estudante  = null;
         $faculdades = Departamento::all();
         $cursos = Curso::all();
-        return view('Auth.registration',compact(['faculdades','cursos']));
+        return view('Auth.registration',compact(['faculdades','cursos','estudante']));
     }
     public function add()
     {
         //
         $faculdades = Departamento::all();
         $cursos = Curso::all();
-        return view('Admin.Estudantes.add',compact(['faculdades','cursos']));
+        $estudante=null;
+        return view('Admin.Estudantes.add',compact(['faculdades','cursos','estudante']));
     }
 
     /**
@@ -68,6 +70,9 @@ class EstudanteController extends Controller
         'nivel' => 'required|integer|min:1|max:5',
         'email' => 'required|string|email|max:255|unique:users,email',
         'password' => 'required|string|min:8|confirmed',
+        'tipo_documento' => 'required|string|min:2|max:20',
+        'numero_documento' => 'required|string|min:9|max:30|unique:identificacao_estudantes,numero_documento',
+        'documento' => 'required|file|mimes:pdf,png,jpg|max:2048',
     ], [
         'curso_id.required' => 'O curso é obrigatório.',
         'curso_id.exists' => 'O curso selecionado não existe.',
@@ -113,10 +118,25 @@ class EstudanteController extends Controller
             //code...
             $dadosValidados['tipo']='estudante';
             $user = (new UserController())->store($dadosValidados);
-            // dd($user);
             $dadosValidados['id']=$user->id;
             $dadosValidados['user_id']=$user->id;
             $dado = Estudante::create($dadosValidados);
+            // DB::commit();
+            if($dadosValidados['documento']){
+                $file = $dadosValidados['documento'];
+                $filename = $file->getClientOriginalName();
+                $caminho = $dadosValidados['documento']->storeAs('documentos', $filename);
+                $dadosValidados['documento']=$caminho;
+                $dadosValidados['estudante_id']=$user->id;
+
+                // dd($user->id);
+                IdentificacaoEstudante::create([
+                    'tipo_documento'=>$dadosValidados['tipo_documento'],
+                    'numero_documento'=>$dadosValidados['numero_documento'],
+                    'documento'=>$dadosValidados['documento'],
+                    'estudante_id'=>$dadosValidados['estudante_id'],
+                ]);
+            }
 
              DB::commit();
              if(Auth::user()){
@@ -146,6 +166,9 @@ class EstudanteController extends Controller
     public function edit(Estudante $estudante)
     {
         //
+        $faculdades = Departamento::all();
+        $cursos = Curso::all();
+        return view('Admin.Estudantes.edit',compact(['estudante','faculdades','cursos']));
     }
 
     /**
@@ -162,8 +185,8 @@ class EstudanteController extends Controller
                         'string',
                         'regex:/^\d{2}\.\d{4}\.\d{4}$/'
                     ],
-                    'email' => 'required|string|email|min:6|max:255|unique:users,email',
-                    'password' => 'required|string|min:8|confirmed',
+                    'email' => 'required|string|email|min:6|max:255|unique:users,email,'.$estudante->user_id,
+                    'password' => 'nullable|string|min:8|confirmed',
                     'curso_id' => 'required|exists:cursos,id',
                 ], [
                     'nome.required' => 'O campo nome é obrigatório.',
@@ -177,7 +200,6 @@ class EstudanteController extends Controller
                     'email.min' => 'O email deve ter pelo menos 6 caracteres.',
                     'email.max' => 'O email não pode exceder 255 caracteres.',
                     'email.unique' => 'Este email já está em uso.',
-                    'password.required' => 'A senha é obrigatória.',
                     'password.min' => 'A senha deve ter no mínimo 8 caracteres.',
                     'password.confirmed' => 'A confirmação da senha não corresponde.',
                     'curso_id.required' => 'Selecione um curso.',
@@ -188,12 +210,13 @@ class EstudanteController extends Controller
         try {
             //code...
 
-            $dado = $estudante->update($dadosValidados);
+            $estudante->update($dadosValidados);
+
              DB::commit();
-             return $dado;
+             return back()->with(['success'=>'Actualizacao feita com sucesso!']);
         } catch (\Throwable $th) {
             //throw $th;
-            return error($th->getMessage());
+            return back()->withErrors(['error'=>$th->getMessage()]);
         }
 
     }

@@ -116,10 +116,10 @@ class AnexoController extends Controller
             Storage::delete($anexo->arquivo);
             $anexo = $anexo->delete();
              DB::commit();
-             return $anexo;
+             return back()->with(['success'=>'Documento excluido com sucesso']);
         } catch (\Throwable $th) {
             //throw $th;
-            return error($th->getMessage());
+            return back()->withErrors(['error'=>$th->getMessage()]);
         }
     }
 }

@@ -18,13 +18,32 @@
             </ul>
         </div>
 
-        <form class="tf-section-2 form-add-product" method="POST" enctype="multipart/form-data"
+        <form class="tf-section- form-add-product" method="POST" enctype="multipart/form-data"
             action="{{ route('solicitacao.store') }}">
             @csrf
             <div class="wg-box">
+                @if ($tipos->count() > 0)
+                    @foreach ($tipos as $tipo)
+                        @if ($tipo->arquivo)
+                            <h6 style="color: red">Selecione o tipo de solicitação, baixe o documento a caso seja fornecido
+                                abaixo, preenche
+                                devidamente e submeta como anexo da
+                                solicitação!</h6>
+                            <fieldset class="description file-field" data-tipo-id="{{ $tipo->id }}"
+                                style="display: none;">
+                                <div class="body-title mb-10" style="display: flex;align-items: center; gap: 2rem">
+                                    <span style="width: 200px; overflow: hidden;">{{ basename($tipo->arquivo) }}</span>
+                                    <a href="{{ asset('storage/' . $tipo->arquivo) }}" class="tf-button"
+                                        target="_blank">Baixar
+                                        o documento</a>
+                                </div>
+                            </fieldset>
+                        @endif
+                    @endforeach
+                @endif
                 <fieldset class="name">
                     <div class="body-title mb-10">Tipo de Solicitação <span class="tf-color-1">*</span></div>
-                    <select name="tipo_id" required class="mb-10">
+                    <select name="tipo_id" id="tipoSelect" required class="mb-10">
                         <option value="" selected disabled>Selecione uma opção</option>
                         @foreach ($tipos as $tipo)
                             <option value="{{ $tipo->id }}">{{ $tipo->nome }}</option>
@@ -37,214 +56,73 @@
                     <div class="body-title mb-10">Descrição</div>
                     <textarea name="descricao" placeholder="Description" class="mb-10"></textarea>
                 </fieldset>
-            </div>
 
-            <div class="wg-box">
-                <fieldset>
-                    <div class="body-title">Anexar documentos <span class="tf-color-1">*</span>
+
+
+                <div class="wg-box">
+                    <fieldset>
+                        <div class="body-title">Anexar documentos <span class="tf-color-1">*</span>
+                        </div>
+
+                        <div class="upload-image flex-grow">
+                            <div class="item" id="imgpreview" style="display:none">
+                                <img src="upload-1.html" class="effect8" alt="">
+                            </div>
+                            <div id="upload-area" class="item up-load">
+                                <label class="uploadfile" for="myFile" id="upload-label">
+                                    <div class="upload-container">
+                                        <span class="icon">
+                                            <i class="icon-upload-cloud"></i>
+                                        </span>
+                                        <p class="upload-text">Selecione todo documentos necessários para
+                                            candidatura<strong class="tf-color">clique
+                                                para
+                                                navegar</strong></p>
+                                    </div>
+                                    <input type="file" id="myFile" name="files[]" multiple required>
+                                    <span class="error"></span>
+                                </label>
+
+                            </div>
+
+                            <!-- Área para exibir as imagens carregadas -->
+                            <div id="preview" class="preview-container" style="display: none;"></div>
+
+                            <!-- Botão para adicionar mais imagens -->
+                            <button id="add-more-btn" type="button" style="display: none;">+</button>
+
+                            <!-- Modal para visualizar imagem em tamanho maior -->
+                            <div id="image-modal" class="modal" style="display: none;">
+                                <span class="close">&times;</span>
+                                <img class="modal-content" id="modal-img">
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                    <div class="cols gap10">
+                        <button class="tf-button w-full" type="submit">Solicitar</button>
                     </div>
-
-                    <div class="upload-image flex-grow">
-                        <div class="item" id="imgpreview" style="display:none">
-                            <img src="upload-1.html" class="effect8" alt="">
-                        </div>
-                        <div id="upload-area" class="item up-load">
-                            <label class="uploadfile" for="myFile" id="upload-label">
-                                <div class="upload-container">
-                                    <span class="icon">
-                                        <i class="icon-upload-cloud"></i>
-                                    </span>
-                                    <p class="upload-text">Selecione todo documentos necessários para
-                                        candidatura<strong class="tf-color">clique
-                                            para
-                                            navegar</strong></p>
-                                </div>
-                                <input type="file" id="myFile" name="files[]" multiple required>
-                                <span class="error"></span>
-                            </label>
-
-                        </div>
-
-                        <!-- Área para exibir as imagens carregadas -->
-                        <div id="preview" class="preview-container" style="display: none;"></div>
-
-                        <!-- Botão para adicionar mais imagens -->
-                        <button id="add-more-btn" type="button" style="display: none;">+</button>
-
-                        <!-- Modal para visualizar imagem em tamanho maior -->
-                        <div id="image-modal" class="modal" style="display: none;">
-                            <span class="close">&times;</span>
-                            <img class="modal-content" id="modal-img">
-                        </div>
-                    </div>
-
-                </fieldset>
-
-                <div class="cols gap10">
-                    <button class="tf-button w-full" type="submit">Solicitar</button>
                 </div>
-            </div>
         </form>
     </div>
 
 
-
     <script>
-        // Criamos um objeto DataTransfer para armazenar os arquivos selecionados
-        let transferDatas = new DataTransfer();
+        document.getElementById('tipoSelect').addEventListener('change', function() {
+            const selectedId = this.value;
+            const fileFields = document.querySelectorAll('.file-field');
 
+            // Oculta todos os fieldsets
+            fileFields.forEach(field => field.style.display = 'none');
 
-
-        document.getElementById('myFile').addEventListener('change', function(event) {
-            const uploadArea = document.getElementById('upload-area');
-            const preview = document.getElementById('preview');
-            const addMoreBtn = document.getElementById('add-more-btn');
-            const files = event.target.files;
-            const inputFile = event.target;
-
-            if (files.length > 0) {
-                uploadArea.style.display = 'none';
-                preview.style.display = 'flex';
-                addMoreBtn.style.display = 'flex';
-
-                // Adiciona os arquivos ao DataTransfer
-                Array.from(files).forEach(file => {
-                    transferDatas.items.add(file);
-                });
-
-                // Atualiza o campo input com os arquivos acumulados
-                inputFile.files = transferDatas.files;
-
-                // Exibe os arquivos no preview
-                Array.from(files).forEach(file => {
-                    const fileItem = document.createElement('div');
-                    fileItem.classList.add('file-preview-item');
-
-                    // Verifica se é uma imagem para exibir preview
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.classList.add('preview-img');
-                            img.onclick = function() {
-                                openModal(e.target.result);
-                            };
-                            fileItem.appendChild(img);
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        // Se não for imagem, apenas exibe o nome do arquivo
-                        fileItem.textContent = file.name + ";";
-                    }
-
-                    preview.appendChild(fileItem);
-                });
-
-
-            }
-
-            console.log(transferDatas.files);
-        });;
-
-        // Função para abrir o modal com a imagem em tamanho maior
-        function openModal(src) {
-            const modal = document.getElementById('image-modal');
-            const modalImg = document.getElementById('modal-img');
-            modal.style.display = 'block';
-            modalImg.src = src;
-        }
-
-        // Fechar modal ao clicar no "X"
-        document.querySelector('.close').addEventListener('click', function() {
-            document.getElementById('image-modal').style.display = 'none';
-        });
-
-        // Fechar modal ao clicar fora da imagem
-        document.getElementById('image-modal').addEventListener('click', function(event) {
-            if (event.target === this) {
-                this.style.display = 'none';
+            // Mostra apenas o fieldset do tipo selecionado
+            const selectedField = document.querySelector(`.file-field[data-tipo-id="${selectedId}"]`);
+            if (selectedField) {
+                selectedField.style.display = 'flex';
             }
         });
-
-        // Clique no botão "Adicionar Mais"
-        document.getElementById('add-more-btn').addEventListener('click', function() {
-            document.getElementById('myFile').click();
-        });
-
-        function aoClicar(btn, hide, show, form) {
-            var toHide = document.getElementById(hide)
-            var toShow = document.getElementById(show)
-            var button = document.getElementById(btn)
-            var form = document.getElementById(form)
-
-
-
-            var campos = toHide.querySelectorAll('[required]');
-            var todosPreenchidos = true;
-            campos.forEach(function(campo) {
-                console.log(campo.name);
-
-                var erroSpan = campo.parentElement.querySelector('.error');
-                erroSpan.style.color = 'red';
-                erroSpan.style.fontSize = '12px';
-                erroSpan.style.padding = '8px 0';
-                campo.addEventListener('input', () => {
-                    if (campo.value.trim()) {
-
-                        campo.style.setProperty('border', '1px solid #008800', 'important');
-                        erroSpan.textContent = '';
-
-                    } else {
-                        campo.style.setProperty('border', '1px solid red', 'important');
-                        erroSpan.textContent = 'Campo obrigatório';
-
-                    }
-                })
-                if (!campo.value.trim()) {
-                    todosPreenchidos = false;
-                    // console.log(campo.name);
-
-                    campo.style.setProperty('border', '1px solid red', 'important');
-                    erroSpan.textContent = 'Campo obrigatório';
-                } else {
-                    campo.style.setProperty('border', '1px solid #008800', 'important');
-                    erroSpan.textContent = '';
-                }
-            });
-
-            if (!todosPreenchidos) {
-                event.preventDefault(); // impede envio do formulário
-            } else {
-                toHide.style.display = 'none'
-                toShow.style.display = 'flex'
-
-
-            }
-            button.addEventListener('click', (event) => {
-                event.preventDefault()
-            })
-
-
-
-        }
-
-        function voltar(hide, show) {
-            var toHide = document.getElementById(hide)
-            var toShow = document.getElementById(show)
-
-
-
-            toHide.style.display = 'none'
-            toShow.style.display = 'flex'
-
-
-        }
-
-        function submeter(form) {
-            var fm = document.getElementById(form)
-            fm.submit()
-
-        }
     </script>
+
+
 @endsection

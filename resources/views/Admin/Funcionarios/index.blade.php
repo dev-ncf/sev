@@ -21,7 +21,7 @@
         <div class="wg-box">
             <div class="flex items-center justify-between gap10 flex-wrap">
                 <div class="wg-filter flex-grow">
-                    <form class="form-search" action="{{ route('funcionarios.index') }}" method="GET">
+                    <form class="form-search" action="{{ route('admin.funcionarios.index') }}" method="GET">
                         <fieldset class="name">
                             <input type="text" placeholder="Search here..." class="" name="search" tabindex="2"
                                 value="{{ $search }}" aria-required="true">
@@ -31,15 +31,15 @@
                         </div>
                     </form>
                 </div>
-                <a class="tf-button style-1 w208" href="{{ route('funcionario.add') }}"><i class="icon-plus"></i>Add
+                <a class="tf-button style-1 w208" href="{{ route('admin.funcionario.add') }}"><i class="icon-plus"></i>Add
                     Novo</a>
             </div>
             <div class="wg-table table-all-user">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-transaction table-bordered">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th class="id">Ordem</th>
                                 <th>Nome</th>
                                 <th>Cargo</th>
                                 <th>Action</th>
@@ -57,18 +57,18 @@
                                     </td>
                                     <td>{{ $funcionario->cargo }}</td>
                                     <td>
-                                        <div class="list-icon-function">
-                                            <a href="{{ route('funcionarios.edit', $funcionario->id) }}">
+                                        <div class="list-icon-function action">
+                                            <a href="{{ route('admin.funcionarios.edit', $funcionario->id) }}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>
                                                 </div>
                                             </a>
-                                            <form action="{{ route('funcionarios.destroy', $funcionario->id) }}"
+                                            <form action="{{ route('admin.funcionarios.destroy', $funcionario->id) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('TELETE')
                                                 <div class="item text-danger delete" id="delete-{{ $funcionario->id }}"
-                                                    rota="funcionarios" onclick="return confirmDeletion(event)"
+                                                    rota="dashboard/funcionarios" onclick="return confirmDeletion(event)"
                                                     dado='{{ $funcionario->id }}'>
                                                     <i class="icon-trash-2"></i>
                                                 </div>

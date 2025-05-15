@@ -22,7 +22,22 @@ class LoginController extends Controller
 
             }
             // dd("OLA");
-            return redirect()->route('user.dashboard');
+            if(Auth::user()->tipo=='estudante'){
+
+                return redirect()->route('estudante.dashboard');
+            }
+
+            if(Auth::user()->tipo=='funcionario'){
+
+                return redirect()->route('funcionario.dashboard');
+            }
+
+            if(Auth::user()->tipo=='admin'){
+
+                return redirect()->route('user.dashboard');
+            }
+
+
         } else {
             // Falha na autenticação
             return back()->withErrors(['error'=>'Credencias invalidas!']);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Departamento;
+use App\Models\Faculdade;
 use App\Models\Funcionario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +53,8 @@ class FuncionarioController extends Controller
                 'email' => 'required|string|email|min:6|max:255|unique:users,email',
                 'password' => 'required|string|min:8|confirmed',
                 'departamento_id' => 'required|exists:departamentos,id',
-                'cargo' => 'required|string'
+                'cargo' => 'required|string',
+                'acesso' => 'required|in:A,B',
             ]);
 
 
@@ -92,6 +94,9 @@ class FuncionarioController extends Controller
     public function edit(Funcionario $funcionario)
     {
         //
+
+        $faculdades = Departamento::all();
+        return view('Admin.Funcionarios.edit',compact(['faculdades','funcionario']));
     }
 
     /**
@@ -103,8 +108,11 @@ class FuncionarioController extends Controller
 
          $dadosValidados = $request->validate([
                 'nome' => 'required|string|min:3|max:255',
+                'email' => 'required|string|email|min:6|max:255|unique:users,email,'.$funcionario->user_id.',id',
+                'password' => 'nullable|string|min:8|confirmed',
                 'departamento_id' => 'required|exists:departamentos,id',
-                'cargo' => 'required|string'
+                'cargo' => 'required|string',
+                'acesso' => 'required|in:A,B',
             ]);
 
 
@@ -114,11 +122,17 @@ class FuncionarioController extends Controller
 
 
             $func = $funcionario->update($dadosValidados);
+            $funcionario->user->update(['email'=>$dadosValidados['email']]);
+            if($dadosValidados['password']){
+
+                $funcionario->user->update(['password'=>bcrypt($dadosValidados['password'])])   ;
+            }
+
              DB::commit();
-             return $func;
+             return back()->with(['success'=>'Actualização feita com sucesso.']);
         } catch (\Throwable $th) {
             //throw $th;
-            return error($th->getMessage());
+            return back()->withErrors(['error'=>$th->getMessage()]);
         }
     }
 
@@ -132,9 +146,9 @@ class FuncionarioController extends Controller
         try{
             $funcionario->delete();
             DB::commit();
-            return true;
+            return back()->with(['success'=>'Exlcusao feita  com sucesso!']);
         }catch(Throwable $th){
-            return false;
+            return back()->withErrors(['error'=>$th->getMessage()]);
         }
     }
 }

@@ -9,7 +9,7 @@
         <div class="shadow scale"></div>
         <div class="message">
             <h1 class="alert">Success!</h1>
-            <p>{{ session('success') }}</p>
+            <p style="font-size: 14pt">{{ session('success') }}</p>
         </div>
 
     </div>

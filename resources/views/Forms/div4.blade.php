@@ -1,10 +1,26 @@
 <div class="flex items-center flex-wrap justify-between gap20 mb-27" id="div-4" style="display: none">
-    <h3> Anexos</h3>
+    <h3> Idendificação</h3>
 
-    <h4 style="color:#ff0000">Os documentos devem ter o nome correspondente. Ex: BI alberto.pdf,
+    <h4 style="color:#ff0000">Os documentos devem ter o nome correspondente. Ex: BI_alberto.pdf,
         NUIT_alberto.pdf</h4>
+    <fieldset class="name">
+        <div class="body-title">Tipo do Documento <span class="tf-color-1">*</span></div>
+        <select class="flex-grow" type="text" placeholder="Numero " name="tipo_documento" tabindex="0" value=""
+            aria-required="true">
+            <option value="" selected disabled>Selecione uma opcao</option>
+            <option value="BI">BI</option>
+            <option value="PASSARORT">PASSAPORT</option>
+        </select>
+        <span class="error"></span>
+    </fieldset>
+    <fieldset class="name">
+        <div class="body-title">Numero do Documento <span class="tf-color-1">*</span></div>
+        <input class="flex-grow" type="text" placeholder="Numero de documento" name="numero_documento" tabindex="0"
+            value="" aria-required="true">
+        <span class="error"></span>
+    </fieldset>
     <fieldset>
-        <div class="body-title">Documentos <span class="tf-color-1"></span>
+        <div class="body-title">Documento <span class="tf-color-1"></span>
         </div>
 
         <div class="upload-image flex-grow">
@@ -22,7 +38,7 @@
                                 para
                                 navegar</strong></p>
                     </div>
-                    <input type="file" id="myFile" name="files[]" multiple required>
+                    <input type="file" id="myFile" name="documento" required>
                     <span class="error"></span>
                 </label>
 
@@ -42,15 +58,11 @@
         </div>
 
     </fieldset>
-    <fieldset class="name">
-        <div class="body-title">Observações<span class="tf-color-1"></span></div>
-        <textarea class="flex-grow" type="text" placeholder="Observações..." name="Observacoes" tabindex="0" value=""
-            aria-required="true"></textarea>
-    </fieldset>
+
     <div class="bot">
         <div></div>
         <button class="tf-button-back w208" type="button" id="btn-v-1"
-            onclick="voltar('div-7','div-6')">Voltar</button>
+            onclick="voltar('div-4','div-3')">Voltar</button>
     </div>
 
     <div class="bot">

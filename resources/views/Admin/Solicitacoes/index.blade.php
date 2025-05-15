@@ -40,7 +40,7 @@
                 <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th class="id">Ordem</th>
                             <th>Nome</th>
                             <th>Solicitação</th>
                             <th>Inicio</th>
@@ -53,7 +53,7 @@
                         @if ($solicitacoes->count() > 0)
                             @foreach ($solicitacoes as $solicitacao)
                                 <tr>
-                                    <td>{{ $solicitacao->id }}</td>
+                                    <td class="id">{{ $solicitacao->id }}</td>
                                     <td class="pname">
 
                                         <div class="name">
@@ -75,7 +75,7 @@
                                                     <i class="icon-eye" style="color: #0000ff87"></i>
                                                 </div>
                                             </a>
-                                            <a href="#">
+                                            <a href="{{ route('solicitacao.edit', $solicitacao->id) }}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>
                                                 </div>
@@ -130,7 +130,7 @@
                                                     <i class="icon-eye" style="color: #0000ff87"></i>
                                                 </div>
                                             </a>
-                                            <a href="#">
+                                            <a href="{{ route('solicitacao.edit', $encaminhamento->solicitacao_id) }}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>
                                                 </div>

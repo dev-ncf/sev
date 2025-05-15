@@ -1,11 +1,7 @@
 @extends('Layouts.admin')
 
 @section('admin-content')
-    <style>
-        .table-transaction>tbody>tr:nth-of-type(odd) {
-            --bs-table-accent-bg: #fff !important;
-        }
-    </style>
+
     <div class="main-content-inner">
         <div class="main-content-wrap">
             <div class="flex items-center flex-wrap justify-between gap20 mb-27">
@@ -30,7 +26,7 @@
                     <div class="wg-filter flex-grow">
                         <h5>Dados da estudante</h5>
                     </div>
-                    <a class="tf-button style-1 w208" href="{{ route('solicitacoes') }}">Back</a>
+                    <a class="tf-button style-1 w208" href="{{ route('solicitacoes') }}">Voltar</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered">
@@ -148,55 +144,56 @@
                         </fieldset>
                     @endforeach
                 @endif
+                @if (Auth::user()->tipo == 'estudante')
+                    <form action="{{ route('solicitacao.add.documento') }}" class="wg-box" enctype="multipart/form-data"
+                        method="POST">
+                        @csrf
+                        <fieldset>
+                            <div class="body-title">Anexar documentos <span class="tf-color-1"></span>
+                            </div>
+                            <input type="hidden" value="{{ $solicitacao->id }}" name="solicitacao_id">
+                            <div class="upload-image flex-grow">
+                                <div class="item" id="imgpreview" style="display:none">
+                                    <img src="upload-1.html" class="effect8" alt="">
+                                </div>
+                                <div id="upload-area" class="item up-load">
+                                    <label class="uploadfile" for="myFile" id="upload-label">
+                                        <div class="upload-container">
+                                            <span class="icon">
+                                                <i class="icon-upload-cloud"></i>
+                                            </span>
+                                            <p class="upload-text">Selecione todo documentos necessários para
+                                                candidatura<strong class="tf-color">clique
+                                                    para
+                                                    navegar</strong></p>
+                                        </div>
+                                        <input type="file" id="myFile" name="files[]" multiple>
+                                        <span class="error"></span>
+                                    </label>
 
-                <form action="{{ route('solicitacao.add.documento') }}" class="wg-box" enctype="multipart/form-data"
-                    method="POST">
-                    @csrf
-                    <fieldset>
-                        <div class="body-title">Anexar documentos <span class="tf-color-1"></span>
+                                </div>
+
+                                <!-- Área para exibir as imagens carregadas -->
+                                <div id="preview" class="preview-container" style="display: none;"></div>
+
+                                <!-- Botão para adicionar mais imagens -->
+                                <button id="add-more-btn" type="button" class="btn btn-primary"
+                                    style="display: none;">+</button>
+
+                                <!-- Modal para visualizar imagem em tamanho maior -->
+                                <div id="image-modal" class="modal" style="display: none;">
+                                    <span class="close">&times;</span>
+                                    <img class="modal-content" id="modal-img">
+                                </div>
+                            </div>
+
+                        </fieldset>
+
+                        <div class="cols gap10">
+                            <button class="tf-button w-full" type="submit">Submeter</button>
                         </div>
-                        <input type="hidden" value="{{ $solicitacao->id }}" name="solicitacao_id">
-                        <div class="upload-image flex-grow">
-                            <div class="item" id="imgpreview" style="display:none">
-                                <img src="upload-1.html" class="effect8" alt="">
-                            </div>
-                            <div id="upload-area" class="item up-load">
-                                <label class="uploadfile" for="myFile" id="upload-label">
-                                    <div class="upload-container">
-                                        <span class="icon">
-                                            <i class="icon-upload-cloud"></i>
-                                        </span>
-                                        <p class="upload-text">Selecione todo documentos necessários para
-                                            candidatura<strong class="tf-color">clique
-                                                para
-                                                navegar</strong></p>
-                                    </div>
-                                    <input type="file" id="myFile" name="files[]" multiple>
-                                    <span class="error"></span>
-                                </label>
-
-                            </div>
-
-                            <!-- Área para exibir as imagens carregadas -->
-                            <div id="preview" class="preview-container" style="display: none;"></div>
-
-                            <!-- Botão para adicionar mais imagens -->
-                            <button id="add-more-btn" type="button" class="btn btn-primary"
-                                style="display: none;">+</button>
-
-                            <!-- Modal para visualizar imagem em tamanho maior -->
-                            <div id="image-modal" class="modal" style="display: none;">
-                                <span class="close">&times;</span>
-                                <img class="modal-content" id="modal-img">
-                            </div>
-                        </div>
-
-                    </fieldset>
-
-                    <div class="cols gap10">
-                        <button class="tf-button w-full" type="submit">Submeter</button>
-                    </div>
-                </form>
+                    </form>
+                @endif
             </div>
 
             <div class="wg-box mt-5">
@@ -271,6 +268,17 @@
                 <div class="body-title mb-10"> Solicitação <span class="tf-color-1"></span></div>
                 <select name="solicitacao_id" required class="mb-10">
                     <option value="{{ $solicitacao->id }}" selected>{{ $solicitacao->tipo->nome }}</option>
+                </select>
+            </fieldset>
+
+            <fieldset class="name">
+                <div class="body-title mb-10"> Nível <span class="tf-color-1">*</span></div>
+                <select name="departamento_id" required class="mb-10">
+                    <option value="" selected disabled>Selecione uma opção</option>
+
+                    <option value="oganica">Orgânica</option>
+                    <option value="institucional">Institucional</option>
+
                 </select>
             </fieldset>
             <fieldset class="name">

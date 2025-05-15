@@ -72,13 +72,13 @@
                                         <li class="sub-menu-item ">
                                             <a href="{{ route('solicitacao.add') }}"
                                                 class="{{ Route::currentRouteName() == 'solicitacao.add' ? 'active' : '' }}">
-                                                <div class="text">Add Solicitação</div>
+                                                <div class="text">Adicionar</div>
                                             </a>
                                         </li>
                                         <li class="sub-menu-item">
                                             <a href="{{ route('solicitacoes') }}"
                                                 class="{{ Route::currentRouteName() == 'solicitacoes' ? 'active' : '' }}">
-                                                <div class="text ">Solicitações</div>
+                                                <div class="text ">Lista</div>
                                             </a>
                                         </li>
                                     </ul>
@@ -96,171 +96,174 @@
                                         <li class="sub-menu-item">
                                             <a href="{{ route('despachos.index') }}"
                                                 class="{{ in_array(Route::currentRouteName(), ['despachos.index']) ? 'active' : '' }}">
-                                                <div class="text">Despachos</div>
+                                                <div class="text">Lista</div>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
 
-                                @if (Auth::user()->tipo == 'admin')
-                                    <li
-                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['departamentos', 'departamento.add', 'departamento.show', 'departamento.edit']) ? 'active' : '' }}">
-                                        <a href="javascript:void(0);" class="menu-item-button">
-                                            <div class="icon"><span class="material-symbols-outlined">
-                                                    apartment
-                                                </span></div>
-                                            <div class="text">Departamentos</div>
-                                        </a>
-                                        <ul class="sub-menu">
 
-                                            <li class="sub-menu-item">
-                                                <a href="{{ route('departamentos') }}"
-                                                    class="{{ Route::currentRouteName() == 'departamentos' ? 'active' : '' }}">
-                                                    <div class="text">Departamentos</div>
-                                                </a>
-                                            </li>
-                                            <li class="sub-menu-item">
-                                                <a href="{{ route('departamento.create') }}"
-                                                    class="{{ Route::currentRouteName() == 'departamento.create' ? 'active' : '' }}">
-                                                    <div class="text">Novo Departamento</div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li
-                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['tipoSolicitacoes.index', 'tipoSolicitacao.add', 'tipoSolicitacao.show', 'tipoSolicitacao.index.edit']) ? 'active' : '' }}">
-                                        <a href="javascript:void(0);" class="menu-item-button">
-                                            <div class="icon"><span class="material-symbols-outlined">
-                                                    apartment
-                                                </span></div>
-                                            <div class="text">Tipo de Solicitações</div>
-                                        </a>
-                                        <ul class="sub-menu">
+                                <li
+                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['departamentos', 'departamento.add', 'departamento.show', 'departamento.edit']) ? 'active' : '' }}">
+                                    <a href="javascript:void(0);" class="menu-item-button">
+                                        <div class="icon"><span class="material-symbols-outlined">
+                                                apartment
+                                            </span></div>
+                                        <div class="text">Departamentos</div>
+                                    </a>
+                                    <ul class="sub-menu">
 
-                                            <li class="sub-menu-item">
-                                                <a href="{{ route('tipoSolicitacoes.index') }}"
-                                                    class="{{ Route::currentRouteName() == 'tipoSolicitacoes.index' ? 'active' : '' }}">
-                                                    <div class="text">Lista</div>
-                                                </a>
-                                            </li>
-                                            <li class="sub-menu-item">
-                                                <a href="{{ route('tipoSolicitacao.add') }}"
-                                                    class="{{ Route::currentRouteName() == 'tipoSolicitacao.add' ? 'active' : '' }}">
-                                                    <div class="text">Novo Tipo</div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('departamentos') }}"
+                                                class="{{ Route::currentRouteName() == 'departamentos' ? 'active' : '' }}">
+                                                <div class="text">Lista</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('departamento.create') }}"
+                                                class="{{ Route::currentRouteName() == 'departamento.create' ? 'active' : '' }}">
+                                                <div class="text">Adicionar</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li
+                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['tipoSolicitacoes.index', 'tipoSolicitacao.add', 'tipoSolicitacao.show', 'tipoSolicitacao.index.edit']) ? 'active' : '' }}">
+                                    <a href="javascript:void(0);" class="menu-item-button">
+                                        <div class="icon">
+                                            <span class="material-symbols-outlined">
+                                                folded_hands
+                                            </span>
+                                        </div>
+                                        <div class="text">Tipo de Solicitações</div>
+                                    </a>
+                                    <ul class="sub-menu">
 
-                                    <li
-                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['faculdades', 'faculdade.add', 'faculdade.edit']) ? 'active' : '' }}">
-                                        <a href="javascript:void(0);" class="menu-item-button">
-                                            <div class="icon"><span class="material-symbols-outlined">
-                                                    domain
-                                                </span></div>
-                                            <div class="text">Faculdades</div>
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <li class="sub-menu-item">
-                                                <a href="{{ route('faculdades') }}"
-                                                    class="{{ Route::currentRouteName() == 'faculdades' ? 'active' : '' }}">
-                                                    <div class="text">Faculdades</div>
-                                                </a>
-                                            </li>
-                                            <li class="sub-menu-item">
-                                                <a href="{{ route('faculdade.add') }}"
-                                                    class="{{ Route::currentRouteName() == 'faculdade.add' ? 'active' : '' }}">
-                                                    <div class="text">Novo Faculdade</div>
-                                                </a>
-                                            </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('tipoSolicitacoes.index') }}"
+                                                class="{{ Route::currentRouteName() == 'tipoSolicitacoes.index' ? 'active' : '' }}">
+                                                <div class="text">Lista</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('tipoSolicitacao.add') }}"
+                                                class="{{ Route::currentRouteName() == 'tipoSolicitacao.add' ? 'active' : '' }}">
+                                                <div class="text">Adicionar</div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
 
-
-                                        </ul>
-                                    </li>
-                                    <li
-                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['cursos.index', 'curso.add', 'curso.edit']) ? 'active' : '' }}">
-                                        <a href="javascript:void(0);" class="menu-item-button">
-                                            <div class="icon"><span class="material-symbols-outlined">
-                                                    gavel
-                                                </span></div>
-                                            <div class="text">Cursos</div>
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <li class="sub-menu-item">
-                                                <a href="{{ route('curso.add') }}"
-                                                    class="{{ in_array(Route::currentRouteName(), ['curso.add']) ? 'active' : '' }}">
-                                                    <div class="text">Novo Curso</div>
-                                                </a>
-                                            </li>
-                                            <li class="sub-menu-item">
-                                                <a href="{{ route('cursos.index') }}"
-                                                    class="{{ in_array(Route::currentRouteName(), ['cursos.index']) ? 'active' : '' }}">
-                                                    <div class="text">Cursos</div>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li
-                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['funcionarios.index', 'funcionario.add', 'funcionarios.edit']) ? 'active' : '' }}">
-                                        <a href="javascript:void(0);" class="menu-item-button">
-                                            <div class="icon"><span class="material-symbols-outlined">
-                                                    badge
-                                                </span></div>
-                                            <div class="text">Funcionários</div>
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <li class="sub-menu-item">
-                                                <a href="{{ route('funcionario.add') }}"
-                                                    class="{{ in_array(Route::currentRouteName(), ['funcionario.add']) ? 'active' : '' }}">
-                                                    <div class="text">Novo Funcionário</div>
-                                                </a>
-                                            </li>
-                                            <li class="sub-menu-item">
-                                                <a href="{{ route('funcionarios.index') }}"
-                                                    class="{{ in_array(Route::currentRouteName(), ['funcionarios.index']) ? 'active' : '' }}">
-                                                    <div class="text">Funcionarios</div>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </li>
+                                <li
+                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['faculdades', 'faculdade.add', 'faculdade.edit']) ? 'active' : '' }}">
+                                    <a href="javascript:void(0);" class="menu-item-button">
+                                        <div class="icon"><span class="material-symbols-outlined">
+                                                domain
+                                            </span></div>
+                                        <div class="text">Faculdades</div>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('faculdades') }}"
+                                                class="{{ Route::currentRouteName() == 'faculdades' ? 'active' : '' }}">
+                                                <div class="text">Lista</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('faculdade.add') }}"
+                                                class="{{ Route::currentRouteName() == 'faculdade.add' ? 'active' : '' }}">
+                                                <div class="text">Adicionar</div>
+                                            </a>
+                                        </li>
 
 
-                                    <li
-                                        class="menu-item {{ in_array(Route::currentRouteName(), ['usuarios.index', 'usuario.add', 'usuario.edit', 'usuario.show']) ? 'active' : '' }}">
-                                        <a href="{{ route('usuarios.index') }}" class="">
-                                            <div class="icon"><i class="icon-users"></i></div>
-                                            <div class="text">Usuários</div>
-                                        </a>
-                                    </li>
-                                @endif
-                                @if (Auth::user()->tipo == 'admin' || Auth::user()->tipo == 'funcionario')
-                                    <li
-                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['estudantes.index', 'estudante.add', 'estudante.edit']) ? 'active' : '' }}">
-                                        <a href="javascript:void(0);" class="menu-item-button">
-                                            <div class="icon"><span class="material-symbols-outlined">
-                                                    school
-                                                </span></div>
-                                            <div class="text">Estudantes</div>
-                                        </a>
-                                        <ul class="sub-menu">
-                                            <li class="sub-menu-item">
-                                                <a href="{{ route('estudante.add') }}"
-                                                    class="{{ in_array(Route::currentRouteName(), ['estudante.add']) ? 'active' : '' }}">
-                                                    <div class="text">Novo Estudante</div>
-                                                </a>
-                                            </li>
-                                            <li class="sub-menu-item">
-                                                <a href="{{ route('estudantes.index') }}"
-                                                    class="{{ in_array(Route::currentRouteName(), ['estudante.index']) ? 'active' : '' }}">
-                                                    <div class="text">Estudantes</div>
-                                                </a>
-                                            </li>
+                                    </ul>
+                                </li>
+                                <li
+                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['cursos.index', 'curso.add', 'curso.edit']) ? 'active' : '' }}">
+                                    <a href="javascript:void(0);" class="menu-item-button">
+                                        <div class="icon"><span class="material-symbols-outlined">
+                                                gavel
+                                            </span></div>
+                                        <div class="text">Cursos</div>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('curso.add') }}"
+                                                class="{{ in_array(Route::currentRouteName(), ['curso.add']) ? 'active' : '' }}">
+                                                <div class="text">Adicionar</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('cursos.index') }}"
+                                                class="{{ in_array(Route::currentRouteName(), ['cursos.index']) ? 'active' : '' }}">
+                                                <div class="text">Lista</div>
+                                            </a>
+                                        </li>
 
-                                        </ul>
-                                    </li>
-                                @endif
+                                    </ul>
+                                </li>
+                                <li
+                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['estudantes.index', 'estudante.add', 'estudante.edit']) ? 'active' : '' }}">
+                                    <a href="javascript:void(0);" class="menu-item-button">
+                                        <div class="icon"><span class="material-symbols-outlined">
+                                                school
+                                            </span></div>
+                                        <div class="text">Estudantes</div>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('estudante.add') }}"
+                                                class="{{ in_array(Route::currentRouteName(), ['estudante.add']) ? 'active' : '' }}">
+                                                <div class="text">Adicionar</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('estudantes.index') }}"
+                                                class="{{ in_array(Route::currentRouteName(), ['estudante.index']) ? 'active' : '' }}">
+                                                <div class="text">Lista</div>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li
+                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['admin.funcionarios.index', 'admin.funcionario.add', 'admin.funcionarios.edit']) ? 'active' : '' }}">
+                                    <a href="javascript:void(0);" class="menu-item-button">
+                                        <div class="icon"><span class="material-symbols-outlined">
+                                                badge
+                                            </span></div>
+                                        <div class="text">Funcionários</div>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('admin.funcionario.add') }}"
+                                                class="{{ in_array(Route::currentRouteName(), ['admin.funcionario.add']) ? 'active' : '' }}">
+                                                <div class="text">Adicionar</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('admin.funcionarios.index') }}"
+                                                class="{{ in_array(Route::currentRouteName(), ['admin.funcionarios.index']) ? 'active' : '' }}">
+                                                <div class="text">Lista</div>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+
+                                <li
+                                    class="menu-item {{ in_array(Route::currentRouteName(), ['usuarios.index', 'usuario.add', 'usuario.edit', 'usuario.show']) ? 'active' : '' }}">
+                                    <a href="{{ route('usuarios.index') }}" class="">
+                                        <div class="icon"><i class="icon-users"></i></div>
+                                        <div class="text">Usuários</div>
+                                    </a>
+                                </li>
+
+
+
+
 
 
                                 <li class="menu-item" id="logout">
@@ -587,6 +590,29 @@
         @include('Admin.success')
     @endif
     @include('Admin.delete')
+    <style>
+        .table-transaction>tbody>tr:nth-of-type(odd) {
+            --bs-table-accent-bg: #fff !important;
+        }
+
+        .table-transaction>tbody>tr>td>.action {
+            display: flex;
+            justify-content: center;
+
+        }
+
+        .table-transaction>tbody>tr>td {
+            text-align: center !important;
+        }
+
+        .table-transaction>thead>tr>th {
+            text-align: center !important;
+        }
+
+        .table-transaction>thead>tr>.id {
+            width: 60px !important;
+        }
+    </style>
 
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
@@ -598,6 +624,165 @@
     <script>
         document.getElementById('noti-label').innerHTML = @json($noti > 0 ? $noti : '');
     </script>
+    <script>
+        // Criamos um objeto DataTransfer para armazenar os arquivos selecionados
+        let transferDatas = new DataTransfer();
+
+
+
+        document.getElementById('myFile').addEventListener('change', function(event) {
+            const uploadArea = document.getElementById('upload-area');
+            const preview = document.getElementById('preview');
+            const addMoreBtn = document.getElementById('add-more-btn');
+            const files = event.target.files;
+            const inputFile = event.target;
+
+            if (files.length > 0) {
+                uploadArea.style.display = 'none';
+                preview.style.display = 'flex';
+                addMoreBtn.style.display = 'flex';
+
+                // Adiciona os arquivos ao DataTransfer
+                Array.from(files).forEach(file => {
+                    transferDatas.items.add(file);
+                });
+
+                // Atualiza o campo input com os arquivos acumulados
+                inputFile.files = transferDatas.files;
+
+                // Exibe os arquivos no preview
+                Array.from(files).forEach(file => {
+                    const fileItem = document.createElement('div');
+                    fileItem.classList.add('file-preview-item');
+
+                    // Verifica se é uma imagem para exibir preview
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.classList.add('preview-img');
+                            img.onclick = function() {
+                                openModal(e.target.result);
+                            };
+                            fileItem.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        // Se não for imagem, apenas exibe o nome do arquivo
+                        fileItem.textContent = file.name + ";";
+                    }
+
+                    preview.appendChild(fileItem);
+                });
+
+
+            }
+
+            console.log(transferDatas.files);
+        });;
+
+        // Função para abrir o modal com a imagem em tamanho maior
+        function openModal(src) {
+            const modal = document.getElementById('image-modal');
+            const modalImg = document.getElementById('modal-img');
+            modal.style.display = 'block';
+            modalImg.src = src;
+        }
+
+        // Fechar modal ao clicar no "X"
+        document.querySelector('.close').addEventListener('click', function() {
+            document.getElementById('image-modal').style.display = 'none';
+        });
+
+        // Fechar modal ao clicar fora da imagem
+        document.getElementById('image-modal').addEventListener('click', function(event) {
+            if (event.target === this) {
+                this.style.display = 'none';
+            }
+        });
+
+        // Clique no botão "Adicionar Mais"
+        document.getElementById('add-more-btn').addEventListener('click', function() {
+            document.getElementById('myFile').click();
+        });
+
+        function aoClicar(btn, hide, show, form) {
+            var toHide = document.getElementById(hide)
+            var toShow = document.getElementById(show)
+            var button = document.getElementById(btn)
+            var form = document.getElementById(form)
+
+
+
+            var campos = toHide.querySelectorAll('[required]');
+            var todosPreenchidos = true;
+            campos.forEach(function(campo) {
+                console.log(campo.name);
+
+                var erroSpan = campo.parentElement.querySelector('.error');
+                erroSpan.style.color = 'red';
+                erroSpan.style.fontSize = '12px';
+                erroSpan.style.padding = '8px 0';
+                campo.addEventListener('input', () => {
+                    if (campo.value.trim()) {
+
+                        campo.style.setProperty('border', '1px solid #008800', 'important');
+                        erroSpan.textContent = '';
+
+                    } else {
+                        campo.style.setProperty('border', '1px solid red', 'important');
+                        erroSpan.textContent = 'Campo obrigatório';
+
+                    }
+                })
+                if (!campo.value.trim()) {
+                    todosPreenchidos = false;
+                    // console.log(campo.name);
+
+                    campo.style.setProperty('border', '1px solid red', 'important');
+                    erroSpan.textContent = 'Campo obrigatório';
+                } else {
+                    campo.style.setProperty('border', '1px solid #008800', 'important');
+                    erroSpan.textContent = '';
+                }
+            });
+
+            if (!todosPreenchidos) {
+                event.preventDefault(); // impede envio do formulário
+            } else {
+                toHide.style.display = 'none'
+                toShow.style.display = 'flex'
+
+
+            }
+            button.addEventListener('click', (event) => {
+                event.preventDefault()
+            })
+
+
+
+        }
+
+        function voltar(hide, show) {
+            var toHide = document.getElementById(hide)
+            var toShow = document.getElementById(show)
+
+
+
+            toHide.style.display = 'none'
+            toShow.style.display = 'flex'
+
+
+        }
+
+        function submeter(form) {
+            var fm = document.getElementById(form)
+            fm.submit()
+
+        }
+    </script>
+
 
 </body>
 

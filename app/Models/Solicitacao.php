@@ -19,6 +19,7 @@ class Solicitacao extends Model
         'prioridade',
         'descricao',
         'lida',
+        'acesso',
     ];
 
     public function user(){
@@ -34,7 +35,7 @@ class Solicitacao extends Model
     }
 
     public function departamento(){
-        return $this->hasOne(Departamento::class);
+        return $this->belongsTo(Departamento::class);
     }
 
     public function despachos(){

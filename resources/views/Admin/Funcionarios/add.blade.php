@@ -27,7 +27,7 @@
         </div>
         <!-- new-category -->
         <div class="wg-box">
-            <form class="form-new-product form-style-1" action="{{ route('funcionario.store') }}" method="POST"
+            <form class="form-new-product form-style-1" action="{{ route('admin.funcionario.store') }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 <fieldset class="name">
@@ -51,19 +51,27 @@
                         value="" aria-required="true" required="">
                 </fieldset>
                 <fieldset class="name">
+                    <div class="body-title">Acesso <span class="tf-color-1">*</span></div>
+                    <select class="flex-grow" type="text" placeholder="" name="acesso" tabindex="0" value=""
+                        aria-required="true" required="">
+                        <option value="" selected disabled>Selecione um opção</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                    </select>
+                </fieldset>
+                <fieldset class="name">
                     <div class="body-title">Email <span class="tf-color-1">*</span></div>
                     <input class="flex-grow" type="text" placeholder="Email do funcionario" name="email" tabindex="0"
-                        value="" aria-required="true" required="">
+                        value="" aria-required="true" required>
                 </fieldset>
                 <fieldset class="name">
-                    <div class="body-title"> Senha <span class="tf-color-1"></span></div>
-                    <input class="flex-grow" type="password" placeholder="Senha" name="password" tabindex="0"
-                        aria-required="true">
+                    <div class="body-title"> Senha <span class="tf-color-1"></span>*</div>
+                    <input class="flex-grow" type="password" placeholder="Senha" name="password" tabindex="0" required>
                 </fieldset>
                 <fieldset class="name">
-                    <div class="body-title"> Confirmar Senha <span class="tf-color-1"></span></div>
+                    <div class="body-title"> Confirmar Senha <span class="tf-color-1">*</span></div>
                     <input class="flex-grow" type="password" placeholder="Senha" name="password_confirmation" tabindex="0"
-                        aria-required="true">
+                        required aria-required="true">
                 </fieldset>
 
                 <div class="bot">

@@ -13,6 +13,7 @@ class Funcionario extends Model
         'cargo',
         'nome',
         'user_id',
+        'acesso'
     ];
     public function departamento(){
         return $this->belongsTo(Departamento::class);
@@ -24,6 +25,6 @@ class Funcionario extends Model
         return $this->hasMany(Solicitacao::class);
     }
     public function user(){
-        return $this->hasMany(User::class,'id');
+        return $this->belongsTo(User::class);
     }
 }

@@ -89,6 +89,89 @@ class UserController extends Controller
             return view('Admin.index',compact(['despachos','solicitacoes','encaminhadas','estudantes','solicitacoesPorMes', 'despachosPorMes','solicitacoesRecentes']));
         }
     }
+    public function estudante()
+    {
+        //
+        $solicitacoesPorMes = [];
+        $despachosPorMes = [];
+
+
+
+                $despachos = Despacho::all();
+
+                $solicitacoes = Solicitacao::all();
+               $solicitacoesRecentes = Solicitacao::orderBy('id', 'desc')->paginate(3);
+                $encaminhadas = Encaminhamento::all();
+                $estudantes = Estudante::all();
+
+        if(!Auth::user()->email_verified_at){
+           return redirect()->route('reenviar-email',Auth::user()->id);
+        }else{
+
+                if(Auth::user()->tipo=='estudante'){
+                $user_id = Auth::id();
+
+                $despachos = Despacho::whereHas('solicitacao', function ($query) use ($user_id) {
+                    $query->where('user_id', $user_id);
+                })->with('solicitacao')->get();
+
+                $solicitacoes = Solicitacao::where('user_id','=',Auth::id())->get();
+                $encaminhadas = Encaminhamento::whereHas('solicitacao', function ($query) use ($user_id) {
+                    $query->where('user_id', Auth::id());
+                })->with('solicitacao')->get();
+                $estudantes = Estudante::where('departamento_id','=',Auth::user()->estudante->departamento_id)->get();
+                $solicitacoesRecentes = Solicitacao::where('user_id','=',Auth::id())->orderBy('id', 'desc')->paginate(3);
+                for ($i = 1; $i <= 12; $i++) {
+                $solicitacoesPorMes[] = Solicitacao::where('user_id','=',Auth::id())->whereMonth('created_at', $i)->count();
+                $despachosPorMes[] = Despacho::whereHas('solicitacao', function ($query) use ($user_id) {
+                    $query->where('user_id', $user_id);
+                })->with('solicitacao')->whereMonth('created_at', $i)->count();
+            }
+
+            }
+
+
+            return view('Estudante.index',compact(['despachos','solicitacoes','encaminhadas','estudantes','solicitacoesPorMes', 'despachosPorMes','solicitacoesRecentes']));
+        }
+    }
+    public function funcionario()
+    {
+        //
+        $solicitacoesPorMes = [];
+        $despachosPorMes = [];
+
+
+                $despachos = Despacho::all();
+
+                $solicitacoes = Solicitacao::all();
+               $solicitacoesRecentes = Solicitacao::orderBy('id', 'desc')->paginate(3);
+                $encaminhadas = Encaminhamento::all();
+                $estudantes = Estudante::all();
+
+        if(!Auth::user()->email_verified_at){
+           return redirect()->route('reenviar-email',Auth::user()->id);
+        }else{
+            if(Auth::user()->tipo=='funcionario'){
+                $departamentoId = Auth::user()->funcionario->departamento_id;
+
+                $despachos = Despacho::whereHas('solicitacao', function ($query) use ($departamentoId) {
+                    $query->where('departamento_id', $departamentoId);
+                })->with('solicitacao')->get();
+
+                $solicitacoes = Solicitacao::where('departamento_id','=',Auth::user()->funcionario->departamento_id)->get();
+                $solicitacoesRecentes = Solicitacao::where('departamento_id','=',Auth::user()->funcionario->departamento_id)->orderBy('id', 'desc')->paginate(3);
+                $encaminhadas = Encaminhamento::where('departamento_id','=',Auth::user()->funcionario->departamento_id)->get();
+                $estudantes = Estudante::where('departamento_id','=',Auth::user()->funcionario->departamento_id)->get();
+                for ($i = 1; $i <= 12; $i++) {
+                $solicitacoesPorMes[] = Solicitacao::whereMonth('created_at', $i)->count();
+                $despachosPorMes[] = Despacho::whereMonth('created_at', $i)->count();
+            }
+            }
+
+
+            return view('Funcionario.index',compact(['despachos','solicitacoes','encaminhadas','estudantes','solicitacoesPorMes', 'despachosPorMes','solicitacoesRecentes']));
+        }
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -143,6 +226,18 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    public function editEstudante(User $user)
+    {
+        //
+        return view('Estudante.settings',compact(['user']));
+
+    }
+    public function editFuncionario(User $user)
+    {
+        //
+        return view('Funcionario.settings',compact(['user']));
+
+    }
     public function edit(User $user)
     {
         //

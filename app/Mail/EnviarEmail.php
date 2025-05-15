@@ -21,17 +21,27 @@ class EnviarEmail extends Mailable
      use Queueable, SerializesModels;
 
     public $code;
+    public $mensagem;
 
-    public function __construct($code)
+    public function __construct($code,$mensagem)
     {
         $this->code = $code;
+        $this->mensagem = $mensagem;
     }
 
     public function build()
     {
-        return $this->subject('Seu código de verificação')
-                    ->view('emails.code')
-                    ->with(['code' => $this->code]);
+        if($this->code!=''){
+
+            return $this->subject('Seu código de verificação')
+                        ->view('emails.code')
+                        ->with(['code' => $this->code]);
+        }
+        if($this->mensagem !=''){
+            return $this->subject('Actualizacao de status da solicitacao')
+                        ->view('emails.status')
+                        ->with(['mensagem' => $this->mensagem]);
+        }
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\EnviarEmail;
 use App\Models\Anexo;
 use App\Models\Curso;
 use App\Models\Departamento;
@@ -15,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Throwable;
 
 use function Laravel\Prompts\error;
@@ -31,6 +33,7 @@ class SolicitacaoController extends Controller
 
         $query = Solicitacao::query();
         $query1 = Encaminhamento::query();
+        $query2 = TipoSolicitacao::query();
         if ($search) {
             // Buscar os usuários que correspondem à pesquisa
             $users = User::where('nome', 'like', '%' . $search . '%')->pluck('id'); // pegando apenas os IDs
@@ -56,9 +59,10 @@ class SolicitacaoController extends Controller
 
         $solicitacoes = $query->get();
         $encaminhamentos=$query1->get();
+        $tipos=$query2->get();
 
 
-        return view('Admin.Solicitacoes.index',compact(['solicitacoes','search','encaminhamentos']));
+        return view('Admin.Solicitacoes.index',compact(['solicitacoes','search','encaminhamentos','tipos']));
     }
 
     /**
@@ -201,7 +205,10 @@ class SolicitacaoController extends Controller
         if(Auth::user()->tipo=='estudante'){
 
             $despacho = Despacho::where('solicitacao_id','=',$solicitacao->id)->first();
-            $despacho->update(['lida'=>'1']);
+            if($despacho){
+
+                $despacho->update(['lida'=>'1']);
+            }
         }
         return view('Admin.Solicitacoes.show',compact(['solicitacao','departamentos','encaminhamento']));
     }
@@ -224,6 +231,8 @@ class SolicitacaoController extends Controller
             $dadosValidados['funcionario_id'] = Auth::id();
 
             $encaminhar = Encaminhamento::create($dadosValidados);
+            $solicitacao=$encaminhar->solicitacao;
+              Mail::to($solicitacao->user->email)->send(new EnviarEmail('','A sua solicitação foi encaminhada para direcção do(a): '.$solicitacao->departamento->nome));
             // dd('ola');
             DB::commit();
             return back()->with(['success'=>'Solicitação encaminhada com sucesso!']);
@@ -240,6 +249,9 @@ class SolicitacaoController extends Controller
     public function edit(Solicitacao $solicitacao)
     {
         //
+
+        $tipos = TipoSolicitacao::all();
+        return view('Admin.Solicitacoes.edit',compact(['solicitacao','tipos']));
     }
 
     /**
@@ -249,16 +261,14 @@ class SolicitacaoController extends Controller
     {
         //
          $dadosValidados = $request->validate([
-            'user_id' => 'required|exists:users,id', // Verifica se o usuário existe na tabela users
-            'funcionario_id' => 'required|exists:funcionarios,id', // Verifica se o funcionário existe
-            'tipo_id' => 'required|exists:tipos,id', // Verifica se o tipo existe
-            'departamento_id' => 'required|exists:departamentos,id', // Verifica se o departamento existe
-            'data_criacao' => 'required|date', // Deve ser uma data válida
-            'data_conclusao' => 'nullable|date|after_or_equal:data_criacao', // Data de conclusão opcional e deve ser após a criação
-            'prioridade' => 'required|in:baixa,média,alta', // Exemplo de prioridade válida
+
+            'funcionario_id' => 'nullable|exists:funcionarios,id', // Verifica se o funcionário existe
+            'tipo_id' => 'required|exists:tipos_solicitacao,id', // Verifica se o tipo existe
+            'status' => 'nullable', // Verifica se o tipo existe
+            'prioridade' => 'required|in:baixa,normal,alta', // Exemplo de prioridade válida
             'descricao' => 'nullable|string|max:1000', // Texto opcional com limite de caracteres
-            'arquivos' => 'nullable|array', // Deve ser um array de arquivos
-            'arquivos.*' => 'file|mimes:jpg,png,pdf|max:2048' // Valida cada arquivo individualmente
+            'files' => 'nullable|array', // Deve ser um array de arquivos
+            'files.*' => 'file|mimes:jpg,png,pdf|max:2048' // Valida cada arquivo individualmente
         ]);
 
 
@@ -268,21 +278,34 @@ class SolicitacaoController extends Controller
         try {
             //code...
 
+            $status = $solicitacao->status;
 
-            $dado = Solicitacao::create($dadosValidados);
-              foreach ($request->file('anexos') as $arquivo) {
-                $nomeArquivo = $arquivo->getClientOriginalName(); // pega o nome original
-                $caminho = $arquivo->storeAs('documentos', $nomeArquivo);
-                Anexo::create([
-                    'solicitacao_id' => $dado->id,
-                    'arquivo' => $caminho
-                ]);
+            $solicitacao->update($dadosValidados);
+            if($request->hasFile('files')){
+
+                foreach ($request->file('files') as $arquivo) {
+                  $nomeArquivo = $arquivo->getClientOriginalName(); // pega o nome original
+                  $caminho = $arquivo->storeAs('documentos', $nomeArquivo);
+                  Anexo::create([
+                      'solicitacao_id' => $solicitacao->id,
+                      'arquivo' => $caminho
+                  ]);
+              }
+            }
+            //  dd('ola');
+            // dd($dadosValidados['status']);
+            if ($status!=$solicitacao->status) {
+
+                # code...
+                Mail::to($solicitacao->user->email)->send(new EnviarEmail('','A sua solicitacao mudou de status para: '.$solicitacao->status));
+                // $status!=$solicitacao->status?dd(true):dd(false);
+
             }
             DB::commit();
-            return $dado;
+            return back()->with(['success'=>'Actualizacao feita com sucesso!']);
         } catch (\Throwable $th) {
-            //throw $th;
-            return error($th->getMessage());
+            return back()->withErrors(['error'=>$th->getMessage()]);
+
         }
 
     }

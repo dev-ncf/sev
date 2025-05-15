@@ -11,6 +11,7 @@ class Encaminhamento extends Model
         'solicitacao_id',
         'departamento_id',
         'funcionario_id',
+        'responsavel_id',
         'status',
         'lida',
 

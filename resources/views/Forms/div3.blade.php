@@ -2,20 +2,20 @@
     <h3> Autenticação</h3>
     <fieldset class="name">
         <div class="body-title">email <span class="tf-color-1">*</span></div>
-        <input class="flex-grow" type="email" placeholder="example@email.com" name="email" tabindex="0" value=""
-            aria-required="true" required>
+        <input class="flex-grow" type="email" placeholder="example@email.com" name="email" tabindex="0"
+            value="{{ $estudante ? $estudante->user->email : '' }}" aria-required="true" required>
         <span class="error"></span>
     </fieldset>
     <fieldset class="name">
         <div class="body-title">Senha <span class="tf-color-1">*</span></div>
         <input class="flex-grow" type="password" placeholder="Escreva a senha" name="password" tabindex="0"
-            value="" aria-required="true" required>
+            value="" aria-required="true">
         <span class="error"></span>
     </fieldset>
     <fieldset class="name">
         <div class="body-title">Confirmar Senha <span class="tf-color-1">*</span></div>
         <input class="flex-grow" type="password" placeholder="Reescreva a senha" name="password_confirmation"
-            tabindex="0" value="" aria-required="true" required>
+            tabindex="0" value="" aria-required="true">
         <span class="error"></span>
     </fieldset>
 
@@ -27,7 +27,8 @@
     </div>
     <div class="bot">
 
-       <button class="tf-button w208" type="button" onclick="submeter('form-principal')">Submeter</button>
+        <button class="tf-button w208" type="button" id="btn-3"
+            onclick="aoClicar('btn-3','div-3','div-4','form-2')">Próximo</button>
     </div>
 
 </div>

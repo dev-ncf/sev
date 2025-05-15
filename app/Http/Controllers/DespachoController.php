@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\EnviarEmail;
 use App\Models\Anexo;
 use App\Models\Despacho;
 use App\Models\DespachoAnexo;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 use function Laravel\Prompts\error;
 
@@ -21,12 +23,14 @@ class DespachoController extends Controller
     public function index()
     {
         //
+        // $departamento_id = Auth::user()->funcionario->departamento_id;
+        // dd($departamento_id);
         if(Auth::user()->tipo=='estudante'){
                 $user_id = Auth::id();
 
                 $despachos = Despacho::whereHas('solicitacao', function ($query) use ($user_id) {
                     $query->where('user_id', $user_id);
-                })->with('solicitacao')->get();
+                })->with('solicitacao')->paginate(7);
 
                 // $solicitacoes = Solicitacao::where('user_id','=',Auth::id())->get();
                 // $encaminhadas = Encaminhamento::whereHas('solicitacao', function ($query) use ($user_id) {
@@ -40,8 +44,18 @@ class DespachoController extends Controller
                 //     $query->where('user_id', $user_id);
                 // })->with('solicitacao')->whereMonth('created_at', $i)->count();
             }
+            if(Auth::user()->tipo=='funcionario'){
+                $departamentoId = Auth::user()->funcionario->departamento_id;
 
-        return view('Admin.Despachos.index',compact(['despachos']));
+                $despachos = Despacho::whereHas('solicitacao', function ($query) use ($departamentoId) {
+                    $query->where('departamento_id', $departamentoId);
+                })->with('solicitacao')->paginate(7);
+
+
+            }
+
+
+        return view('Estudante.Despachos.index',compact(['despachos']));
     }
 
     /**
@@ -116,6 +130,7 @@ class DespachoController extends Controller
 
 
             // dd('ol');
+            Mail::to($solicitacao->user->email)->send(new EnviarEmail('','A sua solicitação teve um novo despacho!'));
              DB::commit();
              return redirect()->route('solicitacao.show',$dadosValidados['solicitacao_id'])->with(['success'=>"Despacho registado com sucesso!"]);
         } catch (\Throwable $th) {

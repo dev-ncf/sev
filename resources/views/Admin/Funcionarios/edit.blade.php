@@ -2,7 +2,7 @@
 @section('admin-content')
     <div class="main-content-wrap">
         <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-            <h3> Infomações da faculdade</h3>
+            <h3> Infomações da Funcionario</h3>
             <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                 <li>
                     <a href="#">
@@ -14,76 +14,75 @@
                 </li>
                 <li>
                     <a href="#">
-                        <div class="text-tiny">Faculdades</div>
+                        <div class="text-tiny">Funcionarios</div>
                     </a>
                 </li>
                 <li>
                     <i class="icon-chevron-right"></i>
                 </li>
                 <li>
-                    <div class="text-tiny">Edital Faculdade</div>
+                    <div class="text-tiny">Edital Funcionario</div>
                 </li>
             </ul>
         </div>
         <!-- new-category -->
         <div class="wg-box">
-            <form class="form-new-product form-style-1" action="{{ route('faculdade.update', $faculdade->id) }}"
+            <form class="form-new-product form-style-1" action="{{ route('admin.funcionario.update', $funcionario->id) }}"
                 method="POST" enctype="multipart/form-data">
-                @method('PUT')
                 @csrf
+                @method('PUT')
+                <fieldset class="name">
+                    <div class="body-title"> Faculdade <span class="tf-color-1"></span></div>
+                    <select class="flex-grow" type="text" placeholder="Descrição" name="departamento_id" tabindex="0"
+                        aria-required="true">
+                        <option value="" selected disabled>Selecione uma opção</option>
+                        @foreach ($faculdades as $faculdade)
+                            <option value="{{ $faculdade->id }}"
+                                {{ $faculdade->id == $funcionario->departamento_id ? 'selected' : '' }}>{{ $faculdade->nome }}
+                            </option>
+                        @endforeach
+                    </select>
+                </fieldset>
                 <fieldset class="name">
                     <div class="body-title">Nome <span class="tf-color-1">*</span></div>
-                    <input class="flex-grow" type="text" placeholder="Nome da Faculdade" name="nome" tabindex="0"
-                        value="{{ $faculdade->nome }}" aria-required="true" required="">
+                    <input class="flex-grow" type="text" placeholder="Nome do funcionario" name="nome" tabindex="0"
+                        value="{{ $funcionario->nome }}" aria-required="true" required>
                 </fieldset>
                 <fieldset class="name">
-                    <div class="body-title"> Sigla <span class="tf-color-1">*</span></div>
-                    <input class="flex-grow" type="text" placeholder="Sigla da Faculdade" value="{{ $faculdade->slug }}"
-                        name="slug" tabindex="0" aria-required="true" required>
+                    <div class="body-title">Cargo <span class="tf-color-1">*</span></div>
+                    <input class="flex-grow" type="text" placeholder="Cargo do funcionario" name="cargo" tabindex="0"
+                        value="{{ $funcionario->cargo }}" aria-required="true" required>
                 </fieldset>
-                <fieldset>
-                    <div class="body-title">Imagens <span class="tf-color-1"></span>
-                    </div>
-
-                    <div class="upload-image flex-grow">
-                        <div class="item" id="imgpreview" style="display:none">
-                            <img src="upload-1.html" class="effect8" alt="">
-                        </div>
-                        <div id="upload-area" class="item up-load">
-                            <label class="uploadfile" for="myFile" id="upload-label">
-                                <div class="upload-container">
-                                    <span class="icon">
-                                        <i class="icon-upload-cloud"></i>
-                                    </span>
-                                    <p class="upload-text">Arraste suas imagens ou <strong class="tf-color">clique para
-                                            navegar</strong></p>
-                                </div>
-                                <input type="file" id="myFile" name="files[]" multiple>
-                            </label>
-                        </div>
-
-                        <!-- Área para exibir as imagens carregadas -->
-                        <div id="preview" class="preview-container" style="display: none;"></div>
-
-                        <!-- Botão para adicionar mais imagens -->
-                        <button id="add-more-btn" type="button" style="display: none;">+</button>
-
-                        <!-- Modal para visualizar imagem em tamanho maior -->
-                        <div id="image-modal" class="modal" style="display: none;">
-                            <span class="close">&times;</span>
-                            <img class="modal-content" id="modal-img">
-                        </div>
-                    </div>
-
+                <fieldset class="name">
+                    <div class="body-title">Acesso <span class="tf-color-1">*</span></div>
+                    <select class="flex-grow" type="text" placeholder="" name="acesso" tabindex="0" value=""
+                        aria-required="true" required="">
+                        <option value="" selected disabled>Selecione um opção</option>
+                        <option value="B" {{ $funcionario->acesso == 'B' ? 'selected' : '' }}>B</option>
+                        <option value="A" {{ $funcionario->acesso == 'A' ? 'selected' : '' }}>A</option>
+                    </select>
+                </fieldset>
+                <fieldset class="name">
+                    <div class="body-title">Email <span class="tf-color-1">*</span></div>
+                    <input class="flex-grow" type="text" placeholder="Email do funcionario" name="email" tabindex="0"
+                        value="{{ $funcionario->user->email }}" aria-required="true" required>
+                </fieldset>
+                <fieldset class="name">
+                    <div class="body-title"> Senha <span class="tf-color-1"></span></div>
+                    <input class="flex-grow" type="password" placeholder="Senha" name="password" tabindex="0" >
+                </fieldset>
+                <fieldset class="name">
+                    <div class="body-title"> Confirmar Senha <span class="tf-color-1"></span></div>
+                    <input class="flex-grow" type="password" placeholder="Senha" name="password_confirmation" tabindex="0"
+                        >
                 </fieldset>
 
                 <div class="bot">
                     <div></div>
-                    <button class="tf-button w208" type="submit">Save</button>
+                    <button class="tf-button w208" type="submit">Guardar</button>
                 </div>
             </form>
         </div>
-    </div>
     </div>
 
     <script>

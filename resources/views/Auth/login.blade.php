@@ -21,7 +21,7 @@
         <img class="logo" src="{{ asset('images/logo/logour.png') }}" width="100" height="100"
             style="margin-top:50px;align-self: center">
         <div style="display: flex; flex-direction: column; align-items: center">
-            <h3 style="align-self: center">Seja bem vindo!</h3>
+            <h3 style="align-self: center">Seja bem vindo a Secretaria Virtual!</h3>
 
             @if ($errors->all())
                 @foreach ($errors->all() as $error)
@@ -36,7 +36,7 @@
             <label for="email">Email </label>
             <div class="sec-2">
                 <ion-icon name="mail-outline"></ion-icon>
-                <input type="email" name="email" placeholder="Username@gmail.com" required autofocus/>
+                <input type="email" name="email" placeholder="Username@gmail.com" required autofocus />
             </div>
         </div>
         <div class="password">
