@@ -53,7 +53,7 @@ class FaculdadeController extends Controller
         $dadosValidados = $request->validate([
 
                 'nome' => 'required|string|min:3|max:255',
-                'slug' => 'required|string|min:3|max:255',
+                'slug' => 'required|string|min:2|max:255',
             ]);
 
 

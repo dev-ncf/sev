@@ -36,10 +36,10 @@
             </div>
             <div class="wg-table table-all-user">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-transaction table-bordered">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th class="id">Ordem</th>
                                 <th>Nome</th>
                                 <th>Descricao</th>
                                 <th>Action</th>
@@ -57,7 +57,7 @@
                                     </td>
                                     <td>{{ $tipo->descricao }}</td>
                                     <td>
-                                        <div class="list-icon-function">
+                                        <div class="list-icon-function action">
                                             <a href="{{ route('tipoSolicitacao.edit', $tipo->id) }}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>

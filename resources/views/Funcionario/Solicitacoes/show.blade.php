@@ -28,190 +28,209 @@
                     </div>
                     <a class="tf-button style-1 w208" href="{{ route('funcionario.solicitacoes') }}">Voltar</a>
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-transaction table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Cód. Estudante</th>
-                                <th class="text-center">Nome</th>
-                                <th class="text-center">Genero</th>
-                                <th class="text-center">Curso</th>
-                                <th class="text-center">Data Nascimento</th>
-                                <th class="text-center">Nivel</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
+                <div style="display: flex; flex-direction: row; gap: 2rem; width: 100%; flex-wrap: wrap;">
 
-                                <td class="text-center">
-                                    {{ $solicitacao->user->estudante->matricula }}
+                    <form action="">
 
-                                </td>
-                                <td class="text-center">
-                                    {{ $solicitacao->user->estudante->nome . ' ' . $solicitacao->user->estudante->apelido }}
-                                </td>
-                                <td class="text-center">{{ $solicitacao->user->estudante->genero }}</td>
-                                <td class="text-center">{{ $solicitacao->user->estudante->curso->nome }}</td>
-                                <td class="text-center">{{ $solicitacao->user->estudante->data_nascimento }}</td>
-                                <td class="text-center">{{ $solicitacao->user->estudante->nivel }}º Ano</td>
-
-                                {{-- <td class="text-center">
-                                    <div class="list-icon-function view-icon">
-                                        <div class="item">
-                                            <i class="icon-eye"></i>
-                                        </div>
-                                    </div>
-                                </td> --}}
-                            </tr>
-
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="divider"></div>
-                <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-
-                </div>
-            </div>
-            <div class="wg-box">
-                <div class="flex items-center justify-between gap10 flex-wrap">
-                    <div class="wg-filter flex-grow">
-                        <h5>Solicitação
-                            {{ $encaminhamento ? ' está actualmente encaminhada para a Direcção do(a) ' . $encaminhamento->departamento->nome : '' }}
-                        </h5>
-
-                    </div>
-
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Tipo</th>
-                                <th class="text-center">Inicio</th>
-                                <th class="text-center">Fim</th>
-                                <th class="text-center">Status </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-
-                                <td class="text-center">
-                                    {{ $solicitacao->tipo->nome }}
-
-                                </td>
-                                <td class="text-center">
-                                    {{ $solicitacao->data_criacao }}
-                                </td>
-                                <td class="text-center">{{ $solicitacao->data_conclusao }}</td>
-                                <td class="text-center">{{ $solicitacao->status }}</td>
-
-                                {{-- <td class="text-center">
-                                    <div class="list-icon-function view-icon">
-                                        <div class="item">
-                                            <i class="icon-eye"></i>
-                                        </div>
-                                    </div>
-                                </td> --}}
-                            </tr>
-
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="divider"></div>
-                <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-
-                </div>
-            </div>
-
-            <div class="wg-box mt-5">
-                <h5>Documentos Anexados</h5>
-
-                @if ($solicitacao->anexos->count())
-                    @foreach ($solicitacao->anexos as $anexo)
-                        <fieldset class="description ">
-
-                            <div class="body-title mb-10" style="display: flex;align-items: center; gap: 2rem">
-                                <span style="width: 200px; overflow: hidden;">{{ basename($anexo->arquivo) }}</span>
-
-                                <a href="{{ asset('storage/' . $anexo->arquivo) }}" class="tf-button "
-                                    target="_blank">Baixar o
-                                    documento</a>
-                            </div>
+                        <fieldset class="name">
+                            <div class="body-title">Cód. Estudante <span class="tf-color-1"></span></div>
+                            <input class="flex-grow" type="text" placeholder="Nome do funcionario" name="nome"
+                                tabindex="0" value="{{ $solicitacao->user->estudante->matricula }}" aria-required="true"
+                                readonly>
                         </fieldset>
-                    @endforeach
-                @endif
+
+                    </form>
+                    <form action="">
+
+                        <fieldset class="name">
+                            <div class="body-title">Nome <span class="tf-color-1"></span></div>
+                            <input class="flex-grow" type="text" placeholder="Nome do funcionario" name="nome"
+                                tabindex="0"
+                                value="{{ $solicitacao->user->estudante->nome . ' ' . $solicitacao->user->estudante->apelido }}"
+                                aria-required="true" readonly>
+                        </fieldset>
+                    </form>
+                    <form action="">
+
+                        <fieldset class="name">
+                            <div class="body-title">Genero <span class="tf-color-1"></span></div>
+                            <input class="flex-grow" type="text" placeholder="Nome do funcionario" name="nome"
+                                tabindex="0"
+                                value="{{ $solicitacao->user->estudante->genero == 'M' ? 'Masculino' : 'Feminino' }}"
+                                aria-required="true" readonly>
+                        </fieldset>
+                    </form>
+                    <form action="">
+
+                        <fieldset class="name">
+                            <div class="body-title">Data de Nascimento <span class="tf-color-1"></span></div>
+                            <input class="flex-grow" type="text" placeholder="Nome do funcionario" name="nome"
+                                tabindex="0" value="{{ $solicitacao->user->estudante->data_nascimento }}"
+                                aria-required="true" readonly>
+                        </fieldset>
+                    </form>
+                    <form action="">
+
+                        <fieldset class="name">
+                            <div class="body-title">Curso <span class="tf-color-1"></span></div>
+                            <input class="flex-grow" type="text" placeholder="Nome do funcionario" name="nome"
+                                tabindex="0" value="{{ $solicitacao->user->estudante->curso->nome }}" aria-required="true"
+                                required="">
+                        </fieldset>
+                    </form>
+                    <form action="">
+
+                        <fieldset class="name">
+                            <div class="body-title">Nível <span class="tf-color-1"></span></div>
+                            <input class="flex-grow" type="text" placeholder="Nome do funcionario" name="nome"
+                                tabindex="0" value="{{ $solicitacao->user->estudante->nivel }} º Ano" aria-required="true"
+                                required="">
+                        </fieldset>
+                    </form>
+
+                </div>
 
             </div>
+        </div>
+        <div class="wg-box">
+            <div class="flex items-center justify-between gap10 flex-wrap">
+                <div class="wg-filter flex-grow">
+                    <h5>Solicitação
+                        {{ $encaminhamento ? ' está actualmente encaminhada para a Direcção do(a) ' . $encaminhamento->departamento->nome : '' }}
+                    </h5>
 
-            <div class="wg-box mt-5">
-                <h5>Despachos</h5>
-                <table class="table table-bordered table-transaction">
+                </div>
+
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>Solicitacao</th>
-                            <th>Inicio </th>
-                            <th>Fim</th>
-                            <th>Despachado em </th>
-                            <th>Status</th>
-                            <th>Acção</th>
-
+                            <th class="text-center">Tipo</th>
+                            <th class="text-center">Inicio</th>
+                            <th class="text-center">Fim</th>
+                            <th class="text-center">Status </th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($solicitacao->despachos->count() > 0)
-                            @foreach ($solicitacao->despachos as $despacho)
-                                <tr>
+                        <tr>
 
-                                    <td>{{ $despacho->solicitacao->tipo->nome }}</td>
-                                    <td>{{ $despacho->solicitacao->data_criacao }}</td>
-                                    <td>{{ $despacho->status == 'Aprovada' ? $despacho->solicitacao->data_conclusao : '------' }}
-                                    </td>
-                                    <td>{{ $despacho->created_at }}</td>
-                                    <td>{{ $despacho->status }}</td>
-                                    <td class="text-center">
-                                        <div class="list-icon-function view-icon">
-                                            <a href="{{ route('funcionario.despacho.show', $despacho->id) }}">
-                                                <div class="item">
-                                                    <i class="icon-eye" style="color: rgba(0, 0, 255, 0.522)"></i>
-                                                </div>
-                                            </a>
+                            <td class="text-center">
+                                {{ $solicitacao->tipo->nome }}
+
+                            </td>
+                            <td class="text-center">
+                                {{ $solicitacao->data_criacao }}
+                            </td>
+                            <td class="text-center">{{ $solicitacao->data_conclusao }}</td>
+                            <td class="text-center">{{ $solicitacao->status }}</td>
+
+                            {{-- <td class="text-center">
+                                    <div class="list-icon-function view-icon">
+                                        <div class="item">
+                                            <i class="icon-eye"></i>
                                         </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="6" class="text-center">
-                                    <div>
-                                        <img src="{{ asset('images/assets/communication.png') }}" alt="">
-                                        <p>Nenhum despacho disponivel, aguarde por favor!</p>
                                     </div>
-                                </td>
-                            </tr>
-                        @endif
+                                </td> --}}
+                        </tr>
 
 
                     </tbody>
                 </table>
+            </div>
 
-                <div class="cols gap10">
-                    <a class="tf-button w-full"
-                        href="{{ route('funcionario.despacho.add', $solicitacao->id) }}">Despachar</a>
-                </div>
-
-                <div class="cols gap10">
-                    <a class="tf-button w-full" onclick="encaminhar()">Encaminhar</a>
-                </div>
-
+            <div class="divider"></div>
+            <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
 
             </div>
         </div>
+
+        <div class="wg-box mt-5">
+            <h5>Documentos Anexados</h5>
+
+            @if ($solicitacao->anexos->count())
+                @foreach ($solicitacao->anexos as $anexo)
+                    <fieldset class="description ">
+
+                        <div class="body-title mb-10" style="display: flex;align-items: center; gap: 2rem">
+                            <span style="width: 200px; overflow: hidden;">{{ basename($anexo->arquivo) }}</span>
+
+                            <a href="{{ asset('storage/' . $anexo->arquivo) }}" class="tf-button "
+                                target="_blank">Baixar o
+                                documento</a>
+                        </div>
+                    </fieldset>
+                @endforeach
+            @endif
+
+        </div>
+
+        <div class="wg-box mt-5">
+            <h5>Despachos</h5>
+            <table class="table table-bordered table-transaction">
+                <thead>
+                    <tr>
+                        <th>Solicitacao</th>
+                        <th>Inicio </th>
+                        <th>Fim</th>
+                        <th>Despachado em </th>
+                        <th>Status</th>
+                        <th>Acção</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if ($solicitacao->despachos->count() > 0)
+                        @foreach ($solicitacao->despachos as $despacho)
+                            <tr>
+
+                                <td>{{ $despacho->solicitacao->tipo->nome }}</td>
+                                <td>{{ $despacho->solicitacao->data_criacao }}</td>
+                                <td>{{ $despacho->status == 'Aprovada' ? $despacho->solicitacao->data_conclusao : '------' }}
+                                </td>
+                                <td>{{ $despacho->created_at }}</td>
+                                <td>{{ $despacho->status }}</td>
+                                <td class="text-center">
+                                    <div class="list-icon-function view-icon">
+                                        <a href="{{ route('funcionario.despacho.show', $despacho->id) }}">
+                                            <div class="item">
+                                                <i class="icon-eye" style="color: rgba(0, 0, 255, 0.522)"></i>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                <div>
+                                    <img src="{{ asset('images/assets/communication.png') }}" alt="">
+                                    <p>Nenhum despacho disponivel, aguarde por favor!</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endif
+
+
+                </tbody>
+            </table>
+
+            <div class="cols gap10">
+                <a class="tf-button w-full"
+                    href="{{ route('funcionario.despacho.add', $solicitacao->id) }}">Despachar</a>
+            </div>
+
+            <div class="cols gap10">
+                <a class="tf-button w-full" onclick="encaminhar()">Encaminhar</a>
+            </div>
+
+
+        </div>
     </div>
-    <form id="modal-encaminhar" style="" action="{{ route('funcionario.solicitacao.encaminar') }}" method="POST">
+    </div>
+    <form id="modal-encaminhar" style="" action="{{ route('funcionario.solicitacao.encaminar') }}"
+        method="POST">
         @csrf
 
         <div class="wg-box" style="min-width: 500px;" id="modal-encaminhar-in">

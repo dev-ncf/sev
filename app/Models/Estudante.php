@@ -24,4 +24,7 @@ class Estudante extends Model
     public function departamento(){
         return $this->belongsTo(Departamento::class);
     }
+    public function identificao(){
+        return $this->hasOne(IdentificacaoEstudante::class);
+    }
 }

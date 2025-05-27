@@ -226,16 +226,7 @@
                                                     <i class="icon-eye" style="color: #0000ff87"></i>
                                                 </div>
                                             </a>
-                                            <a href="#">
-                                                <div class="item edit">
-                                                    <i class="icon-edit-3"></i>
-                                                </div>
-                                            </a>
-                                            <form action="#" method="POST">
-                                                <div class="item text-danger delete">
-                                                    <i class="icon-trash-2"></i>
-                                                </div>
-                                            </form>
+                                            
                                         </div>
                                     </td>
                                 </tr>

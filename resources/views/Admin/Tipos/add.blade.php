@@ -32,13 +32,13 @@
                 @csrf
                 <fieldset class="name">
                     <div class="body-title">Nome <span class="tf-color-1">*</span></div>
-                    <input class="flex-grow" type="text" placeholder="Nome do Departamento" name="nome" tabindex="0"
+                    <input class="flex-grow" type="text" placeholder="Nome..." name="nome" tabindex="0"
                         value="" aria-required="true" required="">
                 </fieldset>
                 <fieldset class="name">
                     <div class="body-title"> Descrição <span class="tf-color-1"></span></div>
-                    <input class="flex-grow" type="text" placeholder="Descrição do Departamento" name="descricao"
-                        tabindex="0" aria-required="true">
+                    <input class="flex-grow" type="text" placeholder="Descrição..." name="descricao" tabindex="0"
+                        aria-required="true">
                 </fieldset>
 
 
@@ -83,9 +83,14 @@
                 </fieldset>
                 <div class="bot">
                     <div></div>
-                    <button class="tf-button w208" type="submit">Save</button>
+                    <button class="tf-button w208" type="submit">Salvar</button>
                 </div>
             </form>
         </div>
     </div>
+    <style>
+        #add-more-btn {
+            display: none !important;
+        }
+    </style>
 @endsection

@@ -23,39 +23,15 @@ class DespachoController extends Controller
     public function index()
     {
         //
+         $despachos = Despacho::paginate(7);
         // $departamento_id = Auth::user()->funcionario->departamento_id;
         // dd($departamento_id);
-        if(Auth::user()->tipo=='estudante'){
-                $user_id = Auth::id();
-
-                $despachos = Despacho::whereHas('solicitacao', function ($query) use ($user_id) {
-                    $query->where('user_id', $user_id);
-                })->with('solicitacao')->paginate(7);
-
-                // $solicitacoes = Solicitacao::where('user_id','=',Auth::id())->get();
-                // $encaminhadas = Encaminhamento::whereHas('solicitacao', function ($query) use ($user_id) {
-                //     $query->where('user_id', Auth::id());
-                // })->with('solicitacao')->get();
-                // $estudantes = Estudante::where('departamento_id','=',Auth::user()->estudante->departamento_id)->get();
-                // $solicitacoesRecentes = Solicitacao::where('user_id','=',Auth::id())->orderBy('id', 'desc')->paginate(3);
-                // for ($i = 1; $i <= 12; $i++) {
-                // $solicitacoesPorMes[] = Solicitacao::where('user_id','=',Auth::id())->whereMonth('created_at', $i)->count();
-                // $despachosPorMes[] = Despacho::whereHas('solicitacao', function ($query) use ($user_id) {
-                //     $query->where('user_id', $user_id);
-                // })->with('solicitacao')->whereMonth('created_at', $i)->count();
-            }
-            if(Auth::user()->tipo=='funcionario'){
-                $departamentoId = Auth::user()->funcionario->departamento_id;
-
-                $despachos = Despacho::whereHas('solicitacao', function ($query) use ($departamentoId) {
-                    $query->where('departamento_id', $departamentoId);
-                })->with('solicitacao')->paginate(7);
 
 
-            }
 
 
-        return view('Estudante.Despachos.index',compact(['despachos']));
+
+        return view('Admin.Despachos.index',compact(['despachos']));
     }
 
     /**

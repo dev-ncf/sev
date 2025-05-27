@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('departamentos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('faculdade_id')->index('departamentos_faculdade_id_foreign');
             $table->string('nome', 100);
             $table->timestamps();
         });

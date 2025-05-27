@@ -57,7 +57,7 @@ class EmailController extends Controller
                      $user->update(['email_verified_at' => now()]);
 
                     $verificarCode->delete();
-                    return redirect()->route('user.dashboard')->with(['success'=>'Email verificado com sucesso!']);
+                    return redirect()->route('estudante.dashboard')->with(['success'=>'Email verificado com sucesso!']);
                 }
                 return redirect()->back()->withErrors(['error'=>'Código de verificado inválido/expirou!']);
 

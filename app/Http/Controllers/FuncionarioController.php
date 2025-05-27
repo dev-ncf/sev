@@ -72,7 +72,7 @@ class FuncionarioController extends Controller
 
             // dd($user);
              DB::commit();
-             return redirect()->route('funcionarios.index')->with(['success'=>'Funcionario cadastrado com sucesso!','search'=>$newFuncionario->nome]);
+             return redirect()->route('admin.funcionarios.index')->with(['success'=>'Funcionario cadastrado com sucesso!','search'=>$newFuncionario->nome]);
         } catch (\Throwable $th) {
             //throw $th;
             return error($th->getMessage());

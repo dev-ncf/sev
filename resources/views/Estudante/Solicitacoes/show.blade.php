@@ -21,59 +21,7 @@
                 </ul>
             </div>
 
-            <div class="wg-box">
-                <div class="flex items-center justify-between gap10 flex-wrap">
-                    <div class="wg-filter flex-grow">
-                        <h5>Dados da estudante</h5>
-                    </div>
-                    <a class="tf-button style-1 w208" href="{{ route('estudante.solicitacoes') }}">Voltar</a>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Cód. Estudante</th>
-                                <th class="text-center">Nome</th>
-                                <th class="text-center">Genero</th>
-                                <th class="text-center">Curso</th>
-                                <th class="text-center">Data Nascimento</th>
-                                <th class="text-center">Nivel</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
 
-                                <td class="text-center">
-                                    {{ $solicitacao->user->estudante->matricula }}
-
-                                </td>
-                                <td class="text-center">
-                                    {{ $solicitacao->user->estudante->nome . ' ' . $solicitacao->user->estudante->apelido }}
-                                </td>
-                                <td class="text-center">{{ $solicitacao->user->estudante->genero }}</td>
-                                <td class="text-center">{{ $solicitacao->user->estudante->curso->nome }}</td>
-                                <td class="text-center">{{ $solicitacao->user->estudante->data_nascimento }}</td>
-                                <td class="text-center">{{ $solicitacao->user->estudante->nivel }}º Ano</td>
-
-                                {{-- <td class="text-center">
-                                    <div class="list-icon-function view-icon">
-                                        <div class="item">
-                                            <i class="icon-eye"></i>
-                                        </div>
-                                    </div>
-                                </td> --}}
-                            </tr>
-
-
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="divider"></div>
-                <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-
-                </div>
-            </div>
             <div class="wg-box">
                 <div class="flex items-center justify-between gap10 flex-wrap">
                     <div class="wg-filter flex-grow">
@@ -129,6 +77,7 @@
 
             <div class="wg-box mt-5">
                 <h5>Documentos Anexados</h5>
+               
 
                 @if ($solicitacao->anexos->count())
                     @foreach ($solicitacao->anexos as $anexo)
@@ -145,8 +94,8 @@
                     @endforeach
                 @endif
                 @if (Auth::user()->tipo == 'estudante')
-                    <form action="{{ route('estudante.solicitacao.add.documento') }}" class="wg-box" enctype="multipart/form-data"
-                        method="POST">
+                    <form action="{{ route('estudante.solicitacao.add.documento') }}" class="wg-box"
+                        enctype="multipart/form-data" method="POST">
                         @csrf
                         <fieldset>
                             <div class="body-title">Anexar documentos <span class="tf-color-1"></span>

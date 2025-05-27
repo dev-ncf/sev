@@ -36,14 +36,13 @@
             </div>
             <div class="wg-table table-all-user">
                 <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-transaction table-bordered">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th class="id">Ordem</th>
                                 <th>Nome</th>
                                 <th>Descricao</th>
-                                <th>Fotos</th>
-                                <th>Action</th>
+                                <th>Acção</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -51,17 +50,14 @@
                                 <tr>
                                     <td>{{ $departamento->id }}</td>
                                     <td class="pname">
-                                        <div class="image">
-                                            <img src="1718066367.html" alt="" class="image">
-                                        </div>
+
                                         <div class="name">
                                             <a href="#" class="body-title-2">{{ $departamento->nome }}</a>
                                         </div>
                                     </td>
                                     <td>{{ $departamento->descricao }}</td>
-                                    <td><a href="#" target="_blank">1</a></td>
                                     <td>
-                                        <div class="list-icon-function">
+                                        <div class="list-icon-function action">
                                             <a href="{{ route('departamento.edit', $departamento->id) }}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>

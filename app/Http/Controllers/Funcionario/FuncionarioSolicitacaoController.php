@@ -237,7 +237,7 @@ class FuncionarioSolicitacaoController extends Controller
             $solicitacao=$encaminhar->solicitacao;
             // dd($solicitacao->user->email);
             $email = $solicitacao->user->email;
-            Mail::to($email)->send(new EnviarEmail('','A sua solicitação foi encaminhada para direcção do(a): '.$solicitacao->departamento->nome));
+            Mail::to($email)->send(new EnviarEmail('','A sua solicitação foi encaminhada para direcção do(a): '.$encaminhar->departamento->nome));
             //  Mail::to('ntwalichancefilme@gmail.com')->send(new \App\Mail\EnviarEmail('', 'Mensagem teste'));
             DB::commit();
             return back()->with(['success'=>'Solicitação encaminhada com sucesso!']);

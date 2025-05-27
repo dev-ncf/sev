@@ -23,12 +23,13 @@
             @csrf
             <div class="wg-box">
                 @if ($tipos->count() > 0)
+                    <h6 style="color: rgb(212, 178, 8)">Selecione o tipo de solicitação, baixe o documento a caso seja
+                        fornecido
+                        abaixo, preenche
+                        devidamente e submeta como anexo da
+                        solicitação!</h6>
                     @foreach ($tipos as $tipo)
                         @if ($tipo->arquivo)
-                            <h6 style="color: red">Sele de solicitação, baixe o documento a caso seja fornecido
-                                abaixo, preenche
-                                devidamente e submeta como anexo da
-                                solicitação!</h6>
                             <fieldset class="description file-field" data-tipo-id="{{ $tipo->id }}"
                                 style="display: none;">
                                 <div class="body-title mb-10" style="display: flex;align-items: center; gap: 2rem">
@@ -57,53 +58,53 @@
                     <textarea name="descricao" placeholder="Description" class="mb-10"></textarea>
                 </fieldset>
 
+            </div>
 
-
-                <div class="wg-box">
-                    <fieldset>
-                        <div class="body-title">Anexar documentos <span class="tf-color-1">*</span>
-                        </div>
-
-                        <div class="upload-image flex-grow">
-                            <div class="item" id="imgpreview" style="display:none">
-                                <img src="upload-1.html" class="effect8" alt="">
-                            </div>
-                            <div id="upload-area" class="item up-load">
-                                <label class="uploadfile" for="myFile" id="upload-label">
-                                    <div class="upload-container">
-                                        <span class="icon">
-                                            <i class="icon-upload-cloud"></i>
-                                        </span>
-                                        <p class="upload-text">Selecione todo documentos necessários para
-                                            candidatura<strong class="tf-color">clique
-                                                para
-                                                navegar</strong></p>
-                                    </div>
-                                    <input type="file" id="myFile" name="files[]" multiple required>
-                                    <span class="error"></span>
-                                </label>
-
-                            </div>
-
-                            <!-- Área para exibir as imagens carregadas -->
-                            <div id="preview" class="preview-container" style="display: none;"></div>
-
-                            <!-- Botão para adicionar mais imagens -->
-                            <button id="add-more-btn" type="button" style="display: none;">+</button>
-
-                            <!-- Modal para visualizar imagem em tamanho maior -->
-                            <div id="image-modal" class="modal" style="display: none;">
-                                <span class="close">&times;</span>
-                                <img class="modal-content" id="modal-img">
-                            </div>
-                        </div>
-
-                    </fieldset>
-
-                    <div class="cols gap10">
-                        <button class="tf-button w-full" type="submit">Solicitar</button>
+            <div class="wg-box">
+                <fieldset>
+                    <div class="body-title">Anexar documentos <span class="tf-color-1">*</span>
                     </div>
+
+                    <div class="upload-image flex-grow">
+                        <div class="item" id="imgpreview" style="display:none">
+                            <img src="upload-1.html" class="effect8" alt="">
+                        </div>
+                        <div id="upload-area" class="item up-load">
+                            <label class="uploadfile" for="myFile" id="upload-label">
+                                <div class="upload-container">
+                                    <span class="icon">
+                                        <i class="icon-upload-cloud"></i>
+                                    </span>
+                                    <p class="upload-text">Selecione todo documentos necessários para
+                                        candidatura<strong class="tf-color">clique
+                                            para
+                                            navegar</strong></p>
+                                </div>
+                                <input type="file" id="myFile" name="files[]" multiple required>
+                                <span class="error"></span>
+                            </label>
+
+                        </div>
+
+                        <!-- Área para exibir as imagens carregadas -->
+                        <div id="preview" class="preview-container" style="display: none;"></div>
+
+                        <!-- Botão para adicionar mais imagens -->
+                        <button id="add-more-btn" type="button" style="display: none;">+</button>
+
+                        <!-- Modal para visualizar imagem em tamanho maior -->
+                        <div id="image-modal" class="modal" style="display: none;">
+                            <span class="close">&times;</span>
+                            <img class="modal-content" id="modal-img">
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <div class="cols gap10">
+                    <button class="tf-button w-full" type="submit">Solicitar</button>
                 </div>
+            </div>
         </form>
     </div>
 

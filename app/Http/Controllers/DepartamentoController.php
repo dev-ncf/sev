@@ -49,7 +49,6 @@ class DepartamentoController extends Controller
         //
         $dadosValidados = $request->validate([
 
-                'faculdade_id' => 'required|exists:faculdades,id',
                 'nome' => 'required|string',
                 'descricao'=>'nullable|string'
             ]);

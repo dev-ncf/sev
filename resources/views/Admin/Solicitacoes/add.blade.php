@@ -23,12 +23,13 @@
             @csrf
             <div class="wg-box">
                 @if ($tipos->count() > 0)
-                    @foreach ($tipos as $tipo)
-                        @if ($tipo->arquivo)
-                            <h6 style="color: red">Selecione o tipo de solicitação, baixe o documento a caso seja fornecido
+                 <h6 style="color: rgb(174, 151, 4)">Selecione o tipo de solicitação, baixe o documento a caso seja fornecido
                                 abaixo, preenche
                                 devidamente e submeta como anexo da
                                 solicitação!</h6>
+                    @foreach ($tipos as $tipo)
+                        @if ($tipo->arquivo)
+
                             <fieldset class="description file-field" data-tipo-id="{{ $tipo->id }}"
                                 style="display: none;">
                                 <div class="body-title mb-10" style="display: flex;align-items: center; gap: 2rem">

@@ -104,7 +104,7 @@
 
 
                                 <li
-                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['departamentos', 'departamento.add', 'departamento.show', 'departamento.edit']) ? 'active' : '' }}">
+                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['departamentos', 'departamento.create', 'departamento.show', 'departamento.edit']) ? 'active' : '' }}">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><span class="material-symbols-outlined">
                                                 apartment
@@ -154,31 +154,7 @@
                                     </ul>
                                 </li>
 
-                                <li
-                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['faculdades', 'faculdade.add', 'faculdade.edit']) ? 'active' : '' }}">
-                                    <a href="javascript:void(0);" class="menu-item-button">
-                                        <div class="icon"><span class="material-symbols-outlined">
-                                                domain
-                                            </span></div>
-                                        <div class="text">Faculdades</div>
-                                    </a>
-                                    <ul class="sub-menu">
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('faculdades') }}"
-                                                class="{{ Route::currentRouteName() == 'faculdades' ? 'active' : '' }}">
-                                                <div class="text">Lista</div>
-                                            </a>
-                                        </li>
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('faculdade.add') }}"
-                                                class="{{ Route::currentRouteName() == 'faculdade.add' ? 'active' : '' }}">
-                                                <div class="text">Adicionar</div>
-                                            </a>
-                                        </li>
 
-
-                                    </ul>
-                                </li>
                                 <li
                                     class="menu-item has-children {{ in_array(Route::currentRouteName(), ['cursos.index', 'curso.add', 'curso.edit']) ? 'active' : '' }}">
                                     <a href="javascript:void(0);" class="menu-item-button">
