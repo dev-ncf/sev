@@ -29,6 +29,18 @@
         </select>
         <span class="error"></span>
     </fieldset>
+    <fieldset class="name">
+        <div class="body-title">Idade <span class="tf-color-1">*</span></div>
+        <input class="flex-grow" type="number" placeholder="" name="idade" tabindex="0" value=""
+            aria-required="true" required>
+        <span class="error"></span>
+    </fieldset>
+    <fieldset class="name">
+        <div class="body-title">Nacionalidade <span class="tf-color-1">*</span></div>
+        <input class="flex-grow" type="text" placeholder="" name="nacionalidade" tabindex="0" value=""
+            aria-required="true" required>
+        <span class="error"></span>
+    </fieldset>
 
     <div class="bot">
         <div></div>

@@ -38,7 +38,7 @@
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Ordem</th>
                                 <th>Nome</th>
                                 <th>Email</th>
                                 <th>Tipo</th>
@@ -99,5 +99,5 @@
             </div>
         </div>
     </div>
-    
+
 @endsection

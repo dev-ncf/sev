@@ -161,3 +161,12 @@ body {
     width: 20px;
     margin: 0 auto;
 }
+.main-content-inner {
+    background-image: url('../images/bg-menu/luxa.org-opacity-changed-._logour\ \(2\).png'); /* Ajuste o caminho conforme necessário */
+    background-size: contain; /* Faz com que a imagem cubra toda a tela */
+    background-repeat: no-repeat; /* Impede que a imagem se repita */
+    background-position: center; /* Centraliza a imagem */
+
+    background-color: #ffffff80; /* preto com 50% de opacidade */
+}
+

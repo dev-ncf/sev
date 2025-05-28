@@ -37,18 +37,17 @@
                     <input class="flex-grow" type="text" placeholder="Tipo de solicitação" name="nome" tabindex="0"
                         value="{{ $tipo->nome }}" aria-required="true" required>
                 </fieldset>
+                 <fieldset class="name">
+                    <div class="body-title"> Responsável <span class="tf-color-1">*</span></div>
+                    <input class="flex-grow" type="text" placeholder="Responsavel..." name="responsavel"
+                        value="{{ $tipo->responsavel }}" tabindex="0" required>
+                </fieldset>
                 <fieldset class="name">
                     <div class="body-title"> Descrição <span class="tf-color-1"></span></div>
                     <input class="flex-grow" type="text" placeholder="Descrição " name="descricao" tabindex="0"
                         aria-required="true" value="{{ $tipo->descricao }}">
                 </fieldset>
-                @if ($tipo->arquivo)
-                <fieldset>
-                    <div class="body-title">Protocolo <span class="tf-color-1"></span>
-                    </div>
-                    <a href="{{ asset('storage/' . $tipo->arquivo) }}" target="_blank" class="tf-button w208">Baixar</a>
-                </fieldset>
-                @endif
+
 
                 <fieldset>
                     <div class="body-title">Anexar protocolo <span class="tf-color-1"></span>
@@ -96,7 +95,7 @@
             </form>
         </div>
     </div>
-    </div>
+
 
     <script>
         // Criamos um objeto DataTransfer para armazenar os arquivos selecionados

@@ -24,7 +24,7 @@ class CursoController extends Controller
             $query->where('nome','like','%'.$search.'%');
         }
 
-        $cursos = $query->get();
+        $cursos = $query->paginate(5);
         return view('Admin.Cursos.index',compact(['cursos','search']));
     }
 

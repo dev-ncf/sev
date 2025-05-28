@@ -50,6 +50,7 @@ class EstudanteDespachoController extends Controller
     {
         //
         // dd($despacho->funcionario_id);
+        $despacho->update(['lida'=>'1']);
         return view('Estudante.Despachos.show',compact(['despacho']));
     }
 

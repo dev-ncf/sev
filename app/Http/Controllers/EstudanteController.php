@@ -48,6 +48,7 @@ class EstudanteController extends Controller
         $faculdades = Departamento::all();
         $cursos = Curso::all();
         $estudante=null;
+
         return view('Admin.Estudantes.add',compact(['faculdades','cursos','estudante']));
     }
 
@@ -58,22 +59,40 @@ class EstudanteController extends Controller
     {
         //
 
-         $dadosValidados = $request->validate(
-            [
-        'curso_id' => 'required|exists:cursos,id',
-        'departamento_id' => 'required|exists:departamentos,id',
-        'matricula' => 'required|string|max:20|unique:estudantes,matricula',
-        'nome' => 'required|string|max:60',
-        'apelido' => 'required|string|max:60',
-        'genero' => 'required|in:M,F',
-        'data_nascimento' => 'required|date|before:today',
-        'nivel' => 'required|integer|min:1|max:5',
-        'email' => 'required|string|email|max:255|unique:users,email',
-        'password' => 'required|string|min:8|confirmed',
-        'tipo_documento' => 'required|string|min:2|max:20',
-        'numero_documento' => 'required|string|min:9|max:30|unique:identificacao_estudantes,numero_documento',
-        'documento' => 'required|file|mimes:pdf,png,jpg|max:2048',
-    ], [
+       $dadosValidados = $request->validate([
+    'curso_id' => 'required|exists:cursos,id',
+    'departamento_id' => 'required|exists:departamentos,id',
+    'matricula' => 'required|string|max:20|unique:estudantes,matricula',
+    'nome' => 'required|string|max:60',
+    'apelido' => 'required|string|max:60',
+    'genero' => 'required|in:M,F',
+    'idade' => 'required',
+    'nacionalidade' => 'required|string',
+    'local_emissao' => 'required|string',
+    'data_emissao' => 'required|date|before_or_equal:today',
+    'data_nascimento' => 'required|date|before:today',
+    'nivel' => 'required|integer|min:1|max:5',
+    'email' => 'required|string|email|max:255|unique:users,email',
+    'tipo_documento' => 'required|string|min:2|max:20',
+    'numero_documento' => [
+        'required',
+        'string',
+        'min:9',
+        'max:30',
+        'unique:identificacao_estudantes,numero_documento',
+        // Adicione esta regex apenas se for BI
+        $request->tipo_documento == 'BI' ? 'regex:/^\d{12}[A-Z]$/' : ''
+    ],
+    'documento' => 'required|file|mimes:pdf,png,jpg|max:2048',
+    'password' => [
+        'required',
+        'string',
+        'min:8',
+        'confirmed',
+        'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/'
+    ],
+],
+ [
         'curso_id.required' => 'O curso é obrigatório.',
         'curso_id.exists' => 'O curso selecionado não existe.',
 
@@ -110,6 +129,10 @@ class EstudanteController extends Controller
         'password.required' => 'A senha é obrigatória.',
         'password.min' => 'A senha deve ter no mínimo 8 caracteres.',
         'password.confirmed' => 'A confirmação da senha não coincide.',
+        'numero_documento.regex' => 'O BI deve conter exatamente 12 dígitos seguidos de uma letra maiúscula (ex: 123456789012A).',
+
+        'password.min' => 'A senha deve ter no mínimo 8 caracteres.',
+        'password.regex' => 'A senha deve conter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial.',
     ]);
 
 
@@ -129,13 +152,15 @@ class EstudanteController extends Controller
                 $dadosValidados['documento']=$caminho;
                 $dadosValidados['estudante_id']=$user->id;
 
-                // dd($user->id);
                 IdentificacaoEstudante::create([
                     'tipo_documento'=>$dadosValidados['tipo_documento'],
                     'numero_documento'=>$dadosValidados['numero_documento'],
                     'documento'=>$dadosValidados['documento'],
                     'estudante_id'=>$dadosValidados['estudante_id'],
+                    'local_emissao'=>$dadosValidados['local_emissao'],
+                    'data_emissao'=>$dadosValidados['data_emissao'],
                 ]);
+                // dd($dadosValidados);
             }
 
              DB::commit();

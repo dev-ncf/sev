@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('dashboard/solicitacoes')->middleware('auth')->group(function () {
     Route::get('/', [SolicitacaoController::class, 'index'])->name('solicitacoes');
+    Route::get('/encaminhadas', [SolicitacaoController::class, 'encaminhadas'])->name('encaminhadas');
     Route::get('/add', [SolicitacaoController::class, 'create'])->name('solicitacao.add');
     Route::get('/edit/{solicitacao}', [SolicitacaoController::class, 'edit'])->name('solicitacao.edit');
     Route::get('/{solicitacao}', [SolicitacaoController::class, 'show'])->name('solicitacao.show');

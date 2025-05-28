@@ -19,6 +19,18 @@
             value="" aria-required="true">
         <span class="error"></span>
     </fieldset>
+    <fieldset class="name">
+        <div class="body-title">Local de Emissão <span class="tf-color-1">*</span></div>
+        <input class="flex-grow" type="text" placeholder="Local" name="local_emissao" tabindex="0"
+            value="" aria-required="true">
+        <span class="error"></span>
+    </fieldset>
+    <fieldset class="name">
+        <div class="body-title">Local de Emissão <span class="tf-color-1">*</span></div>
+        <input class="flex-grow" type="date" placeholder="Data" name="data_emissao" tabindex="0"
+            value="" aria-required="true">
+        <span class="error"></span>
+    </fieldset>
     <fieldset>
         <div class="body-title">Documento <span class="tf-color-1"></span>
         </div>

@@ -140,7 +140,7 @@
                                                     $noti = 0;
                                                 @endphp
                                                 <span id="noti-label"
-                                                    class="text-tiny">{{ $noti > 0 ? $noti : '' }}</span>
+                                                    class="text-tiny">{{ $noti > 0 ? $noti : '0 '}}</span>
                                                 <i class="icon-bell"></i>
                                             </span>
                                         </button>
@@ -187,7 +187,8 @@
                                             @endif
 
 
-                                            <li><a href="#" class="tf-button w-full">Ver todas</a></li>
+                                            <li><a href="{{ route('estudante.despachos.index') }}"
+                                                    class="tf-button w-full">Ver todas</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -254,9 +255,9 @@
                         </div>
 
 
-                        <div class="bottom-page">
+                        {{-- <div class="bottom-page">
                             <div class="body-text"></div>
-                        </div>
+                        </div> --}}
                     </div>
 
                 </div>

@@ -17,6 +17,7 @@
     <link rel="apple-touch-icon-precomposed" href="{{ asset('images/favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/sweetalert.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/custom.css') }}">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 
 
@@ -63,7 +64,7 @@
                         <div class="center-item">
                             <ul class="menu-list">
                                 <li
-                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['solicitacoes', 'solicitacao.add', 'solicitacao.show']) ? 'active' : '' }}">
+                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['solicitacoes', 'solicitacao.add', 'solicitacao.show', 'encaminhadas']) ? 'active' : '' }}">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon"><i class="icon-git-pull-request"></i></div>
                                         <div class="text">Solicitações</div>
@@ -79,6 +80,12 @@
                                             <a href="{{ route('solicitacoes') }}"
                                                 class="{{ Route::currentRouteName() == 'solicitacoes' ? 'active' : '' }}">
                                                 <div class="text ">Lista</div>
+                                            </a>
+                                        </li>
+                                        <li class="sub-menu-item">
+                                            <a href="{{ route('encaminhadas') }}"
+                                                class="{{ Route::currentRouteName() == 'encaminhadas' ? 'active' : '' }}">
+                                                <div class="text ">Encaminhadas</div>
                                             </a>
                                         </li>
                                     </ul>
@@ -128,7 +135,7 @@
                                     </ul>
                                 </li>
                                 <li
-                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['tipoSolicitacoes.index', 'tipoSolicitacao.add', 'tipoSolicitacao.show', 'tipoSolicitacao.index.edit']) ? 'active' : '' }}">
+                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['tipoSolicitacoes.index', 'tipoSolicitacao.add', 'tipoSolicitacao.show', 'tipoSolicitacao.edit']) ? 'active' : '' }}">
                                     <a href="javascript:void(0);" class="menu-item-button">
                                         <div class="icon">
                                             <span class="material-symbols-outlined">
@@ -550,9 +557,9 @@
                         </div>
 
 
-                        <div class="bottom-page">
+                        {{-- <div class="bottom-page">
                             <div class="body-text"></div>
-                        </div>
+                        </div> --}}
                     </div>
 
                 </div>

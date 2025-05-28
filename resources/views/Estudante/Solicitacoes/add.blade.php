@@ -33,9 +33,8 @@
                             <fieldset class="description file-field" data-tipo-id="{{ $tipo->id }}"
                                 style="display: none;">
                                 <div class="body-title mb-10" style="display: flex;align-items: center; gap: 2rem">
-                                    <span style="width: 200px; overflow: hidden;">{{ basename($tipo->arquivo) }}</span>
-                                    <a href="{{ asset('storage/' . $tipo->arquivo) }}" class="tf-button"
-                                        target="_blank">Baixar
+                                    <a href="{{ route('gerar.pdf', [Auth::user()->estudante->id, 'tipo']) }}"
+                                        class="tf-button download-link" target="_blank">Baixar
                                         o documento</a>
                                 </div>
                             </fieldset>
@@ -44,7 +43,7 @@
                 @endif
                 <fieldset class="name">
                     <div class="body-title mb-10">Tipo de Solicitação <span class="tf-color-1">*</span></div>
-                    <select name="tipo_id" id="tipoSelect" required class="mb-10">
+                    <select name="tipo_id" id="tipoSelect" required class="mb-10 ">
                         <option value="" selected disabled>Selecione uma opção</option>
                         @foreach ($tipos as $tipo)
                             <option value="{{ $tipo->id }}">{{ $tipo->nome }}</option>
@@ -121,9 +120,17 @@
             const selectedField = document.querySelector(`.file-field[data-tipo-id="${selectedId}"]`);
             if (selectedField) {
                 selectedField.style.display = 'flex';
+
+                // Atualiza o href do link de download
+                const downloadLink = selectedField.querySelector('.download-link');
+                if (downloadLink) {
+                    const estudanteId = "{{ Auth::user()->estudante->id }}";
+                    downloadLink.href = `/gerar-pdf/${estudanteId}/${selectedId}`;
+                }
             }
         });
     </script>
+
 
 
 @endsection

@@ -2,18 +2,18 @@
 @section('admin-content')
     <div class="main-content-wrap">
         <div class="flex items-center flex-wrap justify-between gap20 mb-27">
-            <h3>Solicitações</h3>
+            <h3>Solicitações Encaminhadas</h3>
             <ul class="breadcrumbs flex items-center flex-wrap justify-start gap10">
                 <li>
                     <a href="index.html">
-                        <div class="text-tiny">Dashboard</div>
+                        <div class="text-tiny">Inicio</div>
                     </a>
                 </li>
                 <li>
                     <i class="icon-chevron-right"></i>
                 </li>
                 <li>
-                    <div class="text-tiny">Todas Solicitações</div>
+                    <div class="text-tiny">Todas Encaminhadas</div>
                 </li>
             </ul>
         </div>
@@ -50,43 +50,40 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($solicitacoes->count() > 0)
-                            @foreach ($solicitacoes as $solicitacao)
+
+                        @if (Auth::user()->tipo != 'estudante')
+                            @foreach ($encaminhamentos as $encaminhamento)
                                 <tr>
-                                    <td class="id">{{ $solicitacao->id }}</td>
+                                    <td>{{ $encaminhamento->solicitacao_id }}</td>
                                     <td class="pname">
 
                                         <div class="name">
                                             <a href="#"
-                                                class="body-title-2">{{ $solicitacao->user->estudante->nome . ' ' . $solicitacao->user->estudante->apelido }}</a>
+                                                class="body-title-2">{{ $encaminhamento->solicitacao->user->estudante->nome . ' ' . $encaminhamento->solicitacao->user->estudante->apelido }}</a>
                                         </div>
                                     </td>
-                                    <td>{{ $solicitacao->tipo->nome }}</td>
-                                    <td>{{ $solicitacao->data_criacao }}</td>
+                                    <td>{{ $encaminhamento->solicitacao->tipo->nome }}</td>
+                                    <td>{{ $encaminhamento->solicitacao->data_criacao }}</td>
                                     <td>
-                                        {{ $solicitacao->data_conclusao ? $solicitacao->data_conclusao : '------' }}</td>
+                                        {{ $encaminhamento->solicitacao->data_conclusao ? $encaminhamento->solicitacao->data_conclusao : '------' }}
+                                    </td>
                                     <td
-                                        style="background-color: {{ $solicitacao->status == 'pendente' ? '#ffa50021' : ($solicitacao->status == 'em andamento' ? '#0000ff21' : ($solicitacao->status == 'concluida' ? '#00ff0021' : '#ff000021')) }}">
-                                        {{ $solicitacao->status }}</td>
+                                        style="background-color: {{ $encaminhamento->solicitacao->status == 'pendente' ? '#ffa50021' : ($encaminhamento->solicitacao->status == 'em andamento' ? '#0000ff21' : ($encaminhamento->solicitacao->status == 'concluida' ? '#00ff0021' : '#ff000021')) }}">
+                                        {{ $encaminhamento->solicitacao->status }}</td>
                                     <td>
                                         <div class="list-icon-function">
-                                            <a href="{{ route('solicitacao.show', $solicitacao->id) }}">
+                                            <a href="{{ route('solicitacao.show', $encaminhamento->solicitacao_id) }}">
                                                 <div class="item ">
                                                     <i class="icon-eye" style="color: #0000ff87"></i>
                                                 </div>
                                             </a>
-                                            <a href="{{ route('solicitacao.edit', $solicitacao->id) }}">
+                                            <a href="{{ route('solicitacao.edit', $encaminhamento->solicitacao_id) }}">
                                                 <div class="item edit">
                                                     <i class="icon-edit-3"></i>
                                                 </div>
                                             </a>
-                                            <form action="{{ route('solicitacao.destroy', $solicitacao->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('TELETE')
-                                                <div class="item text-danger delete" id="delete-{{ $solicitacao->id }}"
-                                                    rota="solicitacao" onclick="return confirmDeletion(event)"
-                                                    dado='{{ $solicitacao->id }}'>
+                                            <form action="#" method="POST">
+                                                <div class="item text-danger delete">
                                                     <i class="icon-trash-2"></i>
                                                 </div>
                                             </form>
@@ -94,24 +91,14 @@
                                     </td>
                                 </tr>
                             @endforeach
-                        @else
-                            <tr>
-                                <td colspan="7" class="text-center">
-                                    <div>
-                                        <img src="{{ asset('images/assets/communication.png') }}" alt="">
-                                        <p>Nenhum dado foi encontrado!</p>
-                                    </div>
-                                </td>
-                            </tr>
                         @endif
-
                     </tbody>
                 </table>
             </div>
 
             <div class="divider"></div>
             <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-                    {{ $solicitacoes->appends(['search' => request('search')])->links('pagination::bootstrap-5') }}
+                    {{ $encaminhamentos->appends(['search' => request('search')])->links('pagination::bootstrap-5') }}
                 </div>
         </div>
     </div>

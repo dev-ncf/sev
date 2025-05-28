@@ -96,7 +96,7 @@
             <div class="flex items-center justify-between gap10 flex-wrap">
                 <div class="wg-filter flex-grow">
                     <h5>Solicitação
-                        {{ $encaminhamento ? ' está actualmente encaminhada para a Direcção do(a) ' . $encaminhamento->departamento->nome : '' }}
+                        {{ $encaminhamento ? ' está actualmente encaminhada à/(ao) ' . $encaminhamento->solicitacao->tipo->responsavel : '' }}
                     </h5>
 
                 </div>
@@ -147,6 +147,18 @@
 
         <div class="wg-box mt-5">
             <h5>Documentos Anexados</h5>
+            @if ($solicitacao->user->estudante->identificao->documento)
+                <fieldset class="description ">
+
+                    <div class="body-title mb-10" style="display: flex;align-items: center; gap: 2rem">
+                        <span style="width: 200px; overflow: hidden;">Doc. Identificação</span>
+
+                        <a href="{{ asset('storage/' . $solicitacao->user->estudante->identificao->documento) }}"
+                            class="tf-button " target="_blank">Baixar o
+                            documento</a>
+                    </div>
+                </fieldset>
+            @endif
 
             @if ($solicitacao->anexos->count())
                 @foreach ($solicitacao->anexos as $anexo)

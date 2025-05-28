@@ -26,7 +26,7 @@ class FuncionarioCursoController extends Controller
             $query->where('nome','like','%'.$search.'%');
         }
 
-        $cursos = $query->get();
+        $cursos = $query->paginate(5);
         return view('Funcionario.Cursos.index',compact(['cursos','search']));
     }
 

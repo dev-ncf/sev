@@ -36,6 +36,11 @@
                         value="" aria-required="true" required="">
                 </fieldset>
                 <fieldset class="name">
+                    <div class="body-title"> Responsável <span class="tf-color-1"></span></div>
+                    <input class="flex-grow" type="text" placeholder="Responsavel..." name="responsavel" tabindex="0"
+                        required>
+                </fieldset>
+                <fieldset class="name">
                     <div class="body-title"> Descrição <span class="tf-color-1"></span></div>
                     <input class="flex-grow" type="text" placeholder="Descrição..." name="descricao" tabindex="0"
                         aria-required="true">

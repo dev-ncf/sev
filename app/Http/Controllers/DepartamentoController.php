@@ -27,7 +27,7 @@ class DepartamentoController extends Controller
             $search = session('search');
             $query->where('nome','=',$search);
         }
-        $departamentos = $query->get();
+        $departamentos = $query->paginate(5);
         return view('Admin.Departamentos.index',compact(['departamentos','search']));
     }
 

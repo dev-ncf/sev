@@ -12,7 +12,7 @@ class Estudante extends Model
         'curso_id',
         'matricula',
         'user_id',
-        'nome', 'apelido', 'genero', 'data_nascimento', 'departamento_id', 'nivel'
+        'nome', 'apelido', 'genero', 'data_nascimento', 'departamento_id', 'nivel','idade','nacionalidade'
 
     ];
     public function curso(){

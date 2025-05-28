@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\AnexoController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return  view('Auth.login');
 })->name('login');
+Route::get('/gerar-pdf/{estudante}/{tipo}', [PDFController::class, 'gerarPDF'])->name('gerar.pdf');
 
 require_once __DIR__ . '/register.php';
 require_once __DIR__ . '/login.php';

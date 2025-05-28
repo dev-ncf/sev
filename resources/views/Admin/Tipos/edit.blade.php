@@ -27,21 +27,66 @@
         </div>
         <!-- new-category -->
         <div class="wg-box">
-            <form class="form-new-product form-style-1" action="{{ route('tipoSolicittacao.update', $tipo->id) }}"
+            <form class="form-new-product form-style-1" action="{{ route('tipoSolicitacao.update', $tipo->id) }}"
                 method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <fieldset class="name">
                     <div class="body-title">Nome <span class="tf-color-1">*</span></div>
-                    <input class="flex-grow" type="text" placeholder="Nome do Departamento" name="nome" tabindex="0"
-                        value="{{ $tipo->nome }}" aria-required="true" required="">
+                    <input class="flex-grow" type="text" placeholder="Tipo de solicitação" name="nome" tabindex="0"
+                        value="{{ $tipo->nome }}" aria-required="true" required>
                 </fieldset>
-                 <fieldset class="name">
+                <fieldset class="name">
+                    <div class="body-title"> Responsável <span class="tf-color-1">*</span></div>
+                    <input class="flex-grow" type="text" placeholder="Responsavel..." name="responsavel"
+                        value="{{ $tipo->responsavel }}" tabindex="0" required>
+                </fieldset>
+                <fieldset class="name">
                     <div class="body-title"> Descrição <span class="tf-color-1"></span></div>
-                    <input class="flex-grow" type="text" placeholder="Descrição do tipo" value="{{$tipo->descricao}}" name="descricao"
-                        tabindex="0" aria-required="true">
+                    <input class="flex-grow" type="text" placeholder="Descrição " name="descricao" tabindex="0"
+                        aria-required="true" value="{{ $tipo->descricao }}">
                 </fieldset>
 
+
+                <fieldset>
+                    <div class="body-title">Anexar protocolo <span class="tf-color-1"></span>
+                    </div>
+
+                    <div class="upload-image flex-grow">
+                        <div class="item" id="imgpreview" style="display:none">
+                            <img src="upload-1.html" class="effect8" alt="">
+                        </div>
+                        <div id="upload-area" class="item up-load">
+                            <label class="uploadfile" for="myFile" id="upload-label">
+                                <div class="upload-container">
+                                    <span class="icon">
+                                        <i class="icon-upload-cloud"></i>
+                                    </span>
+                                    <p class="upload-text">Selecione todo documentos necessários para
+                                        candidatura<strong class="tf-color">clique
+                                            para
+                                            navegar</strong></p>
+                                </div>
+                                <input type="file" id="myFile" name="file">
+                                <span class="error"></span>
+                            </label>
+
+                        </div>
+
+                        <!-- Área para exibir as imagens carregadas -->
+                        <div id="preview" class="preview-container" style="display: none;"></div>
+
+                        <!-- Botão para adicionar mais imagens -->
+                        <button id="add-more-btn" type="button" style="display: none;">+</button>
+
+                        <!-- Modal para visualizar imagem em tamanho maior -->
+                        <div id="image-modal" class="modal" style="display: none;">
+                            <span class="close">&times;</span>
+                            <img class="modal-content" id="modal-img">
+                        </div>
+                    </div>
+
+                </fieldset>
                 <div class="bot">
                     <div></div>
                     <button class="tf-button w208" type="submit">Salvar</button>
@@ -49,7 +94,7 @@
             </form>
         </div>
     </div>
-    </div>
+
 
     <script>
         // Criamos um objeto DataTransfer para armazenar os arquivos selecionados

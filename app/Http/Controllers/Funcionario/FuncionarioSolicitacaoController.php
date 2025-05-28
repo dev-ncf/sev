@@ -53,7 +53,7 @@ class FuncionarioSolicitacaoController extends Controller
             $query1->where('departamento_id','=',Auth::user()->funcionario->departamento_id);
         }
 
-        $solicitacoes = $query->get();
+        $solicitacoes = $query->paginate(3);
         $encaminhamentos=$query1->get();
         $tipos=$query2->get();
 

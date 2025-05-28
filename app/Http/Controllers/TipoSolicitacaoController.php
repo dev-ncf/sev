@@ -22,7 +22,7 @@ class TipoSolicitacaoController extends Controller
             $query->where('nome','like','%'.$search.'%');
         }
 
-        $tipos = $query->get();
+        $tipos = $query->paginate(5);
         return view('Admin.Tipos.index',compact(['tipos','search']));
     }
 
@@ -45,6 +45,7 @@ class TipoSolicitacaoController extends Controller
             'nome' => 'required|string', // Exemplo de prioridade válida
             'descricao' => 'nullable|string|max:1000',
             'file' => 'nullable|mimes:jpeg,png,pdf|max:2048', // Texto opcional com limite de caracteres
+            'responsavel' => 'required', // Texto opcional com limite de caracteres
         ]);
 
 
@@ -85,6 +86,8 @@ class TipoSolicitacaoController extends Controller
     public function edit(TipoSolicitacao $tipoSolicitacao)
     {
         //
+        $tipo = $tipoSolicitacao;
+        return view('Admin.Tipos.edit',compact(['tipo']));
     }
 
     /**
@@ -94,8 +97,9 @@ class TipoSolicitacaoController extends Controller
     {
         //
          $dadosValidados = $request->validate([
-            'nome' => 'requiredstring', // Exemplo de prioridade válida
-            'descricao' => 'nullable|string|max:1000', // Texto opcional com limite de caracteres
+            'nome' => 'required|string', // Exemplo de prioridade válida
+            'descricao' => 'nullable|string|max:1000',
+            'responsavel' => 'required', // Texto opcional com limite de caracteres
         ]);
 
 
@@ -108,10 +112,10 @@ class TipoSolicitacaoController extends Controller
 
             $dado = $tipoSolicitacao->update($dadosValidados);
             DB::commit();
-            return $dado;
+            return back()->with(['success'=>'Actualizacao feita com sucesso!']);
         } catch (\Throwable $th) {
             //throw $th;
-            return error($th->getMessage());
+            return back()->withErrors(['error'=>$th->getMessage()]);
         }
     }
 

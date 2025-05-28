@@ -23,7 +23,7 @@ class FuncionarioTipoSolicitacaoController extends Controller
             $query->where('nome','like','%'.$search.'%');
         }
 
-        $tipos = $query->get();
+        $tipos = $query->paginate(5);
         return view('Funcionario.Tipos.index',compact(['tipos','search']));
     }
 
@@ -46,6 +46,7 @@ class FuncionarioTipoSolicitacaoController extends Controller
             'nome' => 'required|string', // Exemplo de prioridade válida
             'descricao' => 'nullable|string|max:1000',
             'file' => 'nullable|mimes:jpeg,png,pdf|max:2048', // Texto opcional com limite de caracteres
+            'responsavel' => 'required', // Texto opcional com limite de caracteres
         ]);
 
 
@@ -99,7 +100,8 @@ class FuncionarioTipoSolicitacaoController extends Controller
             $dadosValidados = $request->validate([
             'nome' => 'required|string', // Exemplo de prioridade válida
             'descricao' => 'nullable|string|max:1000',
-            'file' => 'nullable|mimes:jpeg,png,pdf|max:2048', // Texto opcional com limite de caracteres
+            'file' => 'nullable|mimes:jpeg,png,pdf|max:2048',
+            'responsavel' => 'required', // Texto opcional com limite de caracteres
 
         ]);
 

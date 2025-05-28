@@ -27,7 +27,7 @@ class MeFuncionarioController extends Controller
             $query->where('nome','like','%'.$search.'%');
         }
         $query->where('departamento_id',Auth::user()->funcionario->departamento_id);
-        $funcionarios= $query->get();
+        $funcionarios= $query->paginate(5);
         return view('Funcionario.Funcionarios.index',compact(['funcionarios','search']));
 
     }

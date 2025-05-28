@@ -14,6 +14,8 @@ class IdentificacaoEstudante extends Model
         'numero_documento',
         'documento',
         'estudante_id',
+        'local_emissao',
+        'data_emissao',
     ];
 
 

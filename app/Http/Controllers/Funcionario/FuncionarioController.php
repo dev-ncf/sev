@@ -26,7 +26,7 @@ class FuncionarioController extends Controller
         if($search){
             $query->where('nome','like','%'.$search.'%');
         }
-        $funcionarios= $query->get();
+        $funcionarios= $query->paginate(5);
         return view('Funcionario.Funcionarios.index',compact(['funcionarios','search']));
 
     }

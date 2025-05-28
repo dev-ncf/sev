@@ -11,7 +11,8 @@ class TipoSolicitacao extends Model
     protected $fillable = [
         'nome',
         'descricao',
-        'arquivo'
+        'arquivo',
+        'responsavel',
     ];
 
 }

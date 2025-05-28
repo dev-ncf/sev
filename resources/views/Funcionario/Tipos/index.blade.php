@@ -32,8 +32,8 @@
                     </form>
                 </div>
                 <a class="tf-button style-1 w208" href="{{ route('funcionario.tipoSolicitacao.add') }}"><i
-                        class="icon-plus"></i>Add
-                    Novo</a>
+                        class="icon-plus"></i>Adicionar
+                </a>
             </div>
             <div class="wg-table table-all-user">
                 <div class="table-responsive">
@@ -42,7 +42,7 @@
                             <tr>
                                 <th class="id">Ordem</th>
                                 <th>Nome</th>
-                                <th>Descricao</th>
+                                <th>Responsável</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -56,7 +56,7 @@
                                             <a href="#" class="body-title-2">{{ $tipo->nome }}</a>
                                         </div>
                                     </td>
-                                    <td>{{ $tipo->descricao }}</td>
+                                    <td>{{ $tipo->responsavel }}</td>
                                     <td>
                                         <div class="list-icon-function action">
                                             <a href="{{ route('funcionario.tipoSolicitacao.edit', $tipo->id) }}">
@@ -80,7 +80,7 @@
                 </div>
                 <div class="divider"></div>
                 <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-
+                    {{ $tipos->appends(['search' => request('search')])->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>

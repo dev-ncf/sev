@@ -31,8 +31,8 @@
                         </div>
                     </form>
                 </div>
-                <a class="tf-button style-1 w208" href="{{ route('tipoSolicitacao.add') }}"><i class="icon-plus"></i>Add
-                    Novo</a>
+                <a class="tf-button style-1 w208" href="{{ route('tipoSolicitacao.add') }}"><i class="icon-plus"></i>Adicionar
+                    </a>
             </div>
             <div class="wg-table table-all-user">
                 <div class="table-responsive">
@@ -41,8 +41,8 @@
                             <tr>
                                 <th class="id">Ordem</th>
                                 <th>Nome</th>
-                                <th>Descricao</th>
-                                <th>Action</th>
+                                <th>Responsável</th>
+                                <th>Accão</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,7 +55,7 @@
                                             <a href="#" class="body-title-2">{{ $tipo->nome }}</a>
                                         </div>
                                     </td>
-                                    <td>{{ $tipo->descricao }}</td>
+                                    <td>{{ $tipo->responsavel }}</td>
                                     <td>
                                         <div class="list-icon-function action">
                                             <a href="{{ route('tipoSolicitacao.edit', $tipo->id) }}">
@@ -63,8 +63,7 @@
                                                     <i class="icon-edit-3"></i>
                                                 </div>
                                             </a>
-                                            <form action="{{ route('tipoSolicitacao.destroy', $tipo->id) }}"
-                                                method="POST">
+                                            <form action="{{ route('tipoSolicitacao.destroy', $tipo->id) }}" method="POST">
                                                 @csrf
                                                 @method('TELETE')
                                                 <div class="item text-danger delete" id="delete-{{ $tipo->id }}"
@@ -81,8 +80,8 @@
                     </table>
                 </div>
                 <div class="divider"></div>
-                <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-
+               <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
+                    {{ $tipos->appends(['search' => request('search')])->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>

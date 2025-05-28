@@ -28,7 +28,28 @@
   --hv-item: #EDF1F5;
 }
 
+@font-face {
+  font-family: 'Material Icons';
+  src: url('../font/MaterialIcons-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+.material-symbols-outlined {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; /* ajuste o tamanho */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
 
+  /* suporte para ligaturas */
+  font-feature-settings: 'liga';
+}
 
 /**
   * Name: Remos eCommerce Admin Dashboard HTML Template

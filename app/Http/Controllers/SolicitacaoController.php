@@ -57,12 +57,50 @@ class SolicitacaoController extends Controller
             $query1->where('departamento_id','=',Auth::user()->funcionario->departamento_id);
         }
 
-        $solicitacoes = $query->get();
-        $encaminhamentos=$query1->get();
+        $solicitacoes = $query->paginate(5);
+        $encaminhamentos=$query1->paginate(5);
         $tipos=$query2->get();
 
 
         return view('Admin.Solicitacoes.index',compact(['solicitacoes','search','encaminhamentos','tipos']));
+    }
+    public function encaminhadas(Request $request)
+    {
+        //
+       $search = session('search') ? session('search') : $request->search;
+
+        $query = Solicitacao::query();
+        $query1 = Encaminhamento::query();
+        $query2 = TipoSolicitacao::query();
+        if ($search) {
+            // Buscar os usuários que correspondem à pesquisa
+            $users = User::where('nome', 'like', '%' . $search . '%')->pluck('id'); // pegando apenas os IDs
+
+            if ($users->count() > 0) {
+                // Filtra as solicitações que pertencem a esses usuários
+                $query->whereIn('user_id', $users);
+            } else {
+                // Nenhum usuário encontrado, retornar vazio
+                $query->whereRaw('1 = 0'); // truque para não retornar nada
+            }
+        }
+
+        if(Auth::user()->tipo=='estudante'){
+            $query->where('user_id','=',Auth::id());
+            // dd('ola');
+        }
+
+        if(Auth::user()->tipo=='funcionario'){
+            $query->where('departamento_id','=',Auth::user()->funcionario->departamento_id);
+            $query1->where('departamento_id','=',Auth::user()->funcionario->departamento_id);
+        }
+
+        $solicitacoes = $query->paginate(5);
+        $encaminhamentos=$query1->paginate(5);
+        $tipos=$query2->get();
+
+
+        return view('Admin.Encaminhadas.index',compact(['solicitacoes','search','encaminhamentos','tipos']));
     }
 
     /**
@@ -72,8 +110,9 @@ class SolicitacaoController extends Controller
     {
         //
         $tipos = TipoSolicitacao::all();
+        $estudantes = Estudante::all();
 
-        return view('Admin.Solicitacoes.add',compact(['tipos']));
+        return view('Admin.Solicitacoes.add',compact(['tipos','estudantes']));
     }
 
     /**
@@ -86,6 +125,7 @@ class SolicitacaoController extends Controller
             'descricao' => 'nullable|string|max:500',
             'files' => 'required|array|min:1|max:5',
             'files.*' => 'file|mimes:jpeg,png,pdf|max:2048', // 2MB por arquivo
+            'estudante_id' => 'required', // 2MB por arquivo
         ], [
             'tipo_id.required' => 'O tipo de solicitação é obrigatório.',
             'tipo_id' => 'O tipo de solicitação selecionado é inválido.',
@@ -106,8 +146,9 @@ class SolicitacaoController extends Controller
         // dd($user_id);
         try {
             //code...
-            $user_id = Auth::id();
-            $estudante = Estudante::where('user_id','=',$user_id)->first();
+            $estudante = Estudante::find($dadosValidados['estudante_id']);
+            $user_id = $estudante->user_id;
+            // dd($request->all());
             // dd($estudante);
 
             $departamento = Departamento::find($estudante->departmento_id);
@@ -130,7 +171,6 @@ class SolicitacaoController extends Controller
             }
             DB::commit();
 
-            // dd($request->all());
 
             return redirect()->route('solicitacoes')->with(['success'=>'Solicitacao registada com sucesso!','search'=>$dado->user->nome]);
         } catch (Throwable $th) {
