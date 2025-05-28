@@ -9,6 +9,8 @@ Route::get('/', function () {
     return  view('Auth.login');
 })->name('login');
 Route::get('/gerar-pdf/{estudante}/{tipo}', [PDFController::class, 'gerarPDF'])->name('gerar.pdf');
+Route::get('/recuperar-senha', [UserController::class, 'RecuperarSenha'])->name('recuperar-senha');
+Route::post('/recuperar-senha', [UserController::class, 'RecuperarSenhaVer'])->name('recuperar-senha');
 
 require_once __DIR__ . '/register.php';
 require_once __DIR__ . '/login.php';

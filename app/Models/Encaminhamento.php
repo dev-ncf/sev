@@ -24,6 +24,6 @@ class Encaminhamento extends Model
             return $this->belongsTo(Departamento::class, 'departamento_id');
         }
     public function funcionario(){
-        return $this->hasOne(Funcionario::class);
+        return $this->belongsTo(Funcionario::class);
     }
 }

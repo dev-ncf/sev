@@ -53,8 +53,9 @@
             <div>
                 Não tens conta?<a href="{{ route('registrar-se') }}" style="text-decoration: none;font-weight: bolder">
                     Criar conta</a>
-            </div><a>Forgot
-                Password?</a>
+            </div>
+            <a href="{{ route('recuperar-senha') }}" style="text-decoration: none;font-weight: bolder">
+                    Esqueceu Senha? </a>
         </div>
     </form>
     <!-- partial -->

@@ -22,11 +22,13 @@ class EnviarEmail extends Mailable
 
     public $code;
     public $mensagem;
+    public $senha;
 
-    public function __construct($code,$mensagem)
+    public function __construct($code,$mensagem,$senha=null)
     {
         $this->code = $code;
         $this->mensagem = $mensagem;
+        $this->senha = $senha;
     }
 
     public function build()
@@ -38,9 +40,18 @@ class EnviarEmail extends Mailable
                         ->with(['code' => $this->code]);
         }
         if($this->mensagem !=''){
-            return $this->subject('Actualizacao de status da solicitacao')
-                        ->view('emails.status')
-                        ->with(['mensagem' => $this->mensagem]);
+            $this->senha?$sub='Recuperação de senha':$sub='Actualização de status da solicitação';
+            if($this->senha){
+
+                return $this->subject($sub)
+                            ->view('emails.senha')
+                            ->with(['mensagem' => $this->mensagem]);
+            }else{
+
+                return $this->subject($sub)
+                            ->view('emails.status')
+                            ->with(['mensagem' => $this->mensagem]);
+            }
         }
     }
 

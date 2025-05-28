@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Str;
 
 use function Laravel\Prompts\error;
 
@@ -191,6 +192,26 @@ class UserController extends Controller
     public function create()
     {
         //
+    }
+    public function RecuperarSenha()
+    {
+        //
+        return view('Auth.recuperarSenha');
+    }
+    public function RecuperarSenhaVer(Request $request)
+    {
+        //
+        $user = User::where('email',$request->email)->first();
+        if($user){
+            $senha = Str::random(12);
+            $user->update(['password'=>bcrypt($senha)]);
+             Mail::to($request->email)->send(new EnviarEmail('','A sua nova senha é '.$senha.' Porfavor troque logo que entrar no sistema','senha'));
+            return back()->with(['success'=>'A nova senha foi enviado para o email fornecido!']);
+        }else{
+            return back()->withErrors(['error'=>'Conta não localizada!']);
+
+
+        }
     }
 
     /**

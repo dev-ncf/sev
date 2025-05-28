@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Models\Departamento;
 use App\Models\Funcionario;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -39,6 +40,7 @@ class MeFuncionarioController extends Controller
     {
         //
         $faculdades = Departamento::where('id',Auth::user()->funcionario->departamento_id)->get();
+        // dd($faculdades);
 
         return view('Funcionario.Funcionarios.add',compact(['faculdades']));
     }
@@ -53,7 +55,7 @@ class MeFuncionarioController extends Controller
         $dadosValidados = $request->validate([
                 'nome' => 'required|string|min:3|max:255',
                 'email' => 'required|string|email|min:6|max:255|unique:users,email',
-                'password' => 'required|string|min:8|confirmed',
+                'password' => 'required|string|min:8|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/',
                 'departamento_id' => 'required|exists:departamentos,id',
                 'cargo' => 'required|string',
                 'acesso' => 'required|in:A,B',
@@ -66,6 +68,7 @@ class MeFuncionarioController extends Controller
             //code...
 
             $dadosValidados['tipo']='funcionario';
+            $dadosValidados['email_verified_at']=Carbon::now();
             $user = (new UserController())->store($dadosValidados);
             $dadosValidados['id']=$user->id;
             $dadosValidados['user_id']=$user->id;

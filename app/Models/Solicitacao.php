@@ -45,4 +45,7 @@ class Solicitacao extends Model
     public function anexos(){
         return $this->hasMany(Anexo::class);
     }
+    public function encaminamento(){
+        return $this->hasMany(Encaminhamento::class);
+    }
 }

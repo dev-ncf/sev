@@ -48,35 +48,72 @@
                     </thead>
                     <tbody>
                         @if ($solicitacoes->count() > 0)
-                            @foreach ($solicitacoes as $solicitacao)
-                                <tr>
-                                    <td class="id">{{ $solicitacao->id }}</td>
-                                    <td class="pname">
+                            @if (Auth::user()->funcionario->acesso != 'A')
+                                @foreach ($solicitacoes as $solicitacao)
+                                    <tr>
+                                        <td class="id">{{ $solicitacao->id }}</td>
+                                        <td class="pname">
 
-                                        <div class="name">
-                                            <a href="#"
-                                                class="body-title-2">{{ $solicitacao->user->estudante->nome . ' ' . $solicitacao->user->estudante->apelido }}</a>
-                                        </div>
-                                    </td>
-                                    <td>{{ $solicitacao->tipo->nome }}</td>
-                                    <td>{{ $solicitacao->data_criacao }}</td>
-                                    <td>
-                                        {{ $solicitacao->data_conclusao ? $solicitacao->data_conclusao : '------' }}</td>
-                                    <td
-                                        style="background-color: {{ $solicitacao->status == 'pendente' ? '#ffa50021' : ($solicitacao->status == 'em andamento' ? '#0000ff21' : ($solicitacao->status == 'concluida' ? '#00ff0021' : '#ff000021')) }}">
-                                        {{ $solicitacao->status }}</td>
-                                    <td>
-                                        <div class="list-icon-function action">
-                                            <a href="{{ route('funcionario.solicitacao.show', $solicitacao->id) }}">
-                                                <div class="item ">
-                                                    <i class="icon-eye" style="color: #0000ff87"></i>
+                                            <div class="name">
+                                                <a href="#"
+                                                    class="body-title-2">{{ $solicitacao->user->estudante->nome . ' ' . $solicitacao->user->estudante->apelido }}</a>
+                                            </div>
+                                        </td>
+                                        <td>{{ $solicitacao->tipo->nome }}</td>
+                                        <td>{{ $solicitacao->data_criacao }}</td>
+                                        <td>
+                                            {{ $solicitacao->data_conclusao ? $solicitacao->data_conclusao : '------' }}
+                                        </td>
+                                        <td
+                                            style="background-color: {{ $solicitacao->status == 'pendente' ? '#ffa50021' : ($solicitacao->status == 'em andamento' ? '#0000ff21' : ($solicitacao->status == 'concluida' ? '#00ff0021' : '#ff000021')) }}">
+                                            {{ $solicitacao->status }}</td>
+                                        <td>
+                                            <div class="list-icon-function action">
+                                                <a href="{{ route('funcionario.solicitacao.show', $solicitacao->id) }}">
+                                                    <div class="item ">
+                                                        <i class="icon-eye" style="color: #0000ff87"></i>
+                                                    </div>
+                                                </a>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                @foreach ($encaminhamentos as $encaminhamento)
+                                    @if ($encaminhamento->responsavel_id == Auth::user()->funcionario->id)
+                                        <tr>
+                                            <td class="id">{{ $encaminhamento->solicitacao->id }}</td>
+                                            <td class="pname">
+
+                                                <div class="name">
+                                                    <a href="#"
+                                                        class="body-title-2">{{ $encaminhamento->solicitacao->user->estudante->nome . ' ' . $encaminhamento->solicitacao->user->estudante->apelido }}</a>
                                                 </div>
-                                            </a>
+                                            </td>
+                                            <td>{{ $encaminhamento->solicitacao->tipo->nome }}</td>
+                                            <td>{{ $encaminhamento->solicitacao->data_criacao }}</td>
+                                            <td>
+                                                {{ $encaminhamento->solicitacao->data_conclusao ? $encaminhamento->solicitacao->data_conclusao : '------' }}
+                                            </td>
+                                            <td
+                                                style="background-color: {{ $encaminhamento->solicitacao->status == 'pendente' ? '#ffa50021' : ($encaminhamento->solicitacao->status == 'em andamento' ? '#0000ff21' : ($encaminhamento->solicitacao->status == 'concluida' ? '#00ff0021' : '#ff000021')) }}">
+                                                {{ $encaminhamento->solicitacao->status }}</td>
+                                            <td>
+                                                <div class="list-icon-function action">
+                                                    <a
+                                                        href="{{ route('funcionario.solicitacao.show', $encaminhamento->solicitacao->id) }}">
+                                                        <div class="item ">
+                                                            <i class="icon-eye" style="color: #0000ff87"></i>
+                                                        </div>
+                                                    </a>
 
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            @endif
                         @else
                             <tr>
                                 <td colspan="7" class="text-center">
@@ -87,15 +124,16 @@
                                 </td>
                             </tr>
                         @endif
-
                     </tbody>
                 </table>
             </div>
 
             <div class="divider"></div>
             <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
+                @if (Auth::user()->funcionario->acesso != 'A')
                     {{ $solicitacoes->appends(['search' => request('search')])->links('pagination::bootstrap-5') }}
-                </div>
+                @endif
+            </div>
         </div>
     </div>
 @endsection

@@ -36,7 +36,9 @@
                         aria-required="true">
                         <option value="" disabled>Selecione uma opção</option>
                         @foreach ($faculdades as $faculdade)
-                            <option value="{{ $faculdade->id }}" selected>{{ $faculdade->nome }} </option>
+                            <option value="{{ $faculdade->id }}"
+                                {{ $faculdade->id == Auth::user()->funcionario->departamento_id ? 'selected' : 'disabled' }}
+                                selected>{{ $faculdade->nome }} </option>
                         @endforeach
                     </select>
                 </fieldset>
@@ -71,7 +73,7 @@
                 </fieldset>
                 <fieldset class="name">
                     <div class="body-title"> Confirmar Senha <span class="tf-color-1"></span></div>
-                    <input class="flex-grow" type="password" placeholder="Senha" name="password_confirmation" tabindex="0"
+                    <input class="flex-grow" type="password" placeholder="Confirmar Senha " name="password_confirmation" tabindex="0"
                         aria-required="true">
                 </fieldset>
 
