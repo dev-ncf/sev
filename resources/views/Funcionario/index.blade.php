@@ -119,21 +119,6 @@
                         </div>
                     </div>
 
-
-                    {{-- <div class="wg-chart-default">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap14">
-                                <div class="image ic-bg">
-                                    <i class="icon-dollar-sign"></i>
-                                </div>
-                                <div>
-                                    <div class="body-text mb-2">Canceled Orders Amount</div>
-                                    <h4>0.00</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-
                 </div>
 
             </div>
@@ -152,7 +137,8 @@
                             </div>
                         </div>
                         <div class="flex items-center gap10">
-                            <h4>{{ $solicitacoes->count() }}</h4>
+                            <h4>{{ Auth::user()->funcionario->departamento->tipo == '2' ? $encaminhadas->count() : $solicitacoes->count() }}
+                            </h4>
                             <div class="box-icon-trending up">
                                 <div class="body-title number"></div>
                             </div>
@@ -235,6 +221,45 @@
                                         </div>
                                     </td>
                                 </tr>
+                            @endforeach
+                            @foreach ($encaminhadas as $encaminhada)
+                                @if ($encaminhada->departamento_id == Auth::user()->funcionario->departamento_id)
+                                    <tr>
+                                        <td class="id">{{ $encaminhada->solicitacao->id }}</td>
+                                        <td class="pname">
+
+                                            <div class="name">
+                                                <a href="#"
+                                                    class="body-title-2">{{ $encaminhada->solicitacao->user->estudante->nome . ' ' . $encaminhada->solicitacao->user->estudante->apelido }}</a>
+                                            </div>
+                                        </td>
+                                        <td>{{ $encaminhada->solicitacao->tipo->nome }}</td>
+                                        <td>{{ $encaminhada->solicitacao->data_criacao }}</td>
+                                        <td>
+                                            {{ $encaminhada->solicitacao->data_conclusao ? $encaminhada->solicitacao->data_conclusao : '------' }}
+                                        </td>
+                                        <td
+                                            style="background-color: {{ $encaminhada->solicitacao->status == 'pendente' ? '#ffa50021' : ($encaminhada->solicitacao->status == 'em andamento' ? '#0000ff21' : ($encaminhada->solicitacao->status == 'concluida' ? '#00ff0021' : '#ff000021')) }}">
+                                            {{ $encaminhada->solicitacao->status }}</td>
+                                        <td>
+                                            <div class="list-icon-function action">
+                                                <a
+                                                    href="{{ route('funcionario.solicitacao.show', $encaminhada->solicitacao->id) }}">
+                                                    <div class="item ">
+                                                        <i class="icon-eye" style="color: #0000ff87"></i>
+                                                    </div>
+                                                </a>
+                                                <a
+                                                    href="{{ route('funcionario.solicitacao.show', $encaminhada->solicitacao->id) }}">
+                                                    <div class="item edit">
+                                                        <i class="icon-edit-3"></i>
+                                                    </div>
+                                                </a>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

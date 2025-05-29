@@ -143,9 +143,8 @@ class UserController extends Controller
 
 
                 $despachos = Despacho::all();
-
                 $solicitacoes = Solicitacao::all();
-               $solicitacoesRecentes = Solicitacao::orderBy('id', 'desc')->paginate(3);
+                $solicitacoesRecentes = Solicitacao::orderBy('id', 'desc')->paginate(3);
                 $encaminhadas = Encaminhamento::all();
                 $estudantes = Estudante::all();
 

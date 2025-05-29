@@ -49,7 +49,6 @@
                             <option value="{{ $tipo->id }}">{{ $tipo->nome }}</option>
                         @endforeach
                     </select>
-                    <div class="text-tiny">Do not exceed 100 characters when entering the product name.</div>
                 </fieldset>
 
                 <fieldset class="description">

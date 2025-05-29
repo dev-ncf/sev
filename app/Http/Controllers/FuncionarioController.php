@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Departamento;
 use App\Models\Faculdade;
 use App\Models\Funcionario;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
@@ -64,6 +65,7 @@ class FuncionarioController extends Controller
             //code...
 
             $dadosValidados['tipo']='funcionario';
+            $dadosValidados['email_verified_at']=Carbon::now();
             $user = (new UserController())->store($dadosValidados);
             $dadosValidados['id']=$user->id;
             $dadosValidados['user_id']=$user->id;

@@ -56,7 +56,7 @@ class FuncionarioSolicitacaoController extends Controller
         $solicitacoes = $query->paginate(3);
         $encaminhamentos=$query1->get();
         $tipos=$query2->get();
-
+        // dd($encaminhamentos);
 
         return view('Funcionario.Solicitacoes.index',compact(['solicitacoes','search','encaminhamentos','tipos']));
     }

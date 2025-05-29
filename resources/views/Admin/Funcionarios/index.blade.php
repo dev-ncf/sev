@@ -42,7 +42,7 @@
                                 <th class="id">Ordem</th>
                                 <th>Nome</th>
                                 <th>Cargo</th>
-                                <th>Action</th>
+                                <th>Acção</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="divider"></div>
                 <div class="flex items-center justify-between flex-wrap gap10 wgp-pagination">
-                    {{ $fuuncionarios->appends(['search' => request('search')])->links('pagination::bootstrap-5') }}
+                    {{ $funcionarios->appends(['search' => request('search')])->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>

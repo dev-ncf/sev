@@ -9,7 +9,8 @@ class Departamento extends Model
     //
     protected $fillable =[
         'nome',
-        'descricao'
+        'descricao',
+        'tipo',
     ];
 
     public function cursos(){

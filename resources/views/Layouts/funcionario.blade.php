@@ -62,31 +62,33 @@
                         </div>
                         <div class="center-item">
                             <ul class="menu-list">
+                                @if (Auth::user()->funcionario->departamento->tipo != '2')
+                                    <li
+                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['funcionario.tipoSolicitacoes.index', 'funcionario.tipoSolicitacao.add', 'funcionario.tipoSolicitacao.show', 'funcionario.tipoSolicitacao.edit']) ? 'active' : '' }}">
+                                        <a href="javascript:void(0);" class="menu-item-button">
+                                            <div class="icon"><span class="material-symbols-outlined">
+                                                    apartment
+                                                </span></div>
+                                            <div class="text">Tipo de Solicitações</div>
+                                        </a>
+                                        <ul class="sub-menu">
 
-                                <li
-                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['funcionario.tipoSolicitacoes.index', 'funcionario.tipoSolicitacao.add', 'funcionario.tipoSolicitacao.show', 'funcionario.tipoSolicitacao.edit']) ? 'active' : '' }}">
-                                    <a href="javascript:void(0);" class="menu-item-button">
-                                        <div class="icon"><span class="material-symbols-outlined">
-                                                apartment
-                                            </span></div>
-                                        <div class="text">Tipo de Solicitações</div>
-                                    </a>
-                                    <ul class="sub-menu">
+                                            <li class="sub-menu-item">
+                                                <a href="{{ route('funcionario.tipoSolicitacoes.index') }}"
+                                                    class="{{ Route::currentRouteName() == 'tipoSolicitacoes.index' ? 'active' : '' }}">
+                                                    <div class="text">Lista</div>
+                                                </a>
+                                            </li>
+                                            <li class="sub-menu-item">
+                                                <a href="{{ route('funcionario.tipoSolicitacao.add') }}"
+                                                    class="{{ Route::currentRouteName() == 'funcionario.tipoSolicitacao.add' ? 'active' : '' }}">
+                                                    <div class="text">Adicionar</div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                @endif
 
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('funcionario.tipoSolicitacoes.index') }}"
-                                                class="{{ Route::currentRouteName() == 'tipoSolicitacoes.index' ? 'active' : '' }}">
-                                                <div class="text">Lista</div>
-                                            </a>
-                                        </li>
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('funcionario.tipoSolicitacao.add') }}"
-                                                class="{{ Route::currentRouteName() == 'funcionario.tipoSolicitacao.add' ? 'active' : '' }}">
-                                                <div class="text">Adicionar</div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>
                                 <li
                                     class="menu-item has-children {{ in_array(Route::currentRouteName(), ['funcionario.solicitacoes', 'funcionario.solicitacao.add', 'funcionario.solicitacao.show']) ? 'active' : '' }}">
                                     <a href="javascript:void(0);" class="menu-item-button">
@@ -123,55 +125,57 @@
                                 </li>
 
 
+                                @if (Auth::user()->funcionario->departamento->tipo != '2')
+                                    <li
+                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['funcionario.cursos.index', 'funcionario.curso.add', 'funcionario.curso.edit']) ? 'active' : '' }}">
+                                        <a href="javascript:void(0);" class="menu-item-button">
+                                            <div class="icon"><span class="material-symbols-outlined">
+                                                    gavel
+                                                </span></div>
+                                            <div class="text">Cursos</div>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li class="sub-menu-item">
+                                                <a href="{{ route('funcionario.curso.add') }}"
+                                                    class="{{ in_array(Route::currentRouteName(), ['funcionario.curso.add']) ? 'active' : '' }}">
+                                                    <div class="text">Adicionar</div>
+                                                </a>
+                                            </li>
+                                            <li class="sub-menu-item">
+                                                <a href="{{ route('funcionario.cursos.index') }}"
+                                                    class="{{ in_array(Route::currentRouteName(), ['funcionario.cursos.index']) ? 'active' : '' }}">
+                                                    <div class="text">Lista</div>
+                                                </a>
+                                            </li>
 
-                                <li
-                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['funcionario.cursos.index', 'funcionario.curso.add', 'funcionario.curso.edit']) ? 'active' : '' }}">
-                                    <a href="javascript:void(0);" class="menu-item-button">
-                                        <div class="icon"><span class="material-symbols-outlined">
-                                                gavel
-                                            </span></div>
-                                        <div class="text">Cursos</div>
-                                    </a>
-                                    <ul class="sub-menu">
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('funcionario.curso.add') }}"
-                                                class="{{ in_array(Route::currentRouteName(), ['funcionario.curso.add']) ? 'active' : '' }}">
-                                                <div class="text">Adicionar</div>
-                                            </a>
-                                        </li>
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('funcionario.cursos.index') }}"
-                                                class="{{ in_array(Route::currentRouteName(), ['funcionario.cursos.index']) ? 'active' : '' }}">
-                                                <div class="text">Lista</div>
-                                            </a>
-                                        </li>
+                                        </ul>
+                                    </li>
 
-                                    </ul>
-                                </li>
-                                <li
-                                    class="menu-item has-children {{ in_array(Route::currentRouteName(), ['funcionario.estudantes.index', 'funcionario.estudante.add', 'funcionario.estudante.edit']) ? 'active' : '' }}">
-                                    <a href="javascript:void(0);" class="menu-item-button">
-                                        <div class="icon"><span class="material-symbols-outlined">
-                                                school
-                                            </span></div>
-                                        <div class="text">Estudantes</div>
-                                    </a>
-                                    <ul class="sub-menu">
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('funcionario.estudante.add') }}"
-                                                class="{{ in_array(Route::currentRouteName(), ['funcionario.estudante.add']) ? 'active' : '' }}">
-                                                <div class="text">Adicionar</div>
-                                            </a>
-                                        </li>
-                                        <li class="sub-menu-item">
-                                            <a href="{{ route('funcionario.estudantes.index') }}"
-                                                class="{{ in_array(Route::currentRouteName(), ['funcionario.estudante.index']) ? 'active' : '' }}">
-                                                <div class="text">Lista</div>
-                                            </a>
-                                        </li>
+                                    <li
+                                        class="menu-item has-children {{ in_array(Route::currentRouteName(), ['funcionario.estudantes.index', 'funcionario.estudante.add', 'funcionario.estudante.edit']) ? 'active' : '' }}">
+                                        <a href="javascript:void(0);" class="menu-item-button">
+                                            <div class="icon"><span class="material-symbols-outlined">
+                                                    school
+                                                </span></div>
+                                            <div class="text">Estudantes</div>
+                                        </a>
+                                        <ul class="sub-menu">
+                                            <li class="sub-menu-item">
+                                                <a href="{{ route('funcionario.estudante.add') }}"
+                                                    class="{{ in_array(Route::currentRouteName(), ['funcionario.estudante.add']) ? 'active' : '' }}">
+                                                    <div class="text">Adicionar</div>
+                                                </a>
+                                            </li>
+                                            <li class="sub-menu-item">
+                                                <a href="{{ route('funcionario.estudantes.index') }}"
+                                                    class="{{ in_array(Route::currentRouteName(), ['funcionario.estudante.index']) ? 'active' : '' }}">
+                                                    <div class="text">Lista</div>
+                                                </a>
+                                            </li>
 
-                                    </ul>
-                                </li>
+                                        </ul>
+                                    </li>
+                                @endif
                                 @if (Auth::user()->funcionario->acesso == 'A')
                                     <li
                                         class="menu-item has-children {{ in_array(Route::currentRouteName(), ['funcionarios.index', 'funcionario.add', 'funcionarios.edit']) ? 'active' : '' }}">
@@ -282,7 +286,8 @@
                                                 @if ($novoEncaminhamento->count() > 0)
 
                                                     @foreach ($novoEncaminhamento as $notificacao)
-                                                        @if ($notificacao->responsavel_id == Auth::user()->funcionario->id)
+
+
                                                             <li>
                                                                 <div class="message-item item-1">
                                                                     <div class="image">
@@ -305,7 +310,7 @@
                                                             @php
                                                                 $noti += 1;
                                                             @endphp
-                                                        @endif
+                                                        
                                                     @endforeach
                                                 @endif
                                             @endif
